@@ -53,6 +53,14 @@ line to run `8_mongo.sh`).
 
 ##Run the installer
 
-When you're ready to install run the command `./install.sh example.cfg`. If you
-changed the name of `example.cfg` make sure to use the new name in the command 
-you run.
+When you're ready to install run the command `./install.sh example.cfg` **AS ROOT**. 
+These scripts assume root so please `sudu su` before running them. If you changed the 
+name of `example.cfg` make sure to use the new name in the command you run.
+
+##Notes about this installation
+
+* This script will `apt-get update` and `apt-get upgrade` your system. This could
+  take a while so be sure to watch over it.
+* You will be prompted to set MySQL and PHPMyAdmin passwords. Keep those handy and
+  watch when it prompts.
+* 

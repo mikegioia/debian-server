@@ -37,6 +37,7 @@ chown -R mongod:mongod /data/mongodb
 
 # copy the init script
 #
+cd
 cp ./src/mongodb /etc/init.d/mongodb
 chmod +x /etc/init.d/mongodb
 
