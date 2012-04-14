@@ -21,7 +21,7 @@ This SSH config looks in `./ssh/authorized_keys` for SSH keys. Edit the
 `/src/authorized_keys` file to include any SSH keys for your local machines
 to connect directly. **Password authentication is currently enabled** but in
 my experience this is unwise. If you want to disable password authentication
-then edit line 50 of `/src/sshd_config` to be `PasswordAuthentication yes`
+then edit line 50 of `/src/sshd_config` to be `PasswordAuthentication np`
 and then restart SSH by running `sudo /etc/init.d/ssh restart`.
 
 ##Edit the configuration file
