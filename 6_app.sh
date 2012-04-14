@@ -49,7 +49,7 @@ fi
 #
 echo '  --> copy nginx config files'
 cd
-conffiles="./conf/server/*.conf"
+conffiles="./conf/$server/*.conf"
 for f in $conffiles
 do
     filename=`basename ${f:2}`
