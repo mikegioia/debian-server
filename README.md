@@ -63,6 +63,8 @@ name of `example.cfg` make sure to use the new name in the command you run.
   take a while so be sure to watch over it.
 * You will be prompted to set MySQL and PHPMyAdmin passwords. Keep those handy and
   watch when it prompts.
-* PHP Mongo extension will be intalled at the end if you include `8_mongo.sh` in your
+* PHP Mongo extension will be installed at the end if you include `8_mongo.sh` in your
   install.
-* It's best to scp these files to `/root` and run the installer as root.
+* It's best to scp these files to `/root` and definitely run the installer as root.
+* I've timed the entire install process and it averages to about 8 minutes on a 256MB
+  machine!

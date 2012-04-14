@@ -79,6 +79,9 @@ cp ./src/index.php /var/www/$siteurl/index.php
 chown -R www-data /var/www
 chgrp -R www-data /var/www
 
+# remove apache (again)
+#
+/usr/sbin/update-rc.d -f apache2 remove
 
 # restart nginx
 #
