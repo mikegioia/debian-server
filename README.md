@@ -12,6 +12,18 @@ a clean Debian 6 installation and tested heavily on Rackspace Cloud in
 particular. If you have any issues at all, please add them here or message
 me directly @mikegioia (http://twitter.com/mikegioia).
 
+##Extremely mportant SSH notes
+
+SSH is set to run on port 30000 in this set up. If you want to use a different
+port (like 22) then edit line 5 of `/src/sshd_config`. 
+
+This SSH config looks in `./ssh/authorized_keys` for SSH keys. Edit the
+`/src/authorized_keys` file to include any SSH keys for your local machines
+to connect directly. **Password authentication is currently enabled** but in
+my experience this is unwise. If you want to disable password authentication
+then edit line 50 of `/src/sshd_config` to be `PasswordAuthentication yes`
+and then restart SSH by running `sudo /etc/init.d/ssh restart`.
+
 ##Edit the configuration file
 
 There are a few config variables in `example.cfg`:
