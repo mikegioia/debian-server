@@ -12,7 +12,7 @@ a clean Debian 6 installation and tested heavily on Rackspace Cloud in
 particular. If you have any issues at all, please add them here or message
 me directly @mikegioia (http://twitter.com/mikegioia).
 
-##Extremely mportant SSH notes
+##Extremely important SSH notes
 
 SSH is set to run on port 30000 in this set up. If you want to use a different
 port (like 22) then edit line 5 of `/src/sshd_config`. 
@@ -28,9 +28,9 @@ and then restart SSH by running `sudo /etc/init.d/ssh restart`.
 
 There are a few config variables in `example.cfg`:
 
-* username: user account on the web server
-* siteurl: your web site URL
-* server: the directory folder containing your server config files (in `/conf`).
+* **username**: user account on the web server
+* **siteurl**: your web site URL
+* **server**: the directory folder containing your server config files (in `/conf`).
           If you want to include multiple server configs, make a new folder for
           each one and a separate config file too.
 
