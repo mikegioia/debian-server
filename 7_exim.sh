@@ -3,6 +3,12 @@
 # set up exim as a mail server
 #
 
+echo "This script will install exim4 as the mail server"
+read -p 'Do you want to continue [Y/n]? ' wish
+if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+    exit
+fi
+
 usage="$0 <config>"
 config=${1:-"server.cfg"}
 

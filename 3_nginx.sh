@@ -37,4 +37,5 @@ cd
 cp ./src/init-deb.sh /etc/init.d/nginx
 chmod +x /etc/init.d/nginx
 /usr/sbin/update-rc.d -f nginx defaults
+/usr/sbin/update-rc.d -f apache2 remove
 /etc/init.d/nginx start
