@@ -81,6 +81,7 @@ chgrp -R www-data /var/www
 
 # remove apache (again)
 #
+/etc/init.d/apache2 stop
 /usr/sbin/update-rc.d -f apache2 remove
 
 # restart nginx
