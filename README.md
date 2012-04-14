@@ -1,4 +1,4 @@
-#WEB SERVER INSTALLATION
+#Web Server Installation
 
 @version 1.0
  
