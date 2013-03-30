@@ -116,7 +116,7 @@ if [ ${#git} ]; then
         git clone $git_url
     done
 fi
-exit;
+
 # update permissions
 #
 chown -R www-data:www-data /var/www
