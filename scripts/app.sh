@@ -95,14 +95,14 @@ fi
 #
 if [ ${#hg} ]; then
     if ! [ hash hg 2>/dev/null ]; then
-        apt-get install hg
+        apt-get install mercurial
     fi
     for hg_url in "${hg[@]}"
     do
-        echo hg_url
+        echo $hg_url
     done
 fi
-exit
+
 # check for any git projects (install if not installed)
 #
 if [ ${#git} ]; then
@@ -111,10 +111,10 @@ if [ ${#git} ]; then
     fi
     for git_url in "${git[@]}"
     do
-        echo git_url
+        echo $git_url
     done
 fi
-
+exit;
 # update permissions
 #
 chown -R www-data:www-data /var/www
