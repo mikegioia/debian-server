@@ -10,7 +10,7 @@ mongo_version=2.0.3
 # the .sh). add any of them to the scripts array.
 #
 # format:
-#   scripts=('script1' 'script2' ... )
+#   scripts=('script1' 'script2' ...)
 #
 scripts=(
     'user'
@@ -36,18 +36,13 @@ hg=()
 # list any websites to have nginx auto-configured
 #
 # format:
-#   sites=('foo.com' 'bar.net')
+#   sites=('foo.com' 'bar.net' ...)
+#   ssl_sites=('foo.com' 'bar.net' ...)
 #
-enable_sites=false
 sites=()
+ssl_sites=()
 
 
 # do not edit these unless you know what you're doing
 #
 basepath=`pwd`
-
-
-# these need to be removed/replaced
-#
-siteurl=example.com
-server=server 

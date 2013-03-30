@@ -27,7 +27,6 @@ fi
 
 cd
 
-
 # configure environment
 #
 echo '  --> configuring the environment directories'
@@ -40,7 +39,6 @@ fi
 if [ ! -L /home/$username/$siteurl ] ; then
     ln -s /var/www/$siteurl /home/$username/$siteurl
 fi
-
 
 # copy nginx config files (all files in instance folder)
 #
@@ -57,7 +55,6 @@ do
     cp $f /opt/nginx/conf/$filename
 done
 
-
 # set permissions on web folders
 #
 echo '  --> install the app files'
@@ -71,21 +68,17 @@ cp ./src/404.html /var/www/404.html
 cp ./src/50x.html /var/www/50x.html
 cp ./src/index.php /var/www/$siteurl/index.php
 
-
 # update www permissions
 #
 chown -R www-data /var/www
 chgrp -R www-data /var/www
-
 
 # remove apache (again)
 #
 /etc/init.d/apache2 stop
 /usr/sbin/update-rc.d -f apache2 remove
 
-
 # restart nginx
 #
 echo '  --> restarting nginx'
 /etc/init.d/nginx restart
-

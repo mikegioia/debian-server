@@ -32,6 +32,14 @@ make
 make install
 adduser --system --no-create-home --disabled-login --disabled-password --group nginx
 
+# copy over the default nginx and trunk config. set up directories.
+#
+mkdir /opt/nginx/conf/sites-available
+mkdir /opt/nginx/conf/sites-enabled
+cp $basepath/src/nginx_conf/nginx.conf /opt/nginx/conf/nginx.conf
+cp $basepath/src/nginx_conf/trunk.conf /opt/nginx/conf/trunk.conf
+cp $basepath/src/nginx_conf/mime.types /opt/nginx/conf/mime.types
+
 echo '  --> configuring the init script'
 cp $basepath/src/nginx /etc/init.d/nginx
 chmod +x /etc/init.d/nginx
