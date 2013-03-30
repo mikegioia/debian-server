@@ -19,7 +19,7 @@ scripts=(
     'profile'
 #    'firewall'
 #    'fail2ban'
-#    'app' 
+    'app' 
 )
 
 
