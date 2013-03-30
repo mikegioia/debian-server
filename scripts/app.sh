@@ -83,7 +83,9 @@ cp $basepath/src/50x.html /var/www/50x.html
 # clone repos
 #
 echo '  --> install the app files'
-apt-get install bc
+if ! [ hash bc 2>/dev/null ]; then
+    apt-get install bc
+fi
 
 if [ ! -d /home/$username/repos ] ; then
     mkdir /home/$username/repos
