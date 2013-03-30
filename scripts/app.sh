@@ -41,7 +41,7 @@ do
     # generate nginx site config files to sites-available and add 
     # symbolic links in sites-enabled
     #
-
+    $basepath/src/nginx_conf/example.com.conf.sh $site
 
 
     #cp $basepath/src/index.php /var/www/$site/www-data/index.php
