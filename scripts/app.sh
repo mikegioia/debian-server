@@ -43,15 +43,11 @@ do
     #
     $basepath/src/nginx_conf/sites-available/example.com.conf.sh $site
     cd /opt/nginx/conf/sites-enabled
-    ln -s /opt/nginx/conf/sites-available/example.com.conf.sh ../sites-available/$site.conf
+    ln -s ../sites-available/$site.conf $site.conf
     cd $basepath
     cp $basepath/src/index.php /var/www/$site/www-data/index.php
     cp $basepath/src/index.html /var/www/$site/www-data/index.html
 done
-
-exit;
-
-
 
 for ssl_site in "${ssl_sites[@]}"
 do
@@ -62,13 +58,15 @@ do
         mkdir /var/www/$ssl_site/www-data
     fi
 
-    # generate nginx site config files to sites-available
+    # generate nginx site config files to sites-available and add 
+    # symbolic links in sites-enabled
     #
-
-    # add symbolic links in sites-enabled
-    #
-
+    $basepath/src/nginx_conf/sites-available/example.com.ssl.conf.sh $site
+    cd /opt/nginx/conf/sites-enabled
+    ln -s ../sites-available/$site.ssl.conf $site.ssl.conf
+    cd $basepath
     cp $basepath/src/index.php /var/www/$site/www-data/index.php
+    cp $basepath/src/index.html /var/www/$site/www-data/index.html
 done
 
 # copy over remaining nginx files
@@ -80,7 +78,10 @@ cp $basepath/src/50x.html /var/www/50x.html
 #
 echo '  --> install the app files'
 apt-get install bc
-mkdir /home/repos
+
+if [ ! -d /home/$username/repos ] ; then
+    mkdir /home/$username/repos
+fi
 
 # check for any mercurial projects (install if not installed)
 #
@@ -93,7 +94,7 @@ if [ ${#hg} ]; then
         echo hg_url
     done
 fi
-
+exit
 # check for any git projects (install if not installed)
 #
 if [ ${#git} ]; then

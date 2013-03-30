@@ -1,40 +1,83 @@
-# HTTPS server
+#!/bin/bash
+
+# read in siteurl from arg[0] and output file to arg[1]
+#
+siteurl=${1:-""}
+
+if [ -z "$siteurl" ]; then
+    echo "No siteurl provided"
+    exit 2
+fi
+
+echo "
+# HTTP Server
 #
 server {
     listen       443;
-    listen       localhost:443;
-    server_name  example.com www.example.com;
-
-    error_log    /opt/nginx/logs/example.com.error.log;
-    access_log   /opt/nginx/logs/example.com.access.log;
-
-    root         /var/www/example.com/;
-    index        index.php index.html index.htm;
-
-    autoindex    off;
+    server_name  www.$siteurl;
 
     ssl on;
-    ssl_certificate      /usr/local/ssl/ssl.crt/example.com.crt;
-    ssl_certificate_key  /usr/local/ssl/ssl.key;
-
+    ssl_certificate      /opt/nginx/ssl/$siteurl.bundle.crt;
+    ssl_certificate_key  /opt/nginx/ssl/$siteurl.key;
     ssl_session_timeout  5m;
-
     ssl_protocols  SSLv2 SSLv3 TLSv1;
     ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
     ssl_prefer_server_ciphers   on;
+
+    return 301 \$scheme://$siteurl\$request_uri;
+}
+
+server {
+    listen       443;
+    listen       localhost:443;
+    server_name  $siteurl;
+
+    error_log    /opt/nginx/logs/$siteurl.error.log;
+    access_log   /opt/nginx/logs/$siteurl.access.log;
+
+    root         /var/www/$siteurl/;
+    index        index.php index.html index.htm;
+
+    autoindex    off;
+    charset      utf-8;
+
+    ssl on;
+    ssl_certificate      /opt/nginx/ssl/$siteurl.bundle.crt;
+    ssl_certificate_key  /opt/nginx/ssl/$siteurl.key;
+    ssl_session_timeout  5m;
+    ssl_protocols  SSLv2 SSLv3 TLSv1;
+    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    ssl_prefer_server_ciphers   on;
+
+    # htpasswd
+    #
+    # auth_basic             \"Restricted\";
+    # auth_basic_user_file   /var/www/$siteurl/htpasswd;
+
+    # include trunk configuration
+    #
+    include trunk.conf;
+
+    # uncomment to route non-file requests to index.php
+    #
+    # try_files \$uri \$uri/ @rewrite;
+    #
+    # location @rewrite {
+    #     rewrite ^/(.*)$ /index.php/\$1;
+    # }   
 
     location ~* \.(php|php5|php4)($|/) {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         #
         fastcgi_pass   127.0.0.1:9000;
         fastcgi_index  index.php;
-        fastcgi_param  SERVER_PORT      443;
-        fastcgi_param  SCRIPT_FILENAME  /var/www/example.com$fastcgi_script_name;
-        fastcgi_param  REQUEST_URI      $request_uri;
-        fastcgi_param  QUERY_STRING     $query_string;
-        fastcgi_param  REQUEST_METHOD   $request_method;
-        fastcgi_param  CONTENT_TYPE     $content_type;
-        fastcgi_param  CONTENT_LENGTH   $content_length;
+        fastcgi_param  SERVER_PORT      80;
+        fastcgi_param  SCRIPT_FILENAME  /var/www/$siteurl/www-data\$fastcgi_script_name;
+        fastcgi_param  REQUEST_URI      \$request_uri;
+        fastcgi_param  QUERY_STRING     \$query_string;
+        fastcgi_param  REQUEST_METHOD   \$request_method;
+        fastcgi_param  CONTENT_TYPE     \$content_type;
+        fastcgi_param  CONTENT_LENGTH   \$content_length;
         include        fastcgi_params;
     }
 
@@ -44,18 +87,12 @@ server {
     location = /404.html {
         root   /var/www;
     }
-
+    
     # redirect server error pages to the static page /50x.html
     #
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /var/www;
     }
-
-    # deny access to .htaccess files, if Apache's document root
-    # concurs with nginx's one
-    #
-    location ~ /\.ht {
-        deny all;
-    }
 }
+" > /opt/nginx/conf/sites-available/$siteurl.ssl.conf
