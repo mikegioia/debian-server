@@ -10,27 +10,24 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
 fi
 
 usage="$0 <config>"
-config=${1:-"server.cfg"}
+config=${1:-"deploy/config"}
 
 if [ ! -f $config ] ; then
-    echo "Could not find the config file you entered: $config."
+    echo "Could not find the config file you entered: $config"
+    echo "Make sure to run ./configure in the deploy directory"
     exit
 fi
 
 # read in the config variables
 #
-. ./$config
+. $config
 
 # run the scripts
 #
-./1_user.sh $config &&
-./2_mysql.sh $config &&
-./3_nginx.sh $config &&
-./4_php.sh $config &&
-./5_profile.sh $config &&
-./6_app.sh $config &&
-./7_exim.sh $config &&
-./8_mongo.sh $config
+for script in "${scripts[@]}"
+do
+    ./scripts/$script.sh $basepath/$config
+done
 
 echo "Done!"
 echo "Make sure to restart your server for all changes to take effect!"

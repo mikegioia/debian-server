@@ -23,32 +23,44 @@ fi
 cd
 
 echo '  --> overwriting the alias and profile'
+
+# remove them if they exist
+#
 if [ -f /home/$username/.bash_aliases ] ; then
     rm /home/$username/.bash_aliases
 fi
-cp ./src/aliases /home/$username/.bash_aliases
 if [ -f /home/$username/.bash_profile ] ; then
     rm /home/$username/.bash_profile
 fi
+
+# check /conf/
+cp ./src/aliases /home/$username/.bash_aliases
 cp ./src/bash_profile /home/$username/.bash_profile
 
 echo '  --> overwriting the hosts file'
-rm /etc/hosts
-cp ./src/hosts /etc/hosts
+
+# check if hosts is in conf folder first
+if [ -f $basepath/conf/hosts ] ; then
+    rm /etc/hosts
+    cp $basepath/conf/hosts /etc/hosts
+fi
 
 echo '  --> overwriting the sshd_config and reloading'
 rm /etc/ssh/sshd_config
-cp ./src/sshd_config /etc/ssh/sshd_config
+cp $basepath/src/sshd_config /etc/ssh/sshd_config
 /etc/init.d/ssh reload
 
 echo '  --> setting the authorized keys'
 if ! [ -d /home/$username/.ssh ] ; then
     mkdir /home/$username/.ssh
 fi
+
+# copy over the authorized keys if they exist
+#
 if [ -f /home/$username/.ssh/authorized_keys ] ; then
     rm /home/$username/.ssh/authorized_keys
 fi
-cp ./src/authorized_keys /home/$username/.ssh/authorized_keys
+cp $path/conf/authorized_keys /home/$username/.ssh/authorized_keys
 
 chsh -s '/bin/bash' $username
 chown -R $username /home/$username

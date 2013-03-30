@@ -21,6 +21,7 @@ fi
 
 cd
 
+
 # configure environment
 #
 echo '  --> configuring the environment directories'
@@ -32,16 +33,6 @@ if [ ! -d /var/www/$siteurl ] ; then
 fi
 if [ ! -L /home/$username/$siteurl ] ; then
     ln -s /var/www/$siteurl /home/$username/$siteurl
-fi
-
-
-# install phpmyadmin
-#
-echo '  --> installing phpmyadmin'
-cd
-apt-get install phpmyadmin
-if [ ! -L /var/www/$siteurl/phpmyadmin ] ; then
-    ln -s /usr/share/phpmyadmin /var/www/$siteurl/phpmyadmin
 fi
 
 
@@ -74,15 +65,18 @@ cp ./src/404.html /var/www/404.html
 cp ./src/50x.html /var/www/50x.html
 cp ./src/index.php /var/www/$siteurl/index.php
 
+
 # update www permissions
 #
 chown -R www-data /var/www
 chgrp -R www-data /var/www
 
+
 # remove apache (again)
 #
 /etc/init.d/apache2 stop
 /usr/sbin/update-rc.d -f apache2 remove
+
 
 # restart nginx
 #

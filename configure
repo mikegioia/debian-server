@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# create the configuration files for a new install
+#
+
+# create blank authorized keys if none exists
+#
+if ! [ -f conf/authorized_keys ] ; then
+    cp src/authorized_keys conf/authorized_keys
+    cat ~/.ssh/id_rsa.pub >> conf/authorized_keys
+fi
+
+# create blank hosts if none exists
+#

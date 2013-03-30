@@ -1,7 +1,9 @@
 # configuration variables
 #
 username=trunk
-
+nginx_version=1.2.7
+mongo_version=2.0.3
+basepath=`pwd`
 
 # scripts to run, arrange in order of execution (space separated)
 #
@@ -9,12 +11,13 @@ username=trunk
 #   scripts=('script1' 'script2' ... )
 #
 scripts=(
-    'user'
-    'nginx'
-    'php'
+#    'user'
+#    'nginx'
+#    'php'
     'profile'
-    'app' 
 )
+#    'app' 
+#)
 
 
 # list any git or mercurial repos to be cloned
@@ -31,12 +34,11 @@ hg=()
 #
 # format:
 #   sites=('foo.com' 'bar.net')
-enableSites=false
+enable_sites=false
 sites=()
 
 
-
-
-
+# these need to be removed/replaced
+#
 siteurl=example.com
 server=server 

@@ -11,15 +11,15 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
 fi
 
 usage="$0 <config>"
-config=${1:-"deploy/config"}
+config=${1:-"../deploy/config"}
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config"
     exit
 fi
 
-. ./$config
-exit
+. $config
+
 if [ $(id -u) -eq 0 ]; then
     read -s -p "Enter password for new user $username: " password
     egrep "^$username" /etc/passwd >/dev/null
@@ -33,8 +33,8 @@ if [ $(id -u) -eq 0 ]; then
         chown $username /home/$username
         chgrp $username /home/$username
         [ $? -eq 0 ] && echo "  --> user has been added to system" || echo "  --> failed to add user"
-        echo "  --> adding $username to sudoers"
-        echo "$username ALL=(ALL:ALL) ALL" >> /etc/sudoers
+        echo "  --> adding $username to sudoers group"
+        usermod -a -G sudo $username
         echo "  --> setting up locale"
         rm /etc/locale.gen
         cp ./src/locale.gen /etc/locale.gen
