@@ -4,6 +4,7 @@ username=trunk
 nginx_version=1.2.7
 mongo_version=2.0.3
 
+
 # scripts to run, arrange in order of execution (space separated).
 # these are the names of any script file in ./scripts (don't include
 # the .sh). add any of them to the scripts array.
@@ -12,10 +13,12 @@ mongo_version=2.0.3
 #   scripts=('script1' 'script2' ... )
 #
 scripts=(
-#    'user'
-#    'nginx'
-#    'php'
+    'user'
+    'nginx'
+    'php'
     'profile'
+#    'firewall'
+#    'fail2ban'
 #    'app' 
 )
 

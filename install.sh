@@ -18,9 +18,11 @@ if [ ! -f $config ] ; then
     exit
 fi
 
+
 # read in the config variables
 #
 . $config
+
 
 # run the scripts
 #

@@ -22,6 +22,7 @@ fi
 
 echo '  --> overwriting the alias and profile'
 
+
 # remove them if they exist
 #
 if [ -f $basepath/conf/bash_aliases ] ; then
@@ -39,6 +40,7 @@ if [ -f $basepath/conf/bash_profile ] ; then
 fi
 
 echo '  --> overwriting the hosts file'
+
 
 # check if hosts is in conf folder first
 #
@@ -59,13 +61,14 @@ if ! [ -d /home/$username/.ssh ] ; then
     mkdir /home/$username/.ssh
 fi
 
+
 # copy over the authorized keys if they exist
 #
 if [ -f $basepath/conf/authorized_keys ] ; then
     if [ -f /home/$username/.ssh/authorized_keys ] ; then
         rm /home/$username/.ssh/authorized_keys
     fi
-    cp $path/conf/authorized_keys /home/$username/.ssh/authorized_keys
+    cp $basepath/conf/authorized_keys /home/$username/.ssh/authorized_keys
 fi
 
 chsh -s '/bin/bash' $username

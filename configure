@@ -13,6 +13,7 @@ else
     echo "  --> skipping authorized_keys, file already exists"
 fi
 
+
 # create blank hosts if none exists
 #
 if ! [ -f conf/hosts ] ; then
@@ -21,6 +22,7 @@ else
     echo "  --> skipping hosts, file already exists"
 fi
 
+
 # create default config file if none exists
 #
 if ! [ -f conf/config ] ; then
@@ -28,6 +30,7 @@ if ! [ -f conf/config ] ; then
 else
     echo "  --> skipping config, file already exists"
 fi
+
 
 # create bash aliases and profile
 #
@@ -44,4 +47,3 @@ fi
 
 echo ""
 echo "Default config files generated. Please edit the files in ./conf!"
-
