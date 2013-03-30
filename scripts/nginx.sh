@@ -24,10 +24,10 @@ apt-get update
 apt-get upgrade --show-upgraded
 apt-get install libpcre3-dev build-essential libssl-dev
 cd /opt/
-wget http://nginx.org/download/nginx-1.0.11.tar.gz
-tar -zxvf nginx-1.0.11.tar.gz
-cd /opt/nginx-1.0.11/
-./configure --prefix=/opt/nginx --user=nginx --group=nginx --with-http_ssl_module --with-ipv6
+wget http://nginx.org/download/nginx-1.2.7.tar.gz
+tar -zxvf nginx-1.2.7.tar.gz
+cd /opt/nginx-1.2.7/
+./configure --prefix=/opt/nginx --user=nginx --group=nginx --with-http_ssl_module --with-ipv6 --with-http_stub_status_module
 make
 make install
 adduser --system --no-create-home --disabled-login --disabled-password --group nginx

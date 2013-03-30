@@ -13,7 +13,7 @@ usage="$0 <config>"
 config=${1:-"server.cfg"}
 
 if [ ! -f $config ] ; then
-    echo "Could not find the config file you entered: $config."
+    echo "Could not find the config file you entered: $config"
     exit
 fi
 

@@ -1,0 +1,42 @@
+# configuration variables
+#
+username=trunk
+
+
+# scripts to run, arrange in order of execution (space separated)
+#
+# format:
+#   scripts=('script1' 'script2' ... )
+#
+scripts=(
+    'user'
+    'nginx'
+    'php'
+    'profile'
+    'app' 
+)
+
+
+# list any git or mercurial repos to be cloned
+#
+# format:
+#   git=('git_clone_url1' ...)
+#   hg=('hg_clone_url' ...)
+#
+git=()
+hg=()
+
+
+# list any websites to have nginx auto-configured
+#
+# format:
+#   sites=('foo.com' 'bar.net')
+enableSites=false
+sites=()
+
+
+
+
+
+siteurl=example.com
+server=server 

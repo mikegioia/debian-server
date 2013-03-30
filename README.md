@@ -1,6 +1,6 @@
 #Web Server Installation
 
-@version 1.0
+@version 2.0
  
 ##About
 
@@ -14,7 +14,7 @@ me directly @mikegioia (http://twitter.com/mikegioia).
 
 ##Extremely important SSH notes
 
-SSH is set to run on port 30000 in this set up. If you want to use a different
+SSH is set to run on port 30000 in this setup. If you want to use a different
 port (like 22) then edit line 5 of `/src/sshd_config`. 
 
 This SSH config looks in `./ssh/authorized_keys` for SSH keys. Edit the
