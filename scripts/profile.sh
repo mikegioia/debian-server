@@ -18,31 +18,34 @@ if [ ! -f $config ] ; then
     exit
 fi
 
-. .$config
-
-cd
+. $config
 
 echo '  --> overwriting the alias and profile'
 
 # remove them if they exist
 #
-if [ -f /home/$username/.bash_aliases ] ; then
-    rm /home/$username/.bash_aliases
-fi
-if [ -f /home/$username/.bash_profile ] ; then
-    rm /home/$username/.bash_profile
+if [ -f $basepath/conf/bash_aliases ] ; then
+    if [ -f /home/$username/.bash_aliases ] ; then
+        rm /home/$username/.bash_aliases
+    fi
+    cp $basepath/src/bash_aliases /home/$username/.bash_aliases
 fi
 
-# check ./conf folder first, that has precedence
-#
-cp $basepath/src/aliases /home/$username/.bash_aliases
-cp $basepath/src/bash_profile /home/$username/.bash_profile
+if [ -f $basepath/conf/bash_profile ] ; then
+    if [ -f /home/$username/.bash_profile ] ; then
+        rm /home/$username/.bash_profile
+    fi
+    cp $basepath/src/bash_profile /home/$username/.bash_profile
+fi
 
 echo '  --> overwriting the hosts file'
 
 # check if hosts is in conf folder first
+#
 if [ -f $basepath/conf/hosts ] ; then
-    rm /etc/hosts
+    if [ -f /etc/hosts ] ; then
+        rm /etc/hosts
+    fi
     cp $basepath/conf/hosts /etc/hosts
 fi
 
@@ -58,10 +61,12 @@ fi
 
 # copy over the authorized keys if they exist
 #
-if [ -f /home/$username/.ssh/authorized_keys ] ; then
-    rm /home/$username/.ssh/authorized_keys
+if [ -f $basepath/conf/authorized_keys ] ; then
+    if [ -f /home/$username/.ssh/authorized_keys ] ; then
+        rm /home/$username/.ssh/authorized_keys
+    fi
+    cp $path/conf/authorized_keys /home/$username/.ssh/authorized_keys
 fi
-cp $path/conf/authorized_keys /home/$username/.ssh/authorized_keys
 
 chsh -s '/bin/bash' $username
 chown -R $username /home/$username
