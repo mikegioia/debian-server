@@ -11,14 +11,14 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
 fi
 
 usage="$0 <config>"
-config=${1:-"deploy/config"}
+config=${1:-"conf/config"}
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config."
     exit
 fi
 
-. ./$config
+. .$config
 
 cd
 
@@ -33,9 +33,10 @@ if [ -f /home/$username/.bash_profile ] ; then
     rm /home/$username/.bash_profile
 fi
 
-# check /conf/
-cp ./src/aliases /home/$username/.bash_aliases
-cp ./src/bash_profile /home/$username/.bash_profile
+# check ./conf folder first, that has precedence
+#
+cp $basepath/src/aliases /home/$username/.bash_aliases
+cp $basepath/src/bash_profile /home/$username/.bash_profile
 
 echo '  --> overwriting the hosts file'
 

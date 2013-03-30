@@ -3,6 +3,12 @@
 # set up the application
 #
 
+echo "This is not ready to be used yet"
+exit
+
+
+
+
 echo "This script will set overwrite nginx config files and create the application directories"
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then

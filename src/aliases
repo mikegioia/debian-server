@@ -1,6 +1,0 @@
-# enter your aliases here
-#
-
-alias web='cd /var/www/'
-alias serverup='sudo /etc/init.d/nginx start'
-alias serverdown='sudo /etc/init.d/nginx stop'

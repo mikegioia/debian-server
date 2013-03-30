@@ -1,0 +1,13 @@
+# aliases
+#
+alias web='cd /var/www/'
+alias serverup='sudo /etc/init.d/nginx start'
+alias serverdown='sudo /etc/init.d/nginx stop'
+
+
+# functions
+#
+function lt() { ls -ltrsa "$@" | tail; }
+function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
+function fname() { find . -iname "*$@*"; }
+function usergroups() { grep ^$@ /etc/group | grep -o '[^:]*$' | tr ',' '\n' }

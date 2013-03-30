@@ -3,9 +3,10 @@
 username=trunk
 nginx_version=1.2.7
 mongo_version=2.0.3
-basepath=`pwd`
 
-# scripts to run, arrange in order of execution (space separated)
+# scripts to run, arrange in order of execution (space separated).
+# these are the names of any script file in ./scripts (don't include
+# the .sh). add any of them to the scripts array.
 #
 # format:
 #   scripts=('script1' 'script2' ... )
@@ -15,9 +16,8 @@ scripts=(
 #    'nginx'
 #    'php'
     'profile'
-)
 #    'app' 
-#)
+)
 
 
 # list any git or mercurial repos to be cloned
@@ -34,8 +34,14 @@ hg=()
 #
 # format:
 #   sites=('foo.com' 'bar.net')
+#
 enable_sites=false
 sites=()
+
+
+# do not edit these unless you know what you're doing
+#
+basepath=`pwd`
 
 
 # these need to be removed/replaced
