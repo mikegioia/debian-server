@@ -1,0 +1,1 @@
+explanation about which files to edit, run configure, etc
