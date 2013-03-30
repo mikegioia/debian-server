@@ -23,6 +23,17 @@ scripts=(
 )
 
 
+# list any websites to have nginx auto-configured. DO NOT include the
+# www or http parts.
+#
+# format:
+#   sites=('foo.com' 'bar.net' ...)
+#   ssl_sites=('foo.com' 'bar.net' ...)
+#
+sites=()
+ssl_sites=()
+
+
 # list any git or mercurial repos to be cloned
 #
 # format:
@@ -31,16 +42,6 @@ scripts=(
 #
 git=()
 hg=()
-
-
-# list any websites to have nginx auto-configured
-#
-# format:
-#   sites=('foo.com' 'bar.net' ...)
-#   ssl_sites=('foo.com' 'bar.net' ...)
-#
-sites=()
-ssl_sites=()
 
 
 # do not edit these unless you know what you're doing

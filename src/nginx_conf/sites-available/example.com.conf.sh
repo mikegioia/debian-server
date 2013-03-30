@@ -1,17 +1,54 @@
+#!/bin/bash
+
+# read in siteurl from arg[0] and output file to arg[1]
+#
+siteurl=${1:-""}
+
+if [ -z "$siteurl" ]; then
+    echo "No siteurl provided"
+    exit 2
+fi
+exit 1
+echo "
 # HTTP Server
 #
 server {
     listen       80;
+    server_name  www.$siteurl;
+
+    return 301 \$scheme://$siteurl\$request_uri;
+}
+
+server {
+    listen       80;
     listen       localhost:80;
-    server_name  example.com www.example.com;
+    server_name  $siteurl;
 
-    error_log    /opt/nginx/logs/example.com.error.log;
-    access_log   /opt/nginx/logs/example.com.access.log;
+    error_log    /opt/nginx/logs/$siteurl.error.log;
+    access_log   /opt/nginx/logs/$siteurl.access.log;
 
-    root         /var/www/example.com/;
+    root         /var/www/$siteurl/;
     index        index.php index.html index.htm;
 
     autoindex    off;
+    charset      utf-8;
+
+    # htpasswd
+    #
+    # auth_basic             \"Restricted\";
+    # auth_basic_user_file   /var/www/$siteurl/htpasswd;
+
+    # include trunk configuration
+    #
+    include trunk.conf;
+
+    # uncomment to route non-file requests to index.php
+    #
+    # try_files \$uri \$uri/ @rewrite;
+    #
+    # location @rewrite {
+    #     rewrite ^/(.*)$ /index.php/\$1;
+    # }   
 
     location ~* \.(php|php5|php4)($|/) {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
@@ -19,12 +56,12 @@ server {
         fastcgi_pass   127.0.0.1:9000;
         fastcgi_index  index.php;
         fastcgi_param  SERVER_PORT      80;
-        fastcgi_param  SCRIPT_FILENAME  /var/www/example.com$fastcgi_script_name;
-        fastcgi_param  REQUEST_URI      $request_uri;
-        fastcgi_param  QUERY_STRING     $query_string;
-        fastcgi_param  REQUEST_METHOD   $request_method;
-        fastcgi_param  CONTENT_TYPE     $content_type;
-        fastcgi_param  CONTENT_LENGTH   $content_length;
+        fastcgi_param  SCRIPT_FILENAME  /var/www/$siteurl/www-data\$fastcgi_script_name;
+        fastcgi_param  REQUEST_URI      \$request_uri;
+        fastcgi_param  QUERY_STRING     \$query_string;
+        fastcgi_param  REQUEST_METHOD   \$request_method;
+        fastcgi_param  CONTENT_TYPE     \$content_type;
+        fastcgi_param  CONTENT_LENGTH   \$content_length;
         include        fastcgi_params;
     }
 
@@ -41,11 +78,5 @@ server {
     location = /50x.html {
         root   /var/www;
     }
-
-    # deny access to .htaccess files, if Apache's document root
-    # concurs with nginx's one
-    #
-    location ~ /\.ht {
-        deny all;
-    }
 }
+" > /opt/nginx/conf/sites-available/$siteurl.conf

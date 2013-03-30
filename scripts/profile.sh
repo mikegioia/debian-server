@@ -69,5 +69,4 @@ if [ -f $basepath/conf/authorized_keys ] ; then
 fi
 
 chsh -s '/bin/bash' $username
-chown -R $username /home/$username
-chgrp -R $username /home/$username
+chown -R $username:$username /home/$username
