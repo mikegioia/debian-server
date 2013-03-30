@@ -8,8 +8,7 @@ if [ -z "$siteurl" ]; then
     echo "No siteurl provided"
     exit 2
 fi
-echo $siteurl
-exit 1
+
 echo "
 # HTTP Server
 #
