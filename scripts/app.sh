@@ -117,6 +117,18 @@ if [ ${#git} ]; then
     done
 fi
 
+# set up other trunk folders
+#
+if [ ! -d /home/$username/scripts ] ; then
+    mkdir /home/$username/scripts
+fi
+if [ ! -d /home/$username/archive ] ; then
+    mkdir /home/$username/archive
+fi
+if [ ! -d /home/$username/install ] ; then
+    mkdir /home/$username/install
+fi
+
 # update permissions
 #
 chown -R www-data:www-data /var/www
