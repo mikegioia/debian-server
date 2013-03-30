@@ -31,19 +31,22 @@ fi
 #
 for site in "${sites[@]}"
 do
-    #if [ ! -d /var/www/$site ] ; then
-    #    mkdir /var/www/$site
-    #fi
-    #if [ ! -d /var/www/$site/www-data ] ; then
-    #    mkdir /var/www/$site/www-data
-    #fi
+    if [ ! -d /var/www/$site ] ; then
+        mkdir /var/www/$site
+    fi
+    if [ ! -d /var/www/$site/www-data ] ; then
+        mkdir /var/www/$site/www-data
+    fi
 
     # generate nginx site config files to sites-available and add 
     # symbolic links in sites-enabled
     #
     $basepath/src/nginx_conf/sites-available/example.com.conf.sh $site
-
-    #cp $basepath/src/index.php /var/www/$site/www-data/index.php
+    cd /opt/nginx/conf/sites-enabled
+    ln -s /opt/nginx/conf/sites-available/example.com.conf.sh ../sites-available/$site.conf
+    cd $basepath
+    cp $basepath/src/index.php /var/www/$site/www-data/index.php
+    cp $basepath/src/index.html /var/www/$site/www-data/index.html
 done
 
 exit;
