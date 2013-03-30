@@ -99,7 +99,8 @@ if [ ${#hg} ]; then
     fi
     for hg_url in "${hg[@]}"
     do
-        echo $hg_url
+        cd /home/$username/repos
+        hg clone $hg_url
     done
 fi
 
@@ -111,7 +112,8 @@ if [ ${#git} ]; then
     fi
     for git_url in "${git[@]}"
     do
-        echo $git_url
+        cd /home/$username/repos
+        git clone $git_url
     done
 fi
 exit;
