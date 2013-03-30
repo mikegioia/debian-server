@@ -43,6 +43,9 @@ do
     #
     $basepath/src/nginx_conf/sites-available/example.com.conf.sh $site
     cd /opt/nginx/conf/sites-enabled
+    if [ -f /opt/nginx/conf/sites-enabled/$site.conf ] ; then
+        rm /opt/nginx/conf/sites-enabled/$site.conf
+    fi
     ln -s ../sites-available/$site.conf $site.conf
     cd $basepath
     cp $basepath/src/index.php /var/www/$site/www-data/index.php
@@ -63,6 +66,9 @@ do
     #
     $basepath/src/nginx_conf/sites-available/example.com.ssl.conf.sh $site
     cd /opt/nginx/conf/sites-enabled
+    if [ -f /opt/nginx/conf/sites-enabled/$site.ssl.conf ] ; then
+        rm /opt/nginx/conf/sites-enabled/$site.ssl.conf
+    fi
     ln -s ../sites-available/$site.ssl.conf $site.ssl.conf
     cd $basepath
     cp $basepath/src/index.php /var/www/$site/www-data/index.php
