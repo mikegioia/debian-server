@@ -1,9 +1,12 @@
 #!/bin/bash
-
-# run the server installation scripts
 #
+# Trunk Server v2.0
+#
+# @about:
+# Install or update packages, update configuration files and dot files
+# -----------------------------------------------------------------------------
 
-echo "This script will set up your server. It's best to have a clean Debian 6 install."
+echo "This script will update software and configuration files on your server."
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit

@@ -1,7 +1,10 @@
 #!/bin/bash
-
-# create the configuration files for a new install
 #
+# Trunk Server v2.0
+#
+# @about:
+# Create the configuration files for a new install
+# -----------------------------------------------------------------------------
 
 # create blank authorized keys if none exists
 #
