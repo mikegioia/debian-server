@@ -1,21 +1,25 @@
 #!/bin/bash
-
-# create new user and set up the locale settings
 #
+# Trunk Server v2.0
+#
+# @author   Mike Gioia <mike@particlebits.com>
+# @name:    user.sh
+# @about:   Create new user and set up the locale settings
+# -----------------------------------------------------------------------------
 
 echo 'This script will create a new user and reset locale settings'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
-    exit
+    exit 0
 fi
 
 usage="$0 <config>"
-config=${1:-"../conf/config"}
+config=${1:-"../conf/default/config"}
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config"
-    exit
+    exit 0
 fi
 
 . $config
@@ -25,7 +29,7 @@ if [ $(id -u) -eq 0 ]; then
     egrep "^$username" /etc/passwd >/dev/null
     if [ $? -eq 0 ]; then
         echo "  --> $username exists!"
-        exit 1
+        exit 0
     else
         echo '  --> creating new user $username'
         pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
@@ -42,5 +46,5 @@ if [ $(id -u) -eq 0 ]; then
     fi
 else
     echo "  --> only root may add a user to the system!"
-    exit 2
-fi
+    exit fi
+1

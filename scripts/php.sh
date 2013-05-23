@@ -11,7 +11,7 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
 fi
 
 usage="$0 <config>"
-config=${1:-"../conf/config"}
+config=${1:-"../conf/default/config"}
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config"

@@ -11,16 +11,17 @@
 echo "This script will update software and configuration files on your server."
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-    exit
+    exit 0
 fi
 
-usage="$0 <config>"
-config=${1:-"conf/config"}
+usage="$0 <profile>"
+profile=${1:-"default"}
+config="conf/$profile/config"
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config"
     echo "Make sure to run ./configure.sh <profile> in the deploy directory"
-    exit
+    exit 1
 fi
 
 # read in the config variables

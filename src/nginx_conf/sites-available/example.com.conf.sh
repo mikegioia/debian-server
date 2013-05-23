@@ -6,7 +6,7 @@ siteurl=${1:-""}
 
 if [ -z "$siteurl" ]; then
     echo "No siteurl provided"
-    exit 2
+    exit 1
 fi
 
 echo "
