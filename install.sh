@@ -2,8 +2,10 @@
 #
 # Trunk Server v2.0
 #
-# @about:
-# Install or update packages, update configuration files and dot files
+# @author   Mike Gioia <mike@particlebits.com>
+# @name:    install.sh
+# @about:   Install or update packages, update configuration files and dot 
+#           files.
 # -----------------------------------------------------------------------------
 
 echo "This script will update software and configuration files on your server."
@@ -17,7 +19,7 @@ config=${1:-"conf/config"}
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config"
-    echo "Make sure to run ./configure in the deploy directory"
+    echo "Make sure to run ./configure.sh <profile> in the deploy directory"
     exit
 fi
 
