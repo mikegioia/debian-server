@@ -1,41 +1,42 @@
 #!/bin/bash
-
-# set up the user profile
 #
+# Trunk Server v2.0
+#
+# @author   Mike Gioia <mike@particlebits.com>
+# @name:    profile.sh
+# @about:   Set up the user profile, copy over dot files
+# -----------------------------------------------------------------------------
 
-echo "This script will set the user's aliases, ssh config, and authorized keys"
+echo "This script will set the user's profile, aliases, ssh config, and authorized keys"
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
-    exit
+    exit 0
 fi
 
-usage="$0 <config>"
-config=${1:-"../conf/default/config"}
+echo '  --> overwriting the home dot files'
 
-if [ ! -f $config ] ; then
-    echo "Could not find the config file you entered: $config."
-    exit
-fi
-
-. $config
-
-echo '  --> overwriting the alias and profile'
-
-# remove them if they exist
+# copy over logout, profile, and rc files
 #
-if [ -f $basepath/conf/bash_aliases ] ; then
-    if [ -f /home/$username/.bash_aliases ] ; then
-        rm /home/$username/.bash_aliases
-    fi
-    cp $basepath/src/bash_aliases /home/$username/.bash_aliases
+cp $basepath/src/dotfiles/bash_logout /home/$username/.bash_logout
+cp $basepath/src/dotfiles/bash_profile /home/$username/.bash_profile
+cp $basepath/src/dotfiles/bashrc /home/$username/.bashrc
+cp $basepath/src/dotfiles/inputrc /home/$username/.inputrc
+
+# create ~/.bash directory for files
+#
+if [ ! -d /home/$username/.bash ] ; then
+    mkdir /home/$username/.bash
 fi
 
-if [ -f $basepath/conf/bash_profile ] ; then
-    if [ -f /home/$username/.bash_profile ] ; then
-        rm /home/$username/.bash_profile
-    fi
-    cp $basepath/src/bash_profile /home/$username/.bash_profile
+cp $basepath/src/dotfiles/aliases /home/$username/.bash/aliases
+cp $basepath/src/dotfiles/functions /home/$username/.bash/functions
+cp $basepath/src/dotfiles/linux /home/$username/.bash/linux
+
+# if there's a private config, copy it over
+#
+if [ -f $basepath/conf/$profile/bash_private ] ; then
+    cp $basepath/conf/$profile/bash_private /home/$username/.bash/private
 fi
 
 echo '  --> overwriting the hosts file'
@@ -70,3 +71,6 @@ fi
 
 chsh -s '/bin/bash' $username
 chown -R $username:$username /home/$username
+
+echo 'Profile completed'
+echo ''

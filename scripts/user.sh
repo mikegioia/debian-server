@@ -14,16 +14,6 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit 0
 fi
 
-usage="$0 <config>"
-config=${1:-"../conf/default/config"}
-
-if [ ! -f $config ] ; then
-    echo "Could not find the config file you entered: $config"
-    exit 0
-fi
-
-. $config
-
 if [ $(id -u) -eq 0 ]; then
     read -s -p "Enter password for new user $username: " password
     egrep "^$username" /etc/passwd >/dev/null
@@ -46,5 +36,8 @@ if [ $(id -u) -eq 0 ]; then
     fi
 else
     echo "  --> only root may add a user to the system!"
-    exit fi
-1
+    exit 1
+fi
+
+echo 'User completed'
+echo ''

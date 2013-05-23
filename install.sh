@@ -24,15 +24,21 @@ if [ ! -f $config ] ; then
     exit 1
 fi
 
-# read in the config variables
+# read in the config variables and export them to sub-scripts
 #
 . $config
+
+export basepath
+export profile
+export username
+export nginx_version
+export mongo_version
 
 # run the scripts
 #
 for script in "${scripts[@]}"
 do
-    ./scripts/$script.sh $basepath/$config
+    ./scripts/$script.sh
 done
 
 echo "Done!"
