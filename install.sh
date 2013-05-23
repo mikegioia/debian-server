@@ -14,7 +14,7 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit 0
 fi
 
-usage="$0 <profile>"
+usage="$0 <profile> [-f]"
 profile=${1:-"default"}
 config="conf/$profile/config"
 
@@ -34,7 +34,7 @@ export username
 export nginx_version
 export mongo_version
 
-# run the scripts
+# run the scripts. check the install history to see if we should re-run
 #
 for script in "${scripts[@]}"
 do
