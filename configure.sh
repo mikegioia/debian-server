@@ -51,7 +51,7 @@ fi
 #
 if ! [ -f conf/$profile/bash_private ] ; then
     echo "  --> adding bash_private"
-    cp src/bash_private conf/$profile/bash_private
+    cp src/dotfiles/private conf/$profile/bash_private
 else
     echo "  --> skipping bash_private, file already exists"
 fi

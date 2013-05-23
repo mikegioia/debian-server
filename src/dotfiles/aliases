@@ -1,0 +1,25 @@
+# general
+#
+alias web='cd /var/www/'
+alias serverup='sudo /etc/init.d/nginx start'
+alias serverdown='sudo /etc/init.d/nginx stop'
+alias l='ls -l'
+alias la='ls -a'
+alias lal='ls -al'
+alias lsd='ls -l | grep "^d"'
+alias p='ps aux'
+alias tf='tail -f'
+alias svim='sudo -e'
+alias scat='sudo cat'
+alias car='cat' # Can't get used to the new air keyboard! (lol)
+alias c='clear'
+alias cd..='cd ..'
+alias cd...='cd ../..'
+alias cd....='cd ../../..'
+alias d='df -h'
+alias recall='history | grep'
+alias rsync='rsync --progress --stats'
+alias colours='for i in {0..255}; do printf "\x1b[38;5;${i}mcolour${i} "; done'
+alias pign='ping' # doh!
+alias pwgen='pwgen -1 -B'
+alias serve_cwd='python -m SimpleHTTPServer'

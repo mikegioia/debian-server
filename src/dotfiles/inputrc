@@ -1,0 +1,22 @@
+# ~/.inputrc
+
+set meta-flag on
+set input-meta on
+set convert-meta off
+set output-meta on
+
+# fix backspace/end etc. on FreeBSD
+#
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+"\e[5C": forward-word
+"\e[5D": backward-word
+
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\e[C": forward-char
+"\e[D": backward-char

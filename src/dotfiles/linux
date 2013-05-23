@@ -1,0 +1,22 @@
+# linux config
+
+# Set 256 colour terminal for Ubuntu / Redhat
+if [ -e /lib/terminfo/x/xterm-256color ] || [ -e /usr/share/terminfo/x/xterm-256-color ]; then
+    TERM='xterm-256color'
+fi
+
+# Aliases
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias arpscan='sudo arp-scan -I wlan0 -l'
+alias serial='screen /dev/ttyUSB0 9600'  # Serial console
+
+if [ -f /etc/debian_version ]; then
+    alias tl='tail -f /var/log/syslog'
+    alias ml='tail -n 30 -f /var/log/mail.log'
+else
+    alias tl='tail -f /var/log/messages'
+    alias ml='tail -n 30 -f /var/log/maillog'
+fi
