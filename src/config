@@ -3,6 +3,7 @@
 username=trunk
 nginx_version=1.4.1
 mongo_version=2.0.3
+openssl_version=1.0.1c
 
 
 # scripts to run, arrange in order of execution (space separated).

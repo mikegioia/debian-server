@@ -10,26 +10,27 @@ if [ -z "$siteurl" ]; then
 fi
 
 echo "
-# HTTP Server
+# HTTPS Server
 #
 server {
-    listen       443;
+    listen       443 ssl spdy;
+    listen       localhost:443 ssl spdy;
     server_name  www.$siteurl;
 
     ssl on;
     ssl_certificate      /opt/nginx/ssl/$siteurl.bundle.crt;
     ssl_certificate_key  /opt/nginx/ssl/$siteurl.key;
     ssl_session_timeout  5m;
-    ssl_protocols  SSLv2 SSLv3 TLSv1;
-    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+    ssl_protocols        SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers          AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH;
     ssl_prefer_server_ciphers   on;
 
     return 301 \$scheme://$siteurl\$request_uri;
 }
 
 server {
-    listen       443;
-    listen       localhost:443;
+    listen       443 ssl spdy;
+    listen       localhost:443 ssl spdy;
     server_name  $siteurl;
 
     error_log    /opt/nginx/logs/$siteurl.error.log;
@@ -45,9 +46,9 @@ server {
     ssl_certificate      /opt/nginx/ssl/$siteurl.bundle.crt;
     ssl_certificate_key  /opt/nginx/ssl/$siteurl.key;
     ssl_session_timeout  5m;
-    ssl_protocols  SSLv2 SSLv3 TLSv1;
-    ssl_ciphers  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
-    ssl_prefer_server_ciphers   on;
+    ssl_protocols        SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers          AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH;
+    ssl_prefer_server_ciphers  on;
 
     # htpasswd
     #
@@ -58,13 +59,19 @@ server {
     #
     include trunk.conf;
 
+    # spdy and ssl headers
+    #
+    add_header Strict-Transport-Security max-age=31536000;
+    add_header X-Frame-Options DENY;
+    add_header Alternate-Protocol 443:npn-spdy/2;
+
     # uncomment to route non-file requests to index.php
     #
     # try_files \$uri \$uri/ @rewrite;
     #
     # location @rewrite {
     #     rewrite ^/(.*)$ /index.php/\$1;
-    # }   
+    # }
 
     location ~* \.(php|php5|php4)($|/) {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000

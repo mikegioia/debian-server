@@ -19,21 +19,48 @@ fi
 
 . $config
 
-echo '  --> installing nginx from source to /opt/nginx'
+
 apt-get update
 apt-get upgrade --show-upgraded
 apt-get install libpcre3-dev build-essential libssl-dev
+
+# update openssl
+# this needs to go after upgrade and before nginx
+#
+echo "  --> installing openssl from source to /opt/openssl-${openssl_version}"
+cd /opt/
+wget http://www.openssl.org/source/openssl-${openssl_version}.tar.gz
+tar xvzf openssl-${openssl_version}.tar.gz
+cd openssl-${openssl_version}
+./config --prefix=/usr zlib-dynamic --openssldir=/etc/ssl shared 
+make
+make install
+
+# install nginx
+#
+echo '  --> installing nginx from source to /opt/nginx'
 cd /opt/
 wget http://nginx.org/download/nginx-${nginx_version}.tar.gz
 tar -zxvf nginx-${nginx_version}.tar.gz
 cd /opt/nginx-${nginx_version}/
-./configure --prefix=/opt/nginx --user=nginx --group=nginx --with-http_ssl_module --with-ipv6 --with-http_stub_status_module
+./configure \
+    --prefix=/opt/nginx \
+    --user=nginx \
+    --group=nginx \
+    --with-http_ssl_module \
+    --with-ipv6 \
+    --with-http_stub_status_module \
+    --with-http_spdy_module \
+    --with-http_mp4_module \
+    --with-http_flv_module \
+    --with-http_realip_module
 make
 make install
 adduser --system --no-create-home --disabled-login --disabled-password --group nginx
 
 # copy over the default nginx and trunk config. set up directories.
 #
+echo '  --> copying over config files'
 mkdir /opt/nginx/conf/sites-available
 mkdir /opt/nginx/conf/sites-enabled
 cp $basepath/src/nginx_conf/nginx.conf /opt/nginx/conf/nginx.conf
