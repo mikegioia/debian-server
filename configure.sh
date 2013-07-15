@@ -65,5 +65,24 @@ else
     echo "  --> skipping firewall, file already exists"
 fi
 
+# create nginx folder and default site config
+#
+if ! [ -d conf/$profile/nginx ] ; then
+    echo "  --> creating nginx directory"
+    mkdir conf/$profile/nginx
+else
+    echo "  --> skipping nginx, directory already exists"
+fi
+
+# set up default nginx config file
+#
+if ! [ -f conf/$profile/nginx/example.conf ] ; then
+    echo "  --> creating example nginx config"
+    cp src/nginx_conf/example.conf conf/$profile/nginx/example.conf
+    cp src/nginx_conf/conf_readme.md conf/$profile/nginx/README.md
+else
+    echo "  --> skipping nginx example config, file already exists"
+fi
+
 echo ""
-echo "Default config files generated. Please edit the files in ./conf/$profile!"
+echo "Default config files generated. Please edit the files in ./conf/$profile/!"

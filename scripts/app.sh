@@ -10,16 +10,6 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit
 fi
 
-usage="$0 <config>"
-config=${1:-"../conf/default/config"}
-
-if [ ! -f $config ] ; then
-    echo "Could not find the config file you entered: $config"
-    exit
-fi
-
-. $config
-
 # configure environment
 #
 echo '  --> configuring the environment directories'
@@ -134,12 +124,18 @@ fi
 chown -R www-data:www-data /var/www
 chown -R $username:$username /home/$username/repos
 
-# remove apache (again)
+# remove apache
 #
-/etc/init.d/apache2 stop
-/usr/sbin/update-rc.d -f apache2 remove
+ps cax | grep 'apache2' > /dev/null
+if [ $? -eq 0 ] ; then
+    /etc/init.d/apache2 stop
+    /usr/sbin/update-rc.d -f apache2 remove
+fi
 
 # restart nginx
 #
-echo '  --> restarting nginx'
-/etc/init.d/nginx restart
+ps cax | grep 'nginx' > /dev/null
+if [ $? -eq 0 ] ; then
+    echo '  --> reloading nginx configuration'
+    /opt/nginx/sbin/nginx -s reload
+fi

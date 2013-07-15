@@ -33,6 +33,12 @@ export profile
 export username
 export nginx_version
 export mongo_version
+export openssl_version
+
+# update the system
+#
+#apt-get update
+#apt-get upgrade --show-upgraded
 
 # run the scripts. check the install history to see if we should re-run
 #

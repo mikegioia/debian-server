@@ -43,11 +43,18 @@ echo '  --> overwriting the hosts file'
 
 # check if hosts is in conf folder first
 #
-if [ -f $basepath/conf/hosts ] ; then
+if [ -f $basepath/conf/$profile/hosts ] ; then
     if [ -f /etc/hosts ] ; then
         rm /etc/hosts
     fi
-    cp $basepath/conf/hosts /etc/hosts
+    cp $basepath/conf/$profile/hosts /etc/hosts
+fi
+
+echo '  --> overwritting ssh banner'
+cp $basepath/src/banner /etc/issue
+
+if [ -f $basepath/conf/$profile/banner ] ; then
+    cp $basepath/conf/$profile/banner /etc/issue
 fi
 
 echo '  --> overwriting the sshd_config and reloading'
@@ -62,15 +69,19 @@ fi
 
 # copy over the authorized keys if they exist
 #
-if [ -f $basepath/conf/authorized_keys ] ; then
+if [ -f $basepath/conf/$profile/authorized_keys ] ; then
     if [ -f /home/$username/.ssh/authorized_keys ] ; then
         rm /home/$username/.ssh/authorized_keys
     fi
-    cp $basepath/conf/authorized_keys /home/$username/.ssh/authorized_keys
+    cp $basepath/conf/$profile/authorized_keys /home/$username/.ssh/authorized_keys
 fi
 
 chsh -s '/bin/bash' $username
 chown -R $username:$username /home/$username
 
 echo 'Profile completed'
+echo ''
+echo 'IMPORTANT'
+echo '---------'
+echo 'REMEMBER TO REMOVE PASSWORD AUTHENTICATION AND WHITELIST USERS IN SSHD CONFIG FILE!'
 echo ''

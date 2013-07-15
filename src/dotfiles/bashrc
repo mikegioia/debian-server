@@ -111,10 +111,6 @@ PS1=${lt_blue}'\u'${norm}'@'${HOSTCOLOUR}'\h '${norm}'['${green}'\@'${norm}'] '$
 #
 [ -f ~/.bash/private ] && . ~/.bash/private
 
-# import OS specific stuff
-#
-[ -f ~/.bash/linux ] && . ~/.bash/$OS
-
 # import functions
 #
 [ -f ~/.bash/functions ] && . ~/.bash/functions
