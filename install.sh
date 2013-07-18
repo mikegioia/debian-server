@@ -14,7 +14,7 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit 0
 fi
 
-usage="$0 <profile> [-f]"
+usage="$0 <profile> [--update --upgrade --scripts=a,b,c]"
 profile=${1:-"default"}
 config="conf/$profile/config"
 
@@ -35,7 +35,7 @@ export nginx_version
 export mongo_version
 export openssl_version
 
-# update the system
+# update the system if flags present
 #
 #apt-get update
 #apt-get upgrade --show-upgraded

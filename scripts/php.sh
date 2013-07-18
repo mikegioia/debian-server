@@ -3,7 +3,7 @@
 # install and configure php
 #
 
-echo 'This script will install php, daemontools, and spawn-fcgi'
+echo 'This script will install php and php-fpm'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
@@ -12,15 +12,38 @@ fi
 
 
 echo '  --> adding dotdeb source and fetching key'
+echo 'deb http://packages.dotdeb.org stable all' >> /etc/apt/sources.list.d/dotdeb.list
+echo 'deb-src http://packages.dotdeb.org stable all' >> /etc/apt/sources.list.d/dotdeb.list
+wget http://www.dotdeb.org/dotdeb.gpg
+cat dotdeb.gpg | sudo apt-key add -
+rm dotdeb.gpg
+
+echo '  --> installing php5 with FPM'
+cd /opt
+apt-get update
+apt-get install php5 php5-fpm php5-common php5-curl php5-dev \
+    php5-gd php5-imagick php5-mcrypt php5-memcache php5-mysql \
+    php5-pspell php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl \
+    php-pear libssh2-php php5-cli
+
+# optionally:
+#   php5-idn, php5-ming, php5-recode, php5-cgi, php5-imap
+
+echo '  --> configuring php-fpm'
+#mkdir -p /var/run/php5-fpm/
+
+
+
+
+exit
+
+echo '  --> adding dotdeb source and fetching key'
 cd /opt
 echo 'deb http://packages.dotdeb.org stable all' >> /etc/apt/sources.list
 wget http://www.dotdeb.org/dotdeb.gpg
 cat dotdeb.gpg | apt-key add -
 rm dotdeb.gpg
-
-
-echo '  --> installing php5 with FPM'
-cd /opt
+cd
 
 # update and get php dependencies
 #

@@ -1,1 +1,5 @@
-# add any private settings
+# color of hostname in terminal. list of available colors in .bashrc
+#
+hostname_color=${lt_purple}
+
+# add any private settings below

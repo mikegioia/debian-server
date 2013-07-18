@@ -80,21 +80,6 @@ shopt -s no_empty_cmd_completion
 #
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set badass prompt
-#
-case `hostname -s` in
-    "murphy") HOSTCOLOUR=${red} ;;
-    "shanks") HOSTCOLOUR=${yellow} ;;
-    "eggers") HOSTCOLOUR=${blue} ;;
-    "hesh")   HOSTCOLOUR=${blue} ;;
-    "wrap")   HOSTCOLOUR=${lt_red} ;;
-    "uk-dwooldridge2") HOSTCOLOUR=${lt_purple} ;;
-    *) HOSTCOLOUR=${yellow} ;;
-esac
-
-PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi; '
-PS1=${lt_blue}'\u'${norm}'@'${HOSTCOLOUR}'\h '${norm}'['${green}'\@'${norm}'] '${yellow}'\w\n'${norm}'${ERROR_FLAG:+'${lt_red}'}\$${ERROR_FLAG:+'${norm}'} '
-
 # home directory bin?
 #
 [ -d ~/bin ] && PATH=$PATH:~/bin
@@ -102,6 +87,10 @@ PS1=${lt_blue}'\u'${norm}'@'${HOSTCOLOUR}'\h '${norm}'['${green}'\@'${norm}'] '$
 # /opt/local/{bin,sbin}?
 #
 [ -d /opt/local/bin ] && PATH=$PATH:/opt/local/bin:/opt/local/sbin
+
+# load linux config
+#
+[ -f ~/.bash/linux ] && . ~/.bash/linux
 
 # import aliases
 #
@@ -114,6 +103,13 @@ PS1=${lt_blue}'\u'${norm}'@'${HOSTCOLOUR}'\h '${norm}'['${green}'\@'${norm}'] '$
 # import functions
 #
 [ -f ~/.bash/functions ] && . ~/.bash/functions
+
+# set badass prompt
+#
+HOSTCOLOUR=${hostname_color}
+
+PROMPT_COMMAND='if [ $? -ne 0 ]; then ERROR_FLAG=1; else ERROR_FLAG=; fi; '
+PS1=${lt_blue}'\u'${norm}'@'${HOSTCOLOUR}'\h '${norm}'['${green}'\@'${norm}'] '${yellow}'\w\n'${norm}'${ERROR_FLAG:+'${lt_red}'}\$${ERROR_FLAG:+'${norm}'} '
 
 # enable command/file completion with sudo
 #
