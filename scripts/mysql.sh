@@ -25,3 +25,6 @@ apt-get update
 
 echo '  --> installing mysql'
 apt-get install mysql-server mysql-client
+
+echo 'MySQL completed'
+echo ''

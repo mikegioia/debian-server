@@ -100,17 +100,16 @@ cp $basepath/src/nginx_conf/mime.types /opt/nginx/conf/mime.types
 #
 if [ -d $basepath/conf/$profile/nginx ] ; then
     cp $basepath/conf/$profile/nginx/*.conf /opt/nginx/conf/sites-available/
-
-    for config_file in "$basepath/conf/$profile/nginx/*.conf"
+    CONF_FILES="/opt/nginx/conf/sites-available/*.conf"
+    for c in $CONF_FILES
     do
-        config_filename=$(basename $config_file)
+        config_filename=$(basename $c)
 
-        if ! [ -f /opt/nginx/conf/sites-enabled/$config_filename ] ; then
+        if ! [ -h /opt/nginx/conf/sites-enabled/$config_filename ] ; then
             cd /opt/nginx/conf/sites-enabled
             ln -s ../sites-available/$config_filename $config_filename
         fi
     done
-
     cd
 fi
 
@@ -130,3 +129,6 @@ if [ $? -eq 0 ] ; then
 else
     /etc/init.d/nginx start
 fi
+
+echo 'Nginx nad OpenSSL completed'
+echo ''

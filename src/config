@@ -35,6 +35,15 @@ sites=()
 ssl_sites=()
 
 
+# list any php-fpm sites you want configured. this will write out a conf
+# file to /etc/php5/fpm/pool.d specifying the socket path.
+#
+# format:
+#   fpm_sites=('foo.com' 'bar.net' ...)
+#
+fpm_sites=()
+
+
 # list any git or mercurial repos to be cloned
 #
 # format:

@@ -18,6 +18,7 @@ fi
 
 # alert the user to add the pre-up rule to /etc/network/interfaces
 #
+echo 'Firewall completed'
 echo ''
 echo 'IMPORTANT'
 echo '---------'
