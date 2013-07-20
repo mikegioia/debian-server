@@ -2,8 +2,10 @@
 #
 username=trunk
 nginx_version=1.4.1
-mongo_version=2.0.3
+mongodb_version=2.4.5
 openssl_version=1.0.1c
+ip_public=
+ip_internal=
 
 
 # scripts to run, arrange in order of execution (space separated).
@@ -18,8 +20,7 @@ scripts=(
     'nginx'
     'php'
     'profile'
-#    'firewall'
-#    'fail2ban'
+    'firewall'
     'app' 
 )
 

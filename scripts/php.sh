@@ -12,7 +12,7 @@ fi
 
 if ! [ -f /etc/apt/sources.list.d/dotdeb.list ] ; then
     echo '  --> adding dotdeb source and fetching key'
-    echo 'deb http://packages.dotdeb.org stable all' >> /etc/apt/sources.list.d/dotdeb.list
+    echo 'deb http://packages.dotdeb.org stable all' > /etc/apt/sources.list.d/dotdeb.list
     echo 'deb-src http://packages.dotdeb.org stable all' >> /etc/apt/sources.list.d/dotdeb.list
     wget http://www.dotdeb.org/dotdeb.gpg
     cat dotdeb.gpg | sudo apt-key add -
@@ -45,6 +45,17 @@ do
 done
 
 update-rc.d php5-fpm defaults
+
+# ask to install mongo for php
+#
+if ! [ -f /etc/php5/conf.d/mongo.ini ] ; then
+    read -p 'Do you want to install the php mongo extension [Y/n]? ' wish
+    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        apt-get install php-pear php5-dev
+        pecl install mongo
+        cp $basepath/src/mongo.ini /etc/php5/conf.d/mongo.ini
+    fi
+fi
 
 echo 'PHP and FPM completed'
 echo ''

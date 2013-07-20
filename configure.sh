@@ -84,5 +84,14 @@ else
     echo "  --> skipping nginx example config, file already exists"
 fi
 
+# copy over my.cnf
+#
+if ! [ -f conf/$profile/my.cnf ] ; then
+    echo "  --> adding my.cnf"
+    cp src/my.cnf conf/$profile/my.cnf
+else
+    echo "  --> skipping my.cnf, file already exists"
+fi
+
 echo ""
 echo "Default config files generated. Please edit the files in ./conf/$profile/!"

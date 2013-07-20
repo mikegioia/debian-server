@@ -69,15 +69,6 @@ do
     cp $basepath/src/index.html /var/www/$site/www-data/index.html
 done
 
-# copy over remaining nginx files
-#
-if ! [ -f /var/www/404.html ] ; then
-    cp $basepath/src/404.html /var/www/404.html
-fi
-if ! [ -f /var/www/50x.html ] ; then
-    cp $basepath/src/50x.html /var/www/50x.html
-fi
-
 # clone repos
 #
 echo '  --> install the app files'
@@ -119,28 +110,6 @@ if [ ${#git} ]; then
             git clone $git_url
         fi
     done
-fi
-
-# set up other trunk folders and if any files in similarly-named folders
-# exist in the local config, copy them in.
-#
-if [ ! -d /home/$username/scripts ] ; then
-    mkdir /home/$username/scripts
-    if [ -d $basepath/conf/$profile/scripts ] ; then
-        cp $basepath/conf/$profile/scripts/* /home/$username/scripts/
-    fi
-fi
-if [ ! -d /home/$username/archive ] ; then
-    mkdir /home/$username/archive
-    if [ -d $basepath/conf/$profile/archive ] ; then
-        cp $basepath/conf/$profile/archive/* /home/$username/archive/
-    fi
-fi
-if [ ! -d /home/$username/install ] ; then
-    mkdir /home/$username/install
-    if [ -d $basepath/conf/$profile/install ] ; then
-        cp $basepath/conf/$profile/install/* /home/$username/install/
-    fi
 fi
 
 # update permissions

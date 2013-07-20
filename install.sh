@@ -8,20 +8,55 @@
 #           files.
 # -----------------------------------------------------------------------------
 
-echo "This script will update software and configuration files on your server."
-read -p 'Do you want to continue [Y/n]? ' wish
-if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-    exit 0
-fi
+# get arguments
+#
+usage="$0 [-ug] <profile> [<script_1>, <script_ 2> ...]"
+uflag=
+gflag=
 
-usage="$0 <profile> [--update --upgrade --scripts=a,b,c]"
+while getopts 'ug' OPTION
+do
+    case $OPTION in
+        u)  uflag=1
+            shift
+            ;;
+        g)  gflag=1
+            shift
+            ;;
+        ?)  printf "Usage: %s %s" $(basename $0) $usage >&2
+            exit 2
+            ;;
+    esac
+done
+
+# set up profile and script args
+#
 profile=${1:-"default"}
+shift
 config="conf/$profile/config"
 
 if [ ! -f $config ] ; then
     echo "Could not find the config file you entered: $config"
     echo "Make sure to run ./configure.sh <profile> in the deploy directory"
     exit 1
+fi
+
+# check if a list of scripts came in. if not, use the scripts from the 
+# config file array.
+#
+i=0
+for var in "$@"
+do
+    script_args[$i]=$var
+    i=$i+1
+done
+
+# ask if they want to continue
+#
+echo "This script will update software and configuration files on your server."
+read -p 'Do you want to continue [Y/n]? ' wish
+if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+    exit 0
 fi
 
 # read in the config variables and export them to sub-scripts
@@ -32,20 +67,32 @@ export basepath
 export profile
 export username
 export nginx_version
-export mongo_version
+export mongodb_version
 export openssl_version
 
 # update the system if flags present
 #
-#apt-get update
-#apt-get upgrade --show-upgraded
+if [ "$uflag" ] ; then
+    apt-get update
+fi
+
+if [ "$gflag" ] ; then
+    apt-get upgrade --show-upgraded
+fi
 
 # run the scripts. check the install history to see if we should re-run
 #
-for script in "${scripts[@]}"
-do
-    ./scripts/$script.sh
-done
+if ! [ "${#script_args[@]}" -eq 0 ] ; then
+    for script in "${script_args[@]}"
+    do
+        ./scripts/$script.sh
+    done
+else
+    for script in "${scripts[@]}"
+    do
+        ./scripts/$script.sh
+    done
+fi
 
 echo "Done!"
 echo "Make sure to restart your server for all changes to take effect!"

@@ -76,6 +76,35 @@ if [ -f $basepath/conf/$profile/authorized_keys ] ; then
     cp $basepath/conf/$profile/authorized_keys /home/$username/.ssh/authorized_keys
 fi
 
+echo '  --> copying over my.cnf to /etc/my.cnf'
+if [ -f $basepath/conf/$profile/my.cnf ] ; then
+    cp $basepath/conf/$profile/my.cnf /etc/my.cnf
+fi
+
+# set up other trunk folders and if any files in similarly-named folders
+# exist in the local config, copy them in.
+#
+echo '  --> creating home directories and copying any files over'
+if [ ! -d /home/$username/scripts ] ; then
+    mkdir /home/$username/scripts
+fi
+if [ -d $basepath/conf/$profile/scripts ] ; then
+    cp $basepath/conf/$profile/scripts/* /home/$username/scripts/
+fi
+if [ ! -d /home/$username/archive ] ; then
+    mkdir /home/$username/archive
+fi
+if [ -d $basepath/conf/$profile/archive ] ; then
+    cp $basepath/conf/$profile/archive/* /home/$username/archive/
+fi
+if [ ! -d /home/$username/install ] ; then
+    mkdir /home/$username/install
+fi
+if [ -d $basepath/conf/$profile/install ] ; then
+    cp $basepath/conf/$profile/install/* /home/$username/install/
+fi
+
+echo '  --> changing shell to bash and re-owning files'
 chsh -s '/bin/bash' $username
 chown -R $username:$username /home/$username
 

@@ -10,21 +10,24 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit
 fi
 
-usage="$0 <config>"
-config=${1:-"../conf/default/config"}
-
-if [ ! -f $config ] ; then
-    echo "Could not find the config file you entered: $config"
-    exit
-fi
-
-. .$config
-
-echo '  --> updating system'
-apt-get update
-
 echo '  --> installing mysql'
 apt-get install mysql-server mysql-client
+
+echo '  --> copying over my.cnf to /etc/my.cnf'
+if [ -f $basepath/conf/$profile/my.cnf ] ; then
+    cp $basepath/conf/$profile/my.cnf /etc/mysql/conf.d/my.cnf
+    /etc/init.d/mysql reload
+fi
+
+# if there's a mysql history file, write null to it
+#
+cd
+if [ -f .mysql_history ] ; then
+    cat /dev/null > .mysql_history
+fi
+
+echo '  --> adding to startup scripts'
+update-rc.d mysql defaults
 
 echo 'MySQL completed'
 echo ''

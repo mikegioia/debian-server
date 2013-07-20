@@ -6,6 +6,7 @@
 echo 'This script will install openssl and nginx from source'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+    echo "Aborted"
     exit
 fi
 
@@ -120,6 +121,23 @@ cp $basepath/src/nginx /etc/init.d/nginx
 chmod +x /etc/init.d/nginx
 /usr/sbin/update-rc.d -f nginx defaults
 /usr/sbin/update-rc.d -f apache2 remove
+
+# copy over remaining nginx files
+#
+echo '  --> copying 404 and 50x files'
+if [ ! -d /var/www ] ; then
+    mkdir /var/www
+fi
+if ! [ -f /var/www/404.html ] ; then
+    cp $basepath/src/404.html /var/www/404.html
+fi
+if ! [ -f /var/www/50x.html ] ; then
+    cp $basepath/src/50x.html /var/www/50x.html
+fi
+
+# update permissions
+#
+chown -R www-data:www-data /var/www
 
 # if nginx is running, reload the config. if it's not, start nginx.
 #
