@@ -3,7 +3,7 @@
 # install nginx from source
 #
 
-echo 'This script will install openssl and nginx from source'
+echo 'This script will install openssl and nginx from source.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
@@ -148,5 +148,5 @@ else
     /etc/init.d/nginx start
 fi
 
-echo 'Nginx nad OpenSSL completed'
+echo 'Nginx and OpenSSL completed'
 echo ''

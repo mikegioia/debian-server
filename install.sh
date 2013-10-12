@@ -85,12 +85,20 @@ fi
 if ! [ "${#script_args[@]}" -eq 0 ] ; then
     for script in "${script_args[@]}"
     do
-        ./scripts/$script.sh
+        if [ -f ./conf/$profile/scripts/$script.sh ] ; then
+            ./conf/$profile/scripts/$script.sh
+        else
+            ./scripts/$script.sh
+        fi
     done
 else
     for script in "${scripts[@]}"
     do
-        ./scripts/$script.sh
+        if [ -f ./conf/$profile/scripts/$script.sh ] ; then
+            ./conf/$profile/scripts/$script.sh
+        else
+            ./scripts/$script.sh
+        fi
     done
 fi
 

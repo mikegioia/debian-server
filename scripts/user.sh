@@ -15,7 +15,7 @@ if [ $? -eq 0 ]; then
     exit 0
 fi
 
-echo 'This script will create a new user and reset locale settings'
+echo 'This script will create a new user and reset locale settings.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"

@@ -3,7 +3,7 @@
 # set up mysql
 #
 
-echo 'This script will update the system and install mysql'
+echo 'This script will update the system and install MySQL.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"

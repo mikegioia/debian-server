@@ -2,7 +2,7 @@
 
 # Located in /etc/firewall.sh
 #
-# To run this on startup, open /etc/network/interfaces and add this above the addres
+# To run this on startup, open /etc/network/interfaces and add this above the address
 # for the eth0 device.
 # 
 # pre-up    /bin/sh /etc/firewall.sh

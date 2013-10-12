@@ -7,7 +7,7 @@
 # @about:   Set up the user profile, copy over dot files
 # -----------------------------------------------------------------------------
 
-echo "This script will set the user's profile, aliases, ssh config, and authorized keys"
+echo "This script will set the user's profile, aliases, ssh config, and authorized keys."
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
@@ -57,10 +57,13 @@ if [ -f $basepath/conf/$profile/banner ] ; then
     cp $basepath/conf/$profile/banner /etc/issue
 fi
 
-echo '  --> overwriting the sshd_config and reloading'
-rm /etc/ssh/sshd_config
-cp $basepath/src/sshd_config /etc/ssh/sshd_config
-/etc/init.d/ssh reload
+read -p 'Do you want to overwrite the sshd_config [Yes/n (default no)]? ' wish
+if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
+    echo '  --> overwriting the sshd_config and reloading'
+    rm /etc/ssh/sshd_config
+    cp $basepath/src/sshd_config /etc/ssh/sshd_config
+    /etc/init.d/ssh reload
+fi
 
 echo '  --> setting the authorized keys'
 if ! [ -d /home/$username/.ssh ] ; then
@@ -89,24 +92,30 @@ if [ ! -d /home/$username/scripts ] ; then
     mkdir /home/$username/scripts
 fi
 if [ -d $basepath/conf/$profile/scripts ] ; then
-    cp $basepath/conf/$profile/scripts/* /home/$username/scripts/
+    cp -r $basepath/conf/$profile/scripts/* /home/$username/scripts/
+    chmod +x /home/$username/scripts/*.sh
 fi
 if [ ! -d /home/$username/archive ] ; then
     mkdir /home/$username/archive
 fi
 if [ -d $basepath/conf/$profile/archive ] ; then
-    cp $basepath/conf/$profile/archive/* /home/$username/archive/
+    cp -r $basepath/conf/$profile/archive/* /home/$username/archive/
 fi
 if [ ! -d /home/$username/install ] ; then
     mkdir /home/$username/install
 fi
 if [ -d $basepath/conf/$profile/install ] ; then
-    cp $basepath/conf/$profile/install/* /home/$username/install/
+    cp -r $basepath/conf/$profile/install/* /home/$username/install/
+    chmod +x /home/$username/install/*.sh
 fi
 
 echo '  --> changing shell to bash and re-owning files'
 chsh -s '/bin/bash' $username
 chown -R $username:$username /home/$username
+chmod 750 /home/$username
+chmod +x /home/$username/install/*.sh
+chmod +x /home/$username/scripts/*.sh
+chmod 400 /home/$username/.ssh/id_rsa
 
 echo 'Profile completed'
 echo ''

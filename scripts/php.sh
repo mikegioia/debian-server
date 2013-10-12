@@ -3,7 +3,7 @@
 # install and configure php
 #
 
-echo 'This script will install php and php-fpm'
+echo 'This script will install PHP and PHP-FPM.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
@@ -24,10 +24,10 @@ fi
 echo '  --> installing php5 with FPM'
 # optionally:
 #   php5-idn, php5-ming, php5-recode, php5-cgi, php5-imap
-apt-get install php5 php5-fpm php5-common php5-curl php5-dev \
+apt-get install php5 php5-common php5-curl php5-dev \
     php5-gd php5-imagick php5-mcrypt php5-memcache php5-mysql \
     php5-pspell php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl \
-    php-pear libssh2-php php5-cli
+    php-pear libssh2-php php5-cli php5-fpm
 
 echo '  --> configuring php-fpm'
 
@@ -44,7 +44,10 @@ do
     $basepath/src/fpm_example.sh $fpm_site
 done
 
-update-rc.d php5-fpm defaults
+read -p 'Do you want to add php-fpm to the startup? [Y/n] ' wish
+if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+    update-rc.d php5-fpm defaults
+fi
 
 # ask to install mongo for php
 #

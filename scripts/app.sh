@@ -3,7 +3,7 @@
 # set up the application, sites, and all
 #
 
-echo 'This script will create application directories, and overwrite any nginx config files for your sites'
+echo 'This script will create application directories, /var/www directories, and overwrite any nginx config files for your sites.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
@@ -82,7 +82,7 @@ fi
 
 # check for any mercurial projects (install if not installed)
 #
-if [ ${#hg} ]; then
+if [ ${#hg} ] ; then
     if ! [ hash hg 2>/dev/null ]; then
         apt-get install mercurial
     fi
@@ -90,15 +90,21 @@ if [ ${#hg} ]; then
     do
         reponame=$(basename "$hg_url")
         if ! [ -d /home/$username/repos/$reponame ] ; then
+            echo "  --> cloning new repo $reponame"
             cd /home/$username/repos
             hg clone $hg_url
+        fi
+        # copy an hgrc if it exists in conf
+        #
+        if [ -f $basepath/conf/$profile/repos/$reponame/hgrc ] ; then
+            cp $basepath/conf/$profile/repos/$reponame/hgrc /home/$username/repos/$reponame/.hg/hgrc
         fi
     done
 fi
 
 # check for any git projects (install if not installed)
 #
-if [ ${#git} ]; then
+if [ ${#git} ] ; then
     if ! [ hash git 2>/dev/null ]; then
         apt-get install git
     fi
@@ -106,14 +112,35 @@ if [ ${#git} ]; then
     do
         reponame=$(basename "$git_url")
         if ! [ -d /home/$username/repos/$reponame ] ; then
+            echo "  --> cloning new repo $reponame"
             cd /home/$username/repos
             git clone $git_url
         fi
     done
 fi
 
+# for each config file, check if there's a symlink in sites-enabled. if not, add
+# the new sym link.
+#
+echo '  --> copying over any nginx configs'
+if [ -d $basepath/conf/$profile/nginx ] ; then
+    cp $basepath/conf/$profile/nginx/*.conf /opt/nginx/conf/sites-available/
+    CONF_FILES="/opt/nginx/conf/sites-available/*.conf"
+    for c in $CONF_FILES
+    do
+        config_filename=$(basename $c)
+
+        if ! [ -h /opt/nginx/conf/sites-enabled/$config_filename ] ; then
+            cd /opt/nginx/conf/sites-enabled
+            ln -s ../sites-available/$config_filename $config_filename
+        fi
+    done
+    cd
+fi
+
 # update permissions
 #
+echo '  --> updating /var/www permissions'
 chown -R www-data:www-data /var/www
 chown -R $username:$username /home/$username/repos
 
@@ -121,6 +148,7 @@ chown -R $username:$username /home/$username/repos
 #
 ps cax | grep 'apache2' > /dev/null
 if [ $? -eq 0 ] ; then
+    echo '  --> stopping and removing apache2'
     /etc/init.d/apache2 stop
     /usr/sbin/update-rc.d -f apache2 remove
 fi

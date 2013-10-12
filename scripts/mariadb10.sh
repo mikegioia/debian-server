@@ -15,8 +15,8 @@ fi
 if ! [ -f /etc/apt/sources.list.d/mariadb.list ] ; then
     echo '  --> adding mariadb source and fetching key'
     echo '# https://downloads.mariadb.org/mariadb/repositories/' > /etc/apt/sources.list.d/mariadb.list
-    echo 'deb http://mirror.jmu.edu/pub/mariadb/repo/5.5/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
-    echo 'deb-src http://mirror.jmu.edu/pub/mariadb/repo/5.5/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
+    echo 'deb http://mirror.jmu.edu/pub/mariadb/repo/10.0/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
+    echo 'deb-src http://mirror.jmu.edu/pub/mariadb/repo/10.0/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
     apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
     apt-get update
 fi
@@ -29,7 +29,6 @@ apt-get install mariadb-server
 echo '  --> copying over my.cnf to /etc/my.cnf'
 if [ -f $basepath/conf/$profile/my.cnf ] ; then
     cp $basepath/conf/$profile/my.cnf /etc/mysql/conf.d/my.cnf
-    cp $basepath/conf/$profile/my.cnf /etc/my.cnf
     /etc/init.d/mysql reload
 fi
 

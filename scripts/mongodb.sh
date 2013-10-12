@@ -3,7 +3,7 @@
 # install mongodb from source, 
 #
 
-echo 'This script will update/upgrade the system and install MongoDB'
+echo 'This script will update/upgrade the system and install MongoDB.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"

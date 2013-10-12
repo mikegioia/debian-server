@@ -16,7 +16,7 @@ shift `echo $OPTIND-1 | bc`
 profile=${1:-"default"}
 
 if ! [ -d conf/$profile ] ; then
-    mkdir conf/$profile
+    mkdir -p conf/$profile
 fi
 
 # create blank authorized keys if none exists
@@ -36,6 +36,15 @@ if ! [ -f conf/$profile/hosts ] ; then
     cp src/hosts conf/$profile/hosts
 else
     echo "  --> skipping hosts, file already exists"
+fi
+
+# copy banner
+#
+if ! [ -f conf/$profile/banner ] ; then
+    echo "  --> adding banner"
+    cp src/banner conf/$profile/banner
+else
+    echo "  --> skipping banner, file already exists"
 fi
 
 # create default config file if none exists
