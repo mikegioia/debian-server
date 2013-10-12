@@ -4,13 +4,14 @@
  
 ##About
 
-A complete installation script for PHP, MySQL, nginx, Mongo DB, Exim, and
-user environment. Includes support for HTTP and HTTPS in nginx. All scripts
-are broken out into separate files if you want to run them separately, but
-run `./install.sh` to fire them all. These scripts are optimized to run on
-a clean Debian 6 installation and tested heavily on Rackspace Cloud in
-particular. If you have any issues at all, please add them here or message
-me directly @mikegioia (http://twitter.com/mikegioia).
+A complete installation script for PHP, MySQL, MariaDB, nginx, MongoDB, 
+Exim, firewall, and user environment. Includes support for HTTP and HTTPS 
+in nginx. All scriptsare broken out into separate files if you want to run 
+them separately, but run `./install.sh <profile>` to fire them all. To run 
+individual scripts use `./install.sh <profile> <script1.sh> <script2.sh>...`. 
+These scripts are optimized to run ona clean Debian 7 installation and tested 
+heavily on Rackspace Cloud in particular. If you have any issues at all, 
+please add them here or message me directly @mikegioia (http://twitter.com/mikegioia).
 
 ##Extremely important SSH notes
 
@@ -24,47 +25,48 @@ my experience this is unwise. If you want to disable password authentication
 then edit line 50 of `/src/sshd_config` to be `PasswordAuthentication no`
 and then restart SSH by running `sudo /etc/init.d/ssh restart`.
 
-##Edit the configuration file
+##Run the configuration script for each profile
 
-There are a few config variables in `example.cfg`:
+To create a new default profile, run `./configure.sh <profile>` where
+`<profile>` is the path hierarchy you want in the `/conf` directory. For
+example, to create a new profile named 'development', simply run
+`./configure.sh development`. The folder 'development' will be created in 
+the `/conf` directory with all of the default configuration files. To create
+a profile with more context, you could run something like
+`./configure.sh dev/app/db1` which would create that path in the `/conf`
+directory. In this case, db1 would be the folder with the configuration files.
+
+The main configuration file created will be called `config` which has a few
+variables you can set:
 
 * **username**: user account on the web server
-* **siteurl**: your web site URL
-* **server**: the directory folder containing your server config files (in `/conf`).
-          If you want to include multiple server configs, make a new folder for
-          each one and a separate config file too.
-
-You should change `example.cfg` to be something related to your web server
-in case you want to run this across multiple machines.
+* **<program>_version**: version to install for the given software 
+* **ip_public**: machine's public IP address (optional)
+* **ip_internal**: machines internal network IP address (optional)
+* **scripts**: array of scripts to run by default
 
 ##Edit the server configuration files
 
-Inside `/conf/server` are a collection of nginx configuration files. You should
-change the `example.com` references to be your site URL hosted on the web
-server. Inside `nginx.conf` you should change the include paths. HTTS is not
-inluced by default, so uncomment it out to have nginx load that file.
+Inside `/conf/<profile>` are a collection of configuration files and source
+files that the applications will use.
 
-##Choose which sub-scripts to run
-
-You can specify which sub-scripts to run by editing `install.sh`. By default it
-will run all 8. Comment out or remove any numbered scripts you do not want to
-run (for example, if you don't want to install and set up mongo, comment out the
-line to run `8_mongo.sh`).
+@TODO -- write out info on these
 
 ##Run the installer
 
-When you're ready to install run the command `./install.sh example.cfg` **AS ROOT**. 
-These scripts assume root so please `sudu su` before running them. If you changed the 
-name of `example.cfg` make sure to use the new name in the command you run.
+When you're ready to install run the command `./install.sh <profile>` **AS ROOT**. 
+These scripts assume root so please `sudu su` before running them. 
 
 ##Notes about this installation
 
 * This script will `apt-get update` and `apt-get upgrade` your system. This could
   take a while so be sure to watch over it.
-* You will be prompted to set MySQL and PHPMyAdmin passwords. Keep those handy and
+* You will be prompted to set passwords for MySQL and MariaDB. Keep those handy and
   watch when it prompts.
-* PHP Mongo extension will be installed at the end if you include `8_mongo.sh` in your
-  install.
+* You will be asked to install PHP Mongo extension if you run the PHP script.
+* You will be asked if you want to overwrite the SSH config each time the profile
+  script runs. It will default to NO but it's best to copy this over the first time
+  you run it.
 * It's best to scp these files to `/root` and definitely run the installer as root.
-* I've timed the entire install process and it averages to about 8 minutes on a 256MB
+* I've timed the entire install process and it averages to about 8 minutes on a 512MB
   machine!
