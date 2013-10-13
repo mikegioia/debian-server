@@ -90,7 +90,13 @@ fi
 if ! [ -d /opt/nginx/conf/sites-enabled ] ; then
     mkdir /opt/nginx/conf/sites-enabled
 fi
-cp $basepath/src/nginx_conf/nginx.conf /opt/nginx/conf/nginx.conf
+
+if [ -f $basepath/conf/$profile/nginx.conf ] ; then
+    cp $basepath/conf/$profile/nginx.conf /opt/nginx/conf/nginx.conf
+else
+    cp $basepath/src/nginx_conf/nginx.conf /opt/nginx/conf/nginx.conf
+fi
+
 cp $basepath/src/nginx_conf/trunk.conf /opt/nginx/conf/trunk.conf
 cp $basepath/src/nginx_conf/mime.types /opt/nginx/conf/mime.types
 
