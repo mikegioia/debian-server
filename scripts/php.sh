@@ -41,7 +41,13 @@ do
     # generate nginx site config files to sites-available and add 
     # symbolic links in sites-enabled
     #
-    $basepath/src/fpm_example.sh $fpm_site
+    if [ -f $basepath/conf/$profile/fpm/$fpm_site.conf ] ; then
+        cp $basepath/conf/$profile/fpm/$fpm_site.conf /etc/php5/fpm/pool.d/$fpm_site.conf
+    else
+        if ! [ -f /etc/php5/fpm/pool.d/$fpm_site.conf ] ; then
+            $basepath/src/fpm_example.sh $fpm_site
+        fi
+    fi
 done
 
 read -p 'Do you want to add php-fpm to the startup? [Y/n] ' wish

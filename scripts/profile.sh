@@ -61,7 +61,13 @@ read -p 'Do you want to overwrite the sshd_config [Yes/n (default no)]? ' wish
 if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
     echo '  --> overwriting the sshd_config and reloading'
     rm /etc/ssh/sshd_config
-    cp $basepath/src/sshd_config /etc/ssh/sshd_config
+
+    if [ -f $basepath/conf/$profile/sshd_config ] ; then
+        cp $basepath/conf/$profile/sshd_config /etc/ssh/sshd_config
+    else
+        cp $basepath/src/sshd_config /etc/ssh/sshd_config
+    fi
+
     /etc/init.d/ssh reload
 fi
 
