@@ -4,6 +4,8 @@ username=trunk
 nginx_version=1.4.1
 mongodb_version=2.4.5
 openssl_version=1.0.1c
+redis_version=2.6.16
+redisphp_version=2.2.4
 ip_public=
 ip_internal=
 

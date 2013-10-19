@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# install mongodb from source, 
+# install mongodb from source
 #
 
 echo 'This script will update/upgrade the system and install MongoDB.'
@@ -81,7 +81,7 @@ if ! [ -f /etc/php5/conf.d/mongo.ini ] ; then
     if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         apt-get install php-pear php5-dev
         pecl install mongo
-        cp $basepath/src/mongo.ini /etc/php5/conf.d/mongo.ini
+        echo "extension=mongo.so" > /etc/php5/conf.d/mongo.ini
     fi
 fi
 
