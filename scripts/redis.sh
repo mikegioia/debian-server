@@ -14,6 +14,11 @@ REDIS_OK=$(/usr/local/bin/redis-server -v 2>&1 | grep "${redis_version}")
 if [ "" == "$REDIS_OK" ] ; then 
     echo '  --> installing redis from source to /opt/redis'
     
+    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' build-essential|grep "install ok installed")
+    if [ "" == "$PKG_OK" ] ; then
+      apt-get install build-essential
+    fi
+    
     # get the binaries 
     #
     cd /opt/
