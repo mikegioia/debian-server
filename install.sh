@@ -69,6 +69,8 @@ export username
 export nginx_version
 export mongodb_version
 export openssl_version
+export redis_version
+export redisphp_version
 
 # update the system if flags present
 #
