@@ -18,7 +18,7 @@ if [ "" == "$REDIS_OK" ] ; then
     if [ "" == "$PKG_OK" ] ; then
       apt-get install build-essential
     fi
-    
+
     # get the binaries 
     #
     cd /opt/
@@ -53,7 +53,7 @@ fi
 
 # copy the init script
 #
-cp /opt/redis/utils/redis_init_script /etc/init.d/redis_6379
+cp $basepath/src/redis_6379 /etc/init.d/redis_6379
 chmod +x /etc/init.d/redis_6379
 
 # copy of the config files
