@@ -27,7 +27,7 @@ server {
     error_log    /opt/nginx/logs/$siteurl.error.log;
     access_log   /opt/nginx/logs/$siteurl.access.log;
 
-    root         /var/www/$siteurl/;
+    root         /var/www/$siteurl/www-data/;
     index        index.php index.html index.htm;
 
     autoindex    off;
