@@ -53,7 +53,7 @@ server {
     location ~* \.(php|php5|php4)($|/) {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         #
-        fastcgi_pass   127.0.0.1:9000;
+        fastcgi_pass   unix:/var/run/php5-fpm.socket;
         fastcgi_index  index.php;
         fastcgi_param  SERVER_PORT      80;
         fastcgi_param  SCRIPT_FILENAME  /var/www/$siteurl/www-data\$fastcgi_script_name;
