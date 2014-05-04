@@ -34,8 +34,6 @@ echo '  --> configuring php-fpm'
 # loop through any FPM domains and generate the pool.d conf file. we need
 # to re-source the config file to get the array data.
 #
-. $basepath/conf/$profile/config
-
 for fpm_site in "${fpm_sites[@]}"
 do
     # generate nginx site config files to sites-available and add 

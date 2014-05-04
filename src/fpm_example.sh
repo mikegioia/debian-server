@@ -22,8 +22,8 @@ group = www-data
 
 ; Choose how the process manager will control the number of child processes.
 pm = dynamic
-pm.max_children = 75
-pm.start_servers = 10
+pm.max_children = 20
+pm.start_servers = 5
 pm.min_spare_servers = 5
 pm.max_spare_servers = 20
 pm.max_requests = 500

@@ -14,17 +14,17 @@ fi
 #
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libpcre3-dev|grep "install ok installed")
 if [ "" == "$PKG_OK" ] ; then
-  apt-get install libpcre3-dev
+    apt-get install libpcre3-dev
 fi
 
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' build-essential|grep "install ok installed")
 if [ "" == "$PKG_OK" ] ; then
-  apt-get install build-essential
+    apt-get install build-essential
 fi
 
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libssl-dev|grep "install ok installed")
 if [ "" == "$PKG_OK" ] ; then
-  apt-get install libssl-dev
+    apt-get install libssl-dev
 fi
 
 # check if openssl version is equal to installed version. if not, update 
@@ -33,7 +33,7 @@ fi
 # $> openssl version
 #
 OPENSSL_OK=$(openssl version 2>&1 | grep "${openssl_version}")
-if [ "" == "$OPENSSL_OK" ] ; then 
+if [[ "" == "$OPENSSL_OK" && -n "${openssl_version}" ]] ; then 
     echo "  --> installing openssl from source to /opt/openssl-${openssl_version}"
     cd /opt/
     wget http://www.openssl.org/source/openssl-${openssl_version}.tar.gz
@@ -51,7 +51,7 @@ fi
 # $> /opt/nginx/sbin/nginx -v
 #
 NGINX_OK=$(/opt/nginx/sbin/nginx -v 2>&1 | grep "nginx/${nginx_version}")
-if [ "" == "$NGINX_OK" ] ; then 
+if [[ "" == "$NGINX_OK" && -n "${nginx_version}" ]] ; then 
     echo '  --> installing nginx from source to /opt/nginx'
     cd /opt/
     wget http://nginx.org/download/nginx-${nginx_version}.tar.gz
