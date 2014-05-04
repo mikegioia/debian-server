@@ -24,6 +24,7 @@ fi
 
 if [ $(id -u) -eq 0 ]; then
     read -s -p "Enter password for new user $username: " password
+    echo ""
     echo "  --> creating new user $username"
     pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
     useradd -m -p $pass $username
