@@ -51,6 +51,11 @@ export GREP_OPTIONS="--color=auto"
 export OS=`uname -s`
 export UNISONLOCALHOSTNAME=`hostname -s`
 
+# locales
+#
+export LANG=en_US.UTF-8
+export LC_MESSAGES="C"
+
 # enable color support of ls and also add handy aliases
 #
 [ -x /usr/bin/dircolors ] && eval "`dircolors -b`"
