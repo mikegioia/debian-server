@@ -55,8 +55,3 @@ fpm_sites=()
 #
 git=()
 hg=()
-
-
-# do not edit these unless you know what you're doing
-#
-basepath=`pwd`

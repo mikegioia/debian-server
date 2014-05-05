@@ -17,6 +17,10 @@ if [ ! -d /var/www ] ; then
     mkdir /var/www
 fi
 
+# resource the config file
+#
+. $basepath/conf/$profile/config
+
 # loop through any available sites and ssl sites
 #
 for site in "${sites[@]}"

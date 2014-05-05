@@ -31,6 +31,10 @@ apt-get install php5 php5-common php5-curl php5-dev \
 
 echo '  --> configuring php-fpm'
 
+# resource the config file
+#
+. $basepath/conf/$profile/config
+
 # loop through any FPM domains and generate the pool.d conf file. we need
 # to re-source the config file to get the array data.
 #
@@ -55,12 +59,15 @@ fi
 
 # ask to install mongo for php
 #
-if ! [ -f /etc/php5/conf.d/mongo.ini ] ; then
+if ! [ -f /etc/php5/conf.d/30-mongo.ini ] ; then
     read -p 'Do you want to install the php mongo extension [Y/n]? ' wish
     if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         apt-get install php-pear php5-dev
         pecl install mongo
-        cp $basepath/src/mongo.ini /etc/php5/conf.d/mongo.ini
+        echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
+        cd /etc/php5/conf.d/
+        ln -s ../mods-available/mongo.ini 30-mongo.ini
+        cd
     fi
 fi
 

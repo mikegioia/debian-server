@@ -63,6 +63,10 @@ fi
 #
 . $config
 
+# set up the basepath
+#
+basepath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+
 export basepath
 export profile
 export username
@@ -71,11 +75,6 @@ export mongodb_version
 export openssl_version
 export redis_version
 export redisphp_version
-export sites
-export ssl_sites
-export fpm_sites
-export git
-export hg
 
 # update the system if flags present
 #
