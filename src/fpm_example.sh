@@ -14,6 +14,7 @@ echo "
 
 listen = /var/run/php5-fpm-${domainname}.socket
 listen.backlog = -1
+listen.mode = 0666
 
 ; Unix user/group of processes
 ; user is the user who owns the site files
