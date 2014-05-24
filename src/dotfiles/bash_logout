@@ -5,3 +5,7 @@
 if [ "$SHLVL" = 1 ]; then
     [ -x /usr/bin/clear_console ] && /usr/bin/clear_console -q
 fi
+
+# clear the user's history when logging out
+#
+echo -n "" > ~/.bash_history
