@@ -89,6 +89,7 @@ if ! [ -f /etc/php5/mods-available/redis.ini ] ; then
         ln -s ../../mods-available/redis.ini 20-redis.ini
         cd /etc/php5/cli/conf.d/
         ln -s ../../mods-available/redis.ini 20-redis.ini
+        cd
     fi
 fi
 

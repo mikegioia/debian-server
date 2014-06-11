@@ -76,14 +76,16 @@ fi
 
 # ask to install mongo for php
 #
-if ! [ -f /etc/php5/conf.d/30-mongo.ini ] ; then
+if ! [ -f /etc/php5/mods-available/mongo.ini ] ; then
     read -p 'Do you want to install the php mongo extension [Y/n]? ' wish
     if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         apt-get install php-pear php5-dev
         pecl install mongo
         echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
-        cd /etc/php5/conf.d/
-        ln -s ../mods-available/mongo.ini 30-mongo.ini
+        cd /etc/php5/fpm/conf.d/
+        ln -s ../../mods-available/mongo.ini 20-mongo.ini
+        cd /etc/php5/cli/conf.d/
+        ln -s ../../mods-available/mongo.ini 20-mongo.ini
         cd
     fi
 fi
