@@ -73,7 +73,7 @@ fi
 
 # ask to install redis for php
 #
-if ! [ -f /etc/php5/conf.d/redis.ini ] ; then
+if ! [ -f /etc/php5/mods-available/redis.ini ] ; then
     read -p 'Do you want to install the php redis extension [Y/n]? ' wish
     if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         cd /opt
@@ -84,7 +84,11 @@ if ! [ -f /etc/php5/conf.d/redis.ini ] ; then
         phpize
         ./configure
         make && make install
-        echo "extension=redis.so" > /etc/php5/conf.d/redis.ini
+        echo "extension=redis.so" > /etc/php5/mods-available/redis.ini
+        cd /etc/php5/fpm/conf.d/
+        ln -s ../../mods-available/redis.ini 20-redis.ini
+        cd /etc/php5/cli/conf.d/
+        ln -s ../../mods-available/redis.ini 20-redis.ini
     fi
 fi
 
