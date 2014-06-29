@@ -90,6 +90,11 @@ if [ -f $basepath/conf/$profile/my.cnf ] ; then
     cp $basepath/conf/$profile/my.cnf /etc/my.cnf
 fi
 
+echo '  --> copying over my.cnf to /etc/my.cnf'
+if [ -f $basepath/conf/$profile/mongodb.cnf ] ; then
+    cp $basepath/conf/$profile/mongodb.cnf /etc/mongodb.conf
+fi
+
 # set up other trunk folders and if any files in similarly-named folders
 # exist in the local config, copy them in.
 #

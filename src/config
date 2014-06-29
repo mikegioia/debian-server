@@ -2,7 +2,7 @@
 #
 username=trunk
 nginx_version=1.6.0
-mongodb_version=2.6.0
+mongodb_version=2.6.3
 openssl_version=1.0.1e
 redis_version=2.8.9
 redisphp_version=2.2.4
