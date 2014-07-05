@@ -39,11 +39,10 @@ if [ -f $basepath/conf/$profile/bash_private ] ; then
     cp $basepath/conf/$profile/bash_private /home/$username/.bash/private
 fi
 
-echo '  --> overwriting the hosts file'
-
 # check if hosts is in conf folder first
 #
 if [ -f $basepath/conf/$profile/hosts ] ; then
+    echo '  --> overwriting the hosts file'
     if [ -f /etc/hosts ] ; then
         rm /etc/hosts
     fi
@@ -71,7 +70,6 @@ if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
     /etc/init.d/ssh reload
 fi
 
-echo '  --> setting the authorized keys'
 if ! [ -d /home/$username/.ssh ] ; then
     mkdir /home/$username/.ssh
 fi
@@ -79,19 +77,20 @@ fi
 # copy over the authorized keys if they exist
 #
 if [ -f $basepath/conf/$profile/authorized_keys ] ; then
+    echo '  --> setting the authorized keys'
     if [ -f /home/$username/.ssh/authorized_keys ] ; then
         rm /home/$username/.ssh/authorized_keys
     fi
     cp $basepath/conf/$profile/authorized_keys /home/$username/.ssh/authorized_keys
 fi
 
-echo '  --> copying over my.cnf to /etc/my.cnf'
 if [ -f $basepath/conf/$profile/my.cnf ] ; then
+    echo '  --> copying over my.cnf to /etc/my.cnf'
     cp $basepath/conf/$profile/my.cnf /etc/my.cnf
 fi
 
-echo '  --> copying over my.cnf to /etc/my.cnf'
 if [ -f $basepath/conf/$profile/mongodb.cnf ] ; then
+    echo '  --> copying over mongodb.conf to /etc/mongodb.conf'
     cp $basepath/conf/$profile/mongodb.cnf /etc/mongodb.conf
 fi
 
