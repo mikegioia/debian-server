@@ -1,7 +1,7 @@
 #!/bin/bash
-
-# set up the application, sites, and all
 #
+# Sets up the application, sites, and all
+##
 
 echo 'This script will create application directories, /var/www directories, and overwrite any nginx config files for your sites.'
 read -p 'Do you want to continue [Y/n]? ' wish
@@ -10,19 +10,16 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit
 fi
 
-# configure environment
-#
+## Configure environment
 echo '  --> configuring the environment directories'
 if [ ! -d /var/www ] ; then
     mkdir /var/www
 fi
 
-# resource the config file
-#
+## Resource the config file
 . $basepath/conf/$profile/config
 
-# loop through any available sites and ssl sites
-#
+## Loop through any available sites and ssl sites
 for site in "${sites[@]}"
 do
     if [ ! -d /var/www/$site ] ; then
@@ -32,9 +29,8 @@ do
         mkdir /var/www/$site/www-data
     fi
 
-    # generate nginx site config files to sites-available and add 
-    # symbolic links in sites-enabled
-    #
+    ## Generate nginx site config files to sites-available and add 
+    ## symbolic links in sites-enabled
     $basepath/src/nginx_conf/sites-available/example.com.conf.sh $site
     cd /opt/nginx/conf/sites-enabled
     if [ -f /opt/nginx/conf/sites-enabled/$site.conf ] ; then
@@ -55,9 +51,8 @@ do
         mkdir /var/www/$ssl_site/www-data
     fi
 
-    # generate nginx site config files to sites-available and add 
-    # symbolic links in sites-enabled
-    #
+    ## Generate nginx site config files to sites-available and add 
+    ## symbolic links in sites-enabled
     $basepath/src/nginx_conf/sites-available/example.com.ssl.conf.sh $site
     cd /opt/nginx/conf/sites-enabled
     if [ -f /opt/nginx/conf/sites-enabled/$site.ssl.conf ] ; then
@@ -69,8 +64,7 @@ do
     cp $basepath/src/index.html /var/www/$site/www-data/index.html
 done
 
-# clone repos
-#
+## Clone repos
 echo '  --> install the app files'
 if ! [ hash bc 2>/dev/null ]; then
     apt-get install bc
@@ -80,8 +74,7 @@ if [ ! -d /home/$username/repos ] ; then
     mkdir /home/$username/repos
 fi
 
-# check for any mercurial projects (install if not installed)
-#
+## Check for any mercurial projects (install if not installed)
 if [ ${#hg} ] ; then
     if ! [ hash hg 2>/dev/null ]; then
         apt-get install mercurial
@@ -94,16 +87,14 @@ if [ ${#hg} ] ; then
             cd /home/$username/repos
             hg clone $hg_url
         fi
-        # copy an hgrc if it exists in conf
-        #
+        ## Copy an hgrc if it exists in conf
         if [ -f $basepath/conf/$profile/repos/$reponame/hgrc ] ; then
             cp $basepath/conf/$profile/repos/$reponame/hgrc /home/$username/repos/$reponame/.hg/hgrc
         fi
     done
 fi
 
-# check for any git projects (install if not installed)
-#
+## Check for any git projects (install if not installed)
 if [ ${#git} ] ; then
     if ! [ hash git 2>/dev/null ]; then
         apt-get install git
@@ -119,9 +110,8 @@ if [ ${#git} ] ; then
     done
 fi
 
-# for each config file, check if there's a symlink in sites-enabled. if not, add
-# the new sym link.
-#
+## for each config file, check if there's a symlink in
+## sites-enabled. if not, add the new sym link.
 echo '  --> copying over any nginx configs'
 if [ -d $basepath/conf/$profile/nginx ] ; then
     cp $basepath/conf/$profile/nginx/*.conf /opt/nginx/conf/sites-available/
@@ -138,14 +128,12 @@ if [ -d $basepath/conf/$profile/nginx ] ; then
     cd
 fi
 
-# update permissions
-#
+## Update permissions
 echo '  --> updating /var/www permissions'
 chown -R www-data:www-data /var/www
 chown -R $username:$username /home/$username/repos
 
-# remove apache
-#
+## Remove apache
 ps cax | grep 'apache2' > /dev/null
 if [ $? -eq 0 ] ; then
     echo '  --> stopping and removing apache2'
@@ -153,8 +141,7 @@ if [ $? -eq 0 ] ; then
     /usr/sbin/update-rc.d -f apache2 remove
 fi
 
-# restart nginx
-#
+## Restart nginx
 ps cax | grep 'nginx' > /dev/null
 if [ $? -eq 0 ] ; then
     echo '  --> reloading nginx configuration'

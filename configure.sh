@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Trunk Server v2.0
+# Debian Server v2.1
 #
 # @author   Mike Gioia <mike@particlebits.com>
 # @name:    configure.sh
