@@ -13,15 +13,17 @@
 . /lib/lsb/init-functions
 
 PROGRAM="/opt/mongodb/bin/mongod"
-LOCKFILE="/var/lock/mongod"
 MONGOPID=`ps -ef | grep 'mongod' | grep -v grep | awk '{print $2}'`
+CONFIGFILE="/etc/mongodb.conf"
+DBPATH="/data/mongodb"
+LOCKFILE="$DBPATH/mongod.lock"
 
 test -x $PROGRAM || exit 0
 
 case "$1" in
   start)
      log_begin_msg "Starting MongoDB server"
-     /opt/mongodb/bin/mongod --fork --quiet --dbpath /data/mongodb --logpath /var/log/mongodb.log
+     /opt/mongodb/bin/mongod --config $CONFIGFILE
      log_end_msg 0
      ;;
   stop)

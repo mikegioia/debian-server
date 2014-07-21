@@ -3,7 +3,7 @@
 # install mongodb from source
 #
 
-echo 'This script will update/upgrade the system and install MongoDB.'
+echo 'This script will install MongoDB from source.'
 read -p 'Do you want to continue [Y/n]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
@@ -35,7 +35,6 @@ if [ "" == "$MONGODB_OK" ] ; then
     ln -s /opt/mongodb/bin/mongoimport /usr/local/bin/mongoimport
     ln -s /opt/mongodb/bin/mongorestore /usr/local/bin/mongorestore
     ln -s /opt/mongodb/bin/mongos /usr/local/bin/mongos
-    ln -s /opt/mongodb/bin/mongosniff /usr/local/bin/mongosniff
     ln -s /opt/mongodb/bin/mongostat /usr/local/bin/mongostat
     ln -s /opt/mongodb/bin/mongotop /usr/local/bin/mongotop
 else
@@ -64,6 +63,13 @@ chown -R mongod:mongod /data/mongodb
 cp $basepath/src/mongodb /etc/init.d/mongodb
 chmod +x /etc/init.d/mongodb
 
+# copy the config file
+#
+echo '  --> copying over mongodb.conf to /etc/mongodb.conf'
+if [ -f $basepath/conf/$profile/mongodb.conf ] ; then
+    cp $basepath/conf/$profile/mongodb.conf /etc/mysql/conf.d/mongodb.conf
+fi
+
 # add it to the reboot
 #
 update-rc.d mongodb defaults
@@ -82,10 +88,8 @@ if ! [ -f /etc/php5/mods-available/mongo.ini ] ; then
         apt-get install php-pear php5-dev
         pecl install mongo
         echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
-        cd /etc/php5/fpm/conf.d/
-        ln -s ../../mods-available/mongo.ini 20-mongo.ini
-        cd /etc/php5/cli/conf.d/
-        ln -s ../../mods-available/mongo.ini 20-mongo.ini
+        cd /etc/php5/conf.d/
+        ln -s ../mods-available/mongo.ini 30-mongo.ini
         cd
     fi
 fi

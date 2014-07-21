@@ -102,5 +102,14 @@ else
     echo "  --> skipping my.cnf, file already exists"
 fi
 
+# copy over mongodb.conf
+#
+if ! [ -f conf/$profile/mongodb.conf ] ; then
+    echo "  --> adding mongodb.conf"
+    cp src/mongodb.conf conf/$profile/mongodb.conf
+else
+    echo "  --> skipping mongodb.conf, file already exists"
+fi
+
 echo ""
 echo "Default config files generated. Please edit the files in ./conf/$profile/!"

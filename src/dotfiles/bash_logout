@@ -8,4 +8,5 @@ fi
 
 # clear the user's history when logging out
 #
-echo -n "" > ~/.bash_history
+history -w
+history -c
