@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copy firewall over
+# Copy firewall over and set up pre-up script
 ##
 
 echo 'This script will overwrite your firewall script.'
