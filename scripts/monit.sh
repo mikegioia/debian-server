@@ -11,7 +11,7 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
 fi
 
 ## Install if it isn't already
-if ! [[ hash monit 2>/dev/null ]] ; then
+if ! [[ `hash monit 2>/dev/null` ]] ; then
     apt-get install monit
     update-rc.d monit defaults
 fi

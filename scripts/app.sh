@@ -62,7 +62,7 @@ done
 
 ## Clone repos
 echo '  --> install the app files'
-if ! [[ hash bc 2>/dev/null ]] ; then
+if ! [[ `hash bc 2>/dev/null` ]] ; then
     apt-get install bc
 fi
 
@@ -72,7 +72,7 @@ fi
 
 ## Check for any mercurial projects (install if not installed)
 if [[ ${#hg} ]] ; then
-    if ! [[ hash hg 2>/dev/null ]]; then
+    if ! [[ `hash hg 2>/dev/null` ]]; then
         apt-get install mercurial
     fi
     for hg_url in "${hg[@]}"
@@ -92,7 +92,7 @@ fi
 
 ## Check for any git projects (install if not installed)
 if [[ ${#git} ]] ; then
-    if ! [[ hash git 2>/dev/null ]] ; then
+    if ! [[ `hash git 2>/dev/null` ]] ; then
         apt-get install git
     fi
     for git_url in "${git[@]}"
