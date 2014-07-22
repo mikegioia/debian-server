@@ -109,8 +109,10 @@ fi
 ## for each config file, check if there's a symlink in
 ## sites-enabled. if not, add the new sym link.
 echo '  --> copying over any nginx configs'
-if [[ -d $basepath/conf/$profile/nginx ]] ; then
-    cp $basepath/conf/$profile/nginx/*.conf /opt/nginx/conf/sites-available/
+if [[ -d "$basepath/conf/$profile/nginx" ]] ; then
+    if test -n "$(find $basepath/conf/$profile/nginx/ -maxdepth 1 -name '*.conf' -print -quit)" ; then
+        cp $basepath/conf/$profile/nginx/*.conf /opt/nginx/conf/sites-available/
+    fi
     CONF_FILES="/opt/nginx/conf/sites-available/*.conf"
     for c in $CONF_FILES
     do
