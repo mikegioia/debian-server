@@ -19,7 +19,7 @@ cp $basepath/src/dotfiles/bashrc /home/$username/.bashrc
 cp $basepath/src/dotfiles/inputrc /home/$username/.inputrc
 
 ## Create ~/.bash directory for files
-if ! [[ -d "/home/$username/.bash" ] ; then
+if ! [[ -d "/home/$username/.bash" ]] ; then
     mkdir /home/$username/.bash
 fi
 

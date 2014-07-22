@@ -10,7 +10,7 @@ if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit 0
 fi
 
-if ! [ -f /etc/apt/sources.list.d/dotdeb.list ] ; then
+if ! [[ -f "/etc/apt/sources.list.d/dotdeb.list" ]] ; then
     echo '  --> adding dotdeb source and fetching key'
     echo 'deb http://packages.dotdeb.org stable all' > /etc/apt/sources.list.d/dotdeb.list
     echo 'deb-src http://packages.dotdeb.org stable all' >> /etc/apt/sources.list.d/dotdeb.list

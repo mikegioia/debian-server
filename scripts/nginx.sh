@@ -12,17 +12,17 @@ fi
 
 ## Install requirements if not installed
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libpcre3-dev|grep "install ok installed")
-if [ "" == "$PKG_OK" ] ; then
+if [[ "" == "$PKG_OK" ]] ; then
     apt-get install libpcre3-dev
 fi
 
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' build-essential|grep "install ok installed")
-if [ "" == "$PKG_OK" ] ; then
+if [[ "" == "$PKG_OK" ]] ; then
     apt-get install build-essential
 fi
 
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libssl-dev|grep "install ok installed")
-if [ "" == "$PKG_OK" ] ; then
+if [[ "" == "$PKG_OK" ]] ; then
     apt-get install libssl-dev
 fi
 

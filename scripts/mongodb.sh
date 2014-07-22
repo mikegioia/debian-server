@@ -69,7 +69,7 @@ fi
 update-rc.d mongodb defaults
 
 ps cax | grep 'mongo' > /dev/null
-if ! [ $? -eq 0 ] ; then
+if ! [[ $? -eq 0 ]] ; then
     echo '  --> starting mongodb'
     /etc/init.d/mongodb start
 fi

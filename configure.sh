@@ -78,7 +78,7 @@ else
 fi
 
 ## Set up default nginx config file
-if ! [[ -f "$basepath/conf/$profile/nginx/example.conf" ] ; then
+if ! [[ -f "$basepath/conf/$profile/nginx/example.conf" ]] ; then
     echo "  --> creating example nginx config"
     cp $basepath/src/nginx_conf/example.conf $basepath/conf/$profile/nginx/example.conf
     cp $basepath/src/nginx_conf/conf_readme.md $basepath/conf/$profile/nginx/README.md
@@ -95,7 +95,7 @@ else
 fi
 
 ## Copy over mongodb.conf
-if ! [[ -f "$basepath/conf/$profile/mongodb.conf" ] ; then
+if ! [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
     echo "  --> adding mongodb.conf"
     cp $basepath/src/mongodb.conf $basepath/conf/$profile/mongodb.conf
 else
