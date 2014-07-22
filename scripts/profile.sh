@@ -108,10 +108,10 @@ if [[ -d "$basepath/conf/$profile/install" ]] ; then
 fi
 
 ## Make scripts executable
-if test -n "$(find . -maxdepth 1 -name '/home/$username/install/*.sh*' -print -quit)" ; then
+if test -n "$(find /home/$username/install/ -maxdepth 1 -name '*.sh' -print -quit)" ; then
     chmod +x /home/$username/install/*.sh
 fi
-if test -n "$(find . -maxdepth 1 -name '/home/$username/scripts/*.sh*' -print -quit)" ; then
+if test -n "$(find /home/$username/scripts/ -maxdepth 1 -name '*.sh' -print -quit)" ; then
     chmod +x /home/$username/scripts/*.sh
 fi
 
