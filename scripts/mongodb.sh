@@ -1,32 +1,30 @@
 #!/bin/bash
-
-# install mongodb from source
 #
+# Installs mongodb from source
+##
 
 echo 'This script will install MongoDB from source.'
-read -p 'Do you want to continue [Y/n]? ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit
 fi
 
 MONGODB_OK=$(/opt/mongodb/bin/mongo -v 2>&1 | grep "${mongodb_version}")
-if [ "" == "$MONGODB_OK" ] ; then 
+if [[ "" == "$MONGODB_OK" ]] ; then 
     echo '  --> installing mongo from source to /opt/mongodb'
-    # get the binaries 
-    #
+    ## Get the binaries 
     cd /opt/
     wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${mongodb_version}.tgz
     tar -xzf mongodb-linux-x86_64-${mongodb_version}.tgz
 
-    if [ -d /opt/mongodb ] ; then
+    if [[ -d "/opt/mongodb" ]] ; then
         rm -rf /opt/mongodb
     fi
 
     mv mongodb-linux-x86_64-${mongodb_version} mongodb
 
-    # create symlinks
-    #
+    ## Create symlinks
     ln -s /opt/mongodb/bin/mongo /usr/local/bin/mongo
     ln -s /opt/mongodb/bin/mongod /usr/local/bin/mongod
     ln -s /opt/mongodb/bin/mongodump /usr/local/bin/mongodump
@@ -41,36 +39,33 @@ else
     echo "  --> mongodb already updated to version ${mongodb_version}"
 fi
 
-if ! [ -d /data ] ; then
+if ! [[ -d "/data" ]] ; then
     mkdir /data 
 fi
-if ! [ -d /data/mongodb ] ; then
+if ! [[ -d "/data/mongodb" ]] ; then
     mkdir /data/mongodb
 fi
 
-# create the user
-#
+## Create the user
 egrep "^mongod" /etc/passwd >/dev/null
-if ! [ $? -eq 0 ]; then
+if ! [[ $? -eq 0 ]] ; then
     echo '  --> creating new user mongod'
     useradd mongod -s /bin/false
 fi
 
 chown -R mongod:mongod /data/mongodb
 
-# copy the init script
-#
+## Copy the init script
 cp $basepath/src/mongodb /etc/init.d/mongodb
 chmod +x /etc/init.d/mongodb
 
-# copy the config file
-#
-echo '  --> copying over mongodb.conf to /etc/mongodb.conf'
-if [ -f $basepath/conf/$profile/mongodb.conf ] ; then
+## Copy the config file
+if [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
+    echo '  --> copying over mongodb.conf to /etc/mongodb.conf'
     cp $basepath/conf/$profile/mongodb.conf /etc/mysql/conf.d/mongodb.conf
 fi
 
-# add it to the reboot
+# Add it to the reboot
 #
 update-rc.d mongodb defaults
 
@@ -80,16 +75,17 @@ if ! [ $? -eq 0 ] ; then
     /etc/init.d/mongodb start
 fi
 
-# ask to install mongo for php
-#
-if ! [ -f /etc/php5/mods-available/mongo.ini ] ; then
-    read -p 'Do you want to install the php mongo extension [Y/n]? ' wish
+## Ask to install mongo for php
+if ! [[ -f "/etc/php5/mods-available/mongo.ini" ]] ; then
+    read -p 'Do you want to install the php mongo extension [y/N]? ' wish
     if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         apt-get install php-pear php5-dev
         pecl install mongo
-        echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
-        cd /etc/php5/conf.d/
-        ln -s ../mods-available/mongo.ini 30-mongo.ini
+        echo "extension=mongo.so" > /etc/php5/mods-available/mongodb.ini
+        cd /etc/php5/cli/conf.d/
+        ln -s ../mods-available/mongodb.ini 30-mongodb.ini
+        cd /etc/php5/fpm/conf.d/
+        ln -s ../mods-available/mongodb.ini 30-mongodb.ini
         cd
     fi
 fi
