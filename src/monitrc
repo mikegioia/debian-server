@@ -1,0 +1,47 @@
+## Monit control file
+
+## Poll at 2-minute intervals. monit will wakeup every two minute to
+## monitor things. time must be given in seconds.
+set daemon  120
+
+## Set syslog logging and other file locations
+set logfile syslog facility log_daemon
+set statefile /var/lib/monit/state
+set pidfile /var/run/monit.pid
+set idfile /var/lib/monit/id
+
+## Set up monit to connect to the host. 10000 slots is about 1MB.
+## This is optional and you will need to change the username,
+## password, and hostname
+#set eventqueue basedir /var/monit slots 10000
+#set mmonit http://monit:monit@[HOST]:40000/collector
+#set httpd port 2812
+#    #ssl enable
+#    #pemfile /opt/monit/ssl/monit.pem
+#    #allowselfcertification
+#    allow localhost
+#    allow [HOST]
+#    allow monit:monit
+
+## Check general system resources such as load average, cpu and memory
+## usage. each test specifies a resource, conditions and the action to be
+## performed should a test fail.
+## Make sure to update [HOSTNAME] with the name of the machine.
+#check system [HOSTNAME]
+#    if loadavg (1min) > 4 then alert
+#    if loadavg (5min) > 2 then alert
+#    if memory usage > 75% then alert
+#    if swap usage > 25% then alert
+#    if cpu usage (user) > 70% then alert
+#    if cpu usage (system) > 30% then alert
+#    if cpu usage (wait) > 20% then alert
+
+## SSH
+check process sshd with pidfile /var/run/sshd.pid
+   start program "/etc/init.d/ssh start"
+   stop program  "/etc/init.d/ssh stop"
+   if failed port 30000 protocol ssh then restart
+   if 5 restarts within 5 cycles then timeout
+
+## Include extra config files
+include /etc/monit/conf.d/*
