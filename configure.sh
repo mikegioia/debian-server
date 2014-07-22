@@ -102,5 +102,13 @@ else
     echo "  --> skipping mongodb.conf, file already exists"
 fi
 
+## Copy over monitrc
+if ! [[ -f "$basepath/conf/$profile/monitrc" ]] ; then
+    echo "  --> adding monitrc"
+    cp $basepath/src/monitrc $basepath/conf/$profile/monitrc
+else
+    echo "  --> skipping monitrc, file already exists"
+fi
+
 echo ""
 echo "Default config files generated. Please edit the files in $basepath/conf/$profile/!"

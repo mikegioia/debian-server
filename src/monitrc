@@ -38,10 +38,10 @@ set idfile /var/lib/monit/id
 
 ## SSH
 check process sshd with pidfile /var/run/sshd.pid
-   start program "/etc/init.d/ssh start"
-   stop program  "/etc/init.d/ssh stop"
-   if failed port 30000 protocol ssh then restart
-   if 5 restarts within 5 cycles then timeout
+    start program "/etc/init.d/ssh start"
+    stop program  "/etc/init.d/ssh stop"
+    if failed port 30000 protocol ssh then restart
+    if 5 restarts within 5 cycles then timeout
 
 ## Include extra config files
 include /etc/monit/conf.d/*
