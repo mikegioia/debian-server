@@ -1,15 +1,14 @@
 #!/bin/bash
 #
-# Debian Server v2.3
+# Debian Server Installation Manager
 #
 # @author   Mike Gioia <mike@particlebits.com>
 # @name:    install.sh
 # @about:   Install or update packages, update configuration files and dot 
 #           files.
-# -----------------------------------------------------------------------------
+##
 
-# get arguments
-#
+## Get arguments from CLI
 usage="$0 [-ug] <profile> [<script_1>, <script_ 2> ...]"
 uflag=
 gflag=
@@ -29,21 +28,19 @@ do
     esac
 done
 
-# set up profile and script args
-#
+## Set up profile and script args
 profile=${1:-"default"}
 shift
 config="conf/$profile/config"
 
-if [ ! -f $config ] ; then
+if ! [[ -f "$config" ]] ; then
     echo "Could not find the config file you entered: $config"
-    echo "Make sure to run ./configure.sh <profile> in the deploy directory"
+    echo "Make sure to run ./configure.sh <profile> in the deploy directory!"
     exit 1
 fi
 
-# check if a list of scripts came in. if not, use the scripts from the 
-# config file array.
-#
+## check if a list of scripts came in. if not, use the scripts
+## from the config file array.
 i=0
 for var in "$@"
 do
@@ -51,20 +48,17 @@ do
     i=$i+1
 done
 
-# ask if they want to continue
-#
+## Ask if they want to continue
 echo "This script will update software and configuration files on your server."
-read -p 'Do you want to continue [Y/n]? ' wish
+read -p 'Do you want to continue? [y/N] ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit 0
 fi
 
-# read in the config variables and export them to sub-scripts
-#
+## Read in the config variables and export them to sub-scripts
 . $config
 
-# set up the basepath
-#
+## Set up the basepath
 basepath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
 export basepath
@@ -76,34 +70,33 @@ export openssl_version
 export redis_version
 export redisphp_version
 
-# update the system if flags present
-#
-if [ "$uflag" ] ; then
+## Update the system if flags present
+if [[ "$uflag" ]] ; then
     apt-get update
 fi
 
-if [ "$gflag" ] ; then
+if [[ "$gflag" ]] ; then
     apt-get upgrade --show-upgraded
 fi
 
-# run the scripts. check the install history to see if we should re-run
-#
-if ! [ "${#script_args[@]}" -eq 0 ] ; then
+## Run the scripts. check the install history to see if we
+## should re-run
+if ! [[ "${#script_args[@]}" -eq 0 ]] ; then
     for script in "${script_args[@]}"
     do
-        if [ -f ./conf/$profile/scripts/$script.sh ] ; then
-            ./conf/$profile/scripts/$script.sh
+        if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
+            $basepath/conf/$profile/scripts/$script.sh
         else
-            ./scripts/$script.sh
+            $basepath/scripts/$script.sh
         fi
     done
 else
     for script in "${scripts[@]}"
     do
-        if [ -f ./conf/$profile/scripts/$script.sh ] ; then
-            ./conf/$profile/scripts/$script.sh
+        if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
+            $basepath/conf/$profile/scripts/$script.sh
         else
-            ./scripts/$script.sh
+            $basepath/scripts/$script.sh
         fi
     done
 fi
