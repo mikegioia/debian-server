@@ -108,14 +108,21 @@ if [[ -d "$basepath/conf/$profile/install" ]] ; then
 fi
 
 ## Make scripts executable
-chmod +x /home/$username/install/*.sh
-chmod +x /home/$username/scripts/*.sh
+if test -n "$(find . -maxdepth 1 -name '/home/$username/install/*.sh*' -print -quit)" ; then
+    chmod +x /home/$username/install/*.sh
+fi
+if test -n "$(find . -maxdepth 1 -name '/home/$username/scripts/*.sh*' -print -quit)" ; then
+    chmod +x /home/$username/scripts/*.sh
+fi
 
 echo '  --> changing shell to bash and re-owning files'
 chsh -s '/bin/bash' $username
 chown -R $username:$username /home/$username
 chmod 750 /home/$username
-chmod 400 /home/$username/.ssh/id_rsa
+
+if [[ -f "/home/$username/.ssh/id_rsa" ]] ; then
+    chmod 400 /home/$username/.ssh/id_rsa
+fi
 
 echo 'Profile completed'
 echo ''
