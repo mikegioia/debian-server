@@ -1,28 +1,23 @@
 #!/bin/bash
 #
-# Trunk Server v2.0
-#
-# @author   Mike Gioia <mike@particlebits.com>
-# @name:    user.sh
-# @about:   Create new user and set up the locale settings
-# -----------------------------------------------------------------------------
+# Creates new user and set up the locale settings
+##
 
-# check if the user already exists. if so, abort.
-#
+## Check if the user already exists. if so, abort.
 egrep "^$username" /etc/passwd >/dev/null
-if [ $? -eq 0 ]; then
+if [[ $? -eq 0 ]] ; then
     echo "  --> $username exists! Exiting script."
     exit 0
 fi
 
 echo 'This script will create a new user and reset locale settings.'
-read -p 'Do you want to continue [Y/n]? ' wish
+read -p 'Do you want to continue? [y/N] ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit 0
 fi
 
-if [ $(id -u) -eq 0 ]; then
+if [[ $(id -u) -eq 0 ]] ; then
     read -s -p "Enter password for new user $username: " password
     echo ""
     echo "  --> creating new user $username"
@@ -30,7 +25,7 @@ if [ $(id -u) -eq 0 ]; then
     useradd -m -p $pass $username
     chown $username /home/$username
     chgrp $username /home/$username
-    [ $? -eq 0 ] && echo "  --> user has been added to system" || echo "  --> failed to add user"
+    [[ $? -eq 0 ]] && echo "  --> user has been added to system" || echo "  --> failed to add user!"
     echo "  --> adding $username to sudoers group"
     usermod -a -G sudo $username
     echo "  --> setting up locale"

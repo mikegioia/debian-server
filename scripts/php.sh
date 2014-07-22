@@ -1,10 +1,10 @@
 #!/bin/bash
-
-# install and configure php
 #
+# Installs PHP from the dotdeb repository
+##
 
 echo 'This script will install PHP and PHP-FPM.'
-read -p 'Do you want to continue [Y/n]? ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit 0
@@ -14,61 +14,45 @@ if ! [ -f /etc/apt/sources.list.d/dotdeb.list ] ; then
     echo '  --> adding dotdeb source and fetching key'
     echo 'deb http://packages.dotdeb.org stable all' > /etc/apt/sources.list.d/dotdeb.list
     echo 'deb-src http://packages.dotdeb.org stable all' >> /etc/apt/sources.list.d/dotdeb.list
+    cd /opt
     wget http://www.dotdeb.org/dotdeb.gpg
     cat dotdeb.gpg | sudo apt-key add -
     rm dotdeb.gpg
-    cd /opt
     apt-get update
 fi
 
 echo '  --> installing php5 with FPM'
-# optionally:
-#   php5-idn, php5-ming, php5-recode, php5-cgi, php5-imap
-apt-get install php5 php5-common php5-curl php5-dev \
-    php5-gd php5-imagick php5-mcrypt php5-memcache php5-mysql \
-    php5-pspell php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl \
-    php-pear libssh2-php php5-cli php5-fpm
+apt-get install \
+    php5 php5-common php5-dev php5-curl \
+    php5-mcrypt php5-mysql php5-pspell \
+    php5-tidy php-pear libssh2-php \
+    php5-cli php5-fpm
 
 echo '  --> configuring php-fpm'
 
-# resource the config file
-#
+## Re-source the config file
 . $basepath/conf/$profile/config
 
-# loop through any FPM domains and generate the pool.d conf file. we need
-# to re-source the config file to get the array data.
-#
+## Loop through any FPM domains and generate the pool.d
+## conf file. We need to re-source the config file to
+## get the array data.
 for fpm_site in "${fpm_sites[@]}"
 do
-    # generate nginx site config files to sites-available and add 
-    # symbolic links in sites-enabled
-    #
-    if [ -f $basepath/conf/$profile/fpm/$fpm_site.conf ] ; then
+    ## Generate nginx site config files to sites-available
+    ## and add symbolic links in sites-enabled
+    if [[ -f "$basepath/conf/$profile/fpm/$fpm_site.conf" ]] ; then
         cp $basepath/conf/$profile/fpm/$fpm_site.conf /etc/php5/fpm/pool.d/$fpm_site.conf
     else
-        if ! [ -f /etc/php5/fpm/pool.d/$fpm_site.conf ] ; then
+        if ! [[ -f "/etc/php5/fpm/pool.d/$fpm_site.conf" ]] ; then
             $basepath/src/fpm_example.sh $fpm_site
         fi
     fi
 done
 
-read -p 'Do you want to add php-fpm to the startup? [Y/n] ' wish
+## Ask to add FPM to startup
+read -p 'Do you want to add php-fpm to the startup? [y/N] ' wish
 if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     update-rc.d php5-fpm defaults
-fi
-
-# ask to install mongo for php
-#
-if ! [ -f /etc/php5/conf.d/30-mongo.ini ] ; then
-    read -p 'Do you want to install the php mongo extension [Y/n]? ' wish
-    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-        apt-get install php-pear php5-dev
-        pecl install mongo
-        echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
-        cd /etc/php5/conf.d/
-        ln -s ../mods-available/mongo.ini 30-mongo.ini
-        cd
-    fi
 fi
 
 echo 'PHP and FPM completed'
