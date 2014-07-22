@@ -4,7 +4,7 @@
 ##
 
 echo 'This script will overwrite your firewall script.'
-read -p 'Do you want to continue [Y/n]? ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit
 fi

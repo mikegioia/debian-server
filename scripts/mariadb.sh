@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Sets up mariadb
+# Installs MariaDB from apt source
 ##
 
 echo 'This script will update the system and install MariaDB.'
-read -p 'Do you want to continue [Y/n]? ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit

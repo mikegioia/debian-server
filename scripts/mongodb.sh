@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Installs mongodb from source
+# Installs MongoDB from source
 ##
 
 echo 'This script will install MongoDB from source.'
@@ -50,7 +50,7 @@ fi
 egrep "^mongod" /etc/passwd >/dev/null
 if ! [[ $? -eq 0 ]] ; then
     echo '  --> creating new user mongod'
-    useradd mongod -s /bin/false
+    adduser --system --no-create-home --disabled-login --disabled-password --group mongod
 fi
 
 chown -R mongod:mongod /data/mongodb
@@ -65,8 +65,7 @@ if [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
     cp $basepath/conf/$profile/mongodb.conf /etc/mysql/conf.d/mongodb.conf
 fi
 
-# Add it to the reboot
-#
+## Add it to the reboot
 update-rc.d mongodb defaults
 
 ps cax | grep 'mongo' > /dev/null
@@ -82,11 +81,8 @@ if ! [[ -f "/etc/php5/mods-available/mongo.ini" ]] ; then
         apt-get install php-pear php5-dev
         pecl install mongo
         echo "extension=mongo.so" > /etc/php5/mods-available/mongodb.ini
-        cd /etc/php5/cli/conf.d/
-        ln -s ../mods-available/mongodb.ini 30-mongodb.ini
-        cd /etc/php5/fpm/conf.d/
-        ln -s ../mods-available/mongodb.ini 30-mongodb.ini
-        cd
+        ln -s ../../mods-available/phalcon.ini /etc/php5/cli/conf.d/30-phalcon.ini
+        ln -s ../../mods-available/phalcon.ini /etc/php5/fpm/conf.d/30-phalcon.ini
     fi
 fi
 
