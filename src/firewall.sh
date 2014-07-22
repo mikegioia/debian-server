@@ -1,11 +1,8 @@
 #!/bin/sh
-
-# Located in /etc/firewall.sh
 #
-# To run this on startup, open /etc/network/interfaces and add this above the address
-# for the eth0 device.
-# 
-# pre-up    /bin/sh /etc/firewall.sh
+# Located in /etc/firewall.sh
+# Pre-up script located in /etc/network/if-pre-up.d/firewall
+##
 
 # Flush any Existing iptable Rules and start afresh
 #
