@@ -62,6 +62,12 @@ if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
     /etc/init.d/ssh reload
 fi
 
+read -p 'Do you want to change the system timezone? [y/N] ' wish
+if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
+    echo '  --> changing timezone'
+    dpkg-reconfigure tzdata
+fi
+
 if ! [[ -d "/home/$username/.ssh" ]] ; then
     mkdir /home/$username/.ssh
 fi
