@@ -55,5 +55,36 @@ if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     update-rc.d php5-fpm defaults
 fi
 
+## Ask to install MongoDB for php
+if ! [[ -f "/etc/php5/mods-available/mongo.ini" ]] ; then
+    read -p 'Do you want to install the php mongo extension? [y/N] ' wish
+    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        apt-get install php-pear php5-dev
+        pecl install mongo
+        echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
+        ln -s ../../mods-available/mongo.ini /etc/php5/cli/conf.d/30-mongo.ini
+        ln -s ../../mods-available/mongo.ini /etc/php5/fpm/conf.d/30-mongo.ini
+    fi
+fi
+
+## Ask to install redis for PHP
+if ! [[ -f "/etc/php5/mods-available/redis.ini" ]] ; then
+    read -p 'Do you want to install the php redis extension [y/N]? ' wish
+    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        cd /opt
+        wget https://github.com/nicolasff/phpredis/archive/${redisphp_version}.tar.gz
+        mv ${redisphp_version}.tar.gz phpredis-${redisphp_version}.tar.gz
+        tar -xzf phpredis-${redisphp_version}.tar.gz
+        cd phpredis-${redisphp_version}
+        phpize
+        ./configure
+        make && make install
+
+        echo "extension=redis.so" > /etc/php5/mods-available/redis.ini
+        ln -s ../../mods-available/redis.ini /etc/php5/cli/conf.d/30-redis.ini
+        ln -s ../../mods-available/redis.ini /etc/php5/fpm/conf.d/30-redis.ini
+    fi
+fi
+
 echo 'PHP and FPM completed'
 echo ''

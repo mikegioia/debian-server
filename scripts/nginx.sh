@@ -126,5 +126,6 @@ else
     service nginx start
 fi
 
-echo 'Nginx and OpenSSL completed'
+echo ''
+echo 'Nginx completed'
 echo ''
