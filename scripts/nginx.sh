@@ -90,6 +90,10 @@ if [[ -d "$basepath/conf/$profile/nginx" ]] ; then
     done
 fi
 
+## Ask the user if they need to copy over any SSL certs/keys
+echo 'nginx will now be started or reloaded. Now would be a good time to copy over any SSL certificates and keys.'
+read -p 'Press any key to continue ' anyKey
+
 ## Copy over the init script and set up nginx to start
 ## on reboot
 echo '  --> configuring the init script'
