@@ -123,7 +123,7 @@ ps cax | grep 'nginx' > /dev/null
 if [[ $? -eq 0 ]] ; then
     /opt/nginx/sbin/nginx -s reload
 else
-    /etc/init.d/nginx start
+    service nginx start
 fi
 
 echo 'Nginx and OpenSSL completed'
