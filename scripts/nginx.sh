@@ -121,7 +121,7 @@ chown -R www-data:www-data /var/www
 ## start nginx.
 ps cax | grep 'nginx' > /dev/null
 if [[ $? -eq 0 ]] ; then
-    /opt/nginx/sbin/nginx -s reload
+    service nginx reload
 else
     service nginx start
 fi
