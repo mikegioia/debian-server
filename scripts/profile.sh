@@ -63,7 +63,7 @@ if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
 fi
 
 read -p 'Do you want to change the system timezone? [y/N] ' wish
-if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
+if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo '  --> changing timezone'
     dpkg-reconfigure tzdata
 fi
