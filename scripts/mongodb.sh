@@ -62,7 +62,7 @@ chmod +x /etc/init.d/mongodb
 ## Copy the config file
 if [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
     echo '  --> copying over mongodb.conf to /etc/mongodb.conf'
-    cp $basepath/conf/$profile/mongodb.conf /etc/mysql/conf.d/mongodb.conf
+    cp $basepath/conf/$profile/mongodb.conf /etc/mongodb.conf
 fi
 
 ## Add it to the reboot
