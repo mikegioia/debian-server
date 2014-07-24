@@ -4,7 +4,7 @@
 ##
 
 echo 'This script will create application directories, /var/www directories, and overwrite any nginx config files for your sites.'
-read -p 'Do you want to continue? [y/N] ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit

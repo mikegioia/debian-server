@@ -4,7 +4,7 @@
 ##
 
 echo 'This script will install Redis.'
-read -p 'Do you want to continue? [y/n] ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit

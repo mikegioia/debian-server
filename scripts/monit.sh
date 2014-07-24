@@ -4,7 +4,7 @@
 ##
 
 echo 'This script will install Monit from source.'
-read -p 'Do you want to continue? [y/N] ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit

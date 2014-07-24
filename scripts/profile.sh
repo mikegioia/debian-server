@@ -4,7 +4,7 @@
 ##
 
 echo "This script will set the user's profile, aliases, SSH config, and authorized keys."
-read -p 'Do you want to continue? [y/N] ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo "Aborted"
     exit 0

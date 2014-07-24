@@ -50,7 +50,7 @@ done
 
 ## Ask if they want to continue
 echo "This script will update software and configuration files on your server."
-read -p 'Do you want to continue? [y/N] ' wish
+read -p 'Do you want to continue [y/N]? ' wish
 if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     exit 0
 fi
