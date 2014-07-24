@@ -14,8 +14,8 @@ fi
 if ! [[ -f "/etc/apt/sources.list.d/mariadb.list" ]] ; then
     echo '  --> adding mariadb source and fetching key'
     echo '# https://downloads.mariadb.org/mariadb/repositories/' > /etc/apt/sources.list.d/mariadb.list
-    echo 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
-    echo 'deb-src http://ftp.osuosl.org/pub/mariadb/repo/10.0/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
+    echo 'deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
+    echo 'deb-src http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/debian wheezy main' >> /etc/apt/sources.list.d/mariadb.list
     apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
     apt-get update
 fi
