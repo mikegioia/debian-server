@@ -8,45 +8,107 @@
 #           files.
 ##
 
-## Get arguments from CLI
-usage="$0 [-ug] <profile> [<script_1>, <script_ 2> ...]"
-uflag=
-gflag=
+## Set up the base path, flags, and variables
+basepath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
+updateFlag=''
+upgradeFlag=''
+allFlag=''
+runScripts=()
+profilePath=''
 
-while getopts 'ug' OPTION
-do
-    case $OPTION in
-        u)  uflag=1
-            shift
+## Source the colors
+. $basepath/src/inc/colors
+
+## Help message
+function showHelp {
+    echo -e "${redBold}      ____                                        ${NC}"
+    echo -e "${redBold}   .mgg\$\$\$\$gg.    ______     _     _              ${NC}"
+    echo -e "${redBold} ,g\$\"    _ \`\$\$b.  |  _  \   | |   (_)             ${NC}"
+    echo -e "${redBold}\"\$\$    ,gs  \`\$\$.  | | | |___| |__  _  __ _ _ __   ${NC}"
+    echo -e "${redBold}\"Y\$.  ,\$\"  \`\$b.   | | | / _ \ '_ \| |/ _\` | '_ \  ${NC}" 
+    echo -e "${redBold}\`\"b.   _\$\$,d.     | |/ /  __/ |_) | | (_| | | | | ${NC}"
+    echo -e "${redBold} \`Yb.             |___/ \___|_.__/|_|\__,_|_| |_| ${NC}"
+    echo -e "${redBold}   \`\"Y._                                          ${NC}"
+    echo -e "${redBold}     \`'\"\"\"              Server Installation       ${NC}"
+    echo ""                               
+    echo -e "${yellow}Usage:${NC}"
+    echo "  $0 [options] profile [scripts]"
+    echo ""
+    echo -e "${yellow}Options:${NC}"
+    echo -e "  ${green}--help      -h${NC} Display this help message"
+    echo -e "  ${green}--update    -u${NC} Run apt-get update"
+    echo -e "  ${green}--upgrade   -g${NC} Run apt-get upgrade"
+    echo ""
+    echo -e "${yellow}Available Scripts:${NC}"
+    echo -e "  ${green}all           ${NC} Runs all scripts specified in config"
+    echo -e "  ${green}app           ${NC} Sets up your application code"
+    echo -e "  ${green}fail2ban      ${NC} Intalls Fail2Ban and config files"
+    echo -e "  ${green}firewall      ${NC} Copies firewall script and loads on boot"
+    echo -e "  ${green}mariadb       ${NC} Installs MariaDB v10.0"
+    echo -e "  ${green}mongodb       ${NC} Compiles and installs MongoDB from source"
+    echo -e "  ${green}monit         ${NC} Installs Monit via apt"
+    echo -e "  ${green}mysql         ${NC} Installs MySQL via apt"
+    echo -e "  ${green}nginx         ${NC} Compiles and installs nginx from source"
+    echo -e "  ${green}openssl       ${NC} Compiles and installs OpenSSL from source"
+    echo -e "  ${green}php           ${NC} Installs PHP from the DotDeb repository"
+    echo -e "  ${green}profile       ${NC} Sets up your bash profile"
+    echo -e "  ${green}redis         ${NC} Compiles and installs Redis from source"
+    echo -e "  ${green}user          ${NC} Creates shell account and configures environment"
+    echo -e "  ${green}xtrabackup    ${NC} Installs Percona XtraBackup via apt"
+    echo ""
+    echo -e "Default command is ${green}all${NC} if none is specified."
+}
+
+## Read the remaining arguments from the CLI
+function getArgs {
+    ## Loop through command parameters
+    for i
+    do
+    case $i in
+        -\? | -h | help )
+            showHelp
+            exit 0
             ;;
-        g)  gflag=1
-            shift
+        -u | --update )
+            updateFlag=1
             ;;
-        ?)  printf "Usage: %s %s" $(basename $0) $usage >&2
-            exit 2
+        -g | --upgrade )
+            upgradeFlag=1
+            ;;
+        all )
+            ## Run all scripts
+            allFlag=1
+            ;;
+        app | fail2ban | firewall | mariadb | mongodb | monit | mysql )
+            ## Add to scripts array
+            runScripts+=$1
+            ;;
+        nginx | openssl | php | profile | redis | user | xtrabackup )
+            ## Add to scripts array
+            runScripts+=$1
+            ;;
+        * )
+            ## Set the profile path
+            profilePath=$i
             ;;
     esac
-done
+    done
+}
 
-## Set up profile and script args
-profile=${1:-"default"}
-shift
-config="conf/$profile/config"
+## Check if the profile path is to a valid profile
+function checkProfilePath {
+    config="$basepath/conf/$profilePath/config"
+    if ! [[ -f "$config" ]] ; then
+        echo -e "${redBgWhiteBold}Could not find the profile you entered: $profilePath"
+        echo -e "${redBgWhiteBold}Make sure to run ./configure.sh <profile> in the deploy directory"
+        echo -e "${redBgWhiteBold}or ./configure --help for more info.${NC}"
+        exit 1
+    fi
+}
 
-if ! [[ -f "$config" ]] ; then
-    echo "Could not find the config file you entered: $config"
-    echo "Make sure to run ./configure.sh <profile> in the deploy directory!"
-    exit 1
-fi
-
-## check if a list of scripts came in. if not, use the scripts
-## from the config file array.
-i=0
-for var in "$@"
-do
-    script_args[$i]=$var
-    i=$i+1
-done
+getArgs $@
+checkProfilePath
+exit
 
 ## Ask if they want to continue
 echo "This script will update software and configuration files on your server."
@@ -57,9 +119,6 @@ fi
 
 ## Read in the config variables and export them to sub-scripts
 . $config
-
-## Set up the basepath
-basepath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
 export basepath
 export profile
