@@ -13,22 +13,23 @@ basepath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 updateFlag=''
 upgradeFlag=''
 allFlag=''
-runScripts=()
+scriptArgs=()
 profile=''
 config=''
 
 ## Set up config defaults
-username=''
+username="trunk"
 nginxVersion=''
 mongodbVersion=''
 opensslVersion=''
 redisVersion=''
 redisphpVersion=''
-sites=''
-sslSites=''
-fpmSites=''
-git=''
-hg=''
+scripts=()
+sites=()
+sslSites=()
+fpmSites=()
+git=()
+hg=()
 
 ## Source the colors
 . $basepath/src/inc/colors
@@ -95,11 +96,11 @@ function getArgs {
             ;;
         app | fail2ban | firewall | mariadb | mongodb | monit | mysql )
             ## Add to scripts array
-            runScripts+=$1
+            scriptArgs+=$1
             ;;
         nginx | openssl | php | profile | redis | user | xtrabackup )
             ## Add to scripts array
-            runScripts+=$1
+            scriptArgs+=$1
             ;;
         * )
             ## Set the profile path
@@ -168,8 +169,8 @@ function exportColors {
 
 ## Run the scripts
 function runScripts {
-    if ! [[ "${#script_args[@]}" -eq 0 ]] ; then
-        for script in "${script_args[@]}"
+    if ! [[ "${#scriptArgs[@]}" -eq 0 ]] ; then
+        for script in "${scriptArgs[@]}"
         do
             if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
                 $basepath/conf/$profile/scripts/$script.sh
