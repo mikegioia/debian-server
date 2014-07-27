@@ -14,8 +14,21 @@ updateFlag=''
 upgradeFlag=''
 allFlag=''
 runScripts=()
-profilePath=''
+profile=''
 config=''
+
+## Set up config defaults
+username=''
+nginxVersion=''
+mongodbVersion=''
+opensslVersion=''
+redisVersion=''
+redisphpVersion=''
+sites=''
+sslSites=''
+fpmSites=''
+git=''
+hg=''
 
 ## Source the colors
 . $basepath/src/inc/colors
@@ -90,19 +103,19 @@ function getArgs {
             ;;
         * )
             ## Set the profile path
-            profilePath=$i
+            profile=$i
             ;;
     esac
     done
 }
 
 ## Check if the profile path is to a valid profile
-function checkProfilePath {
-    config="$basepath/conf/$profilePath/config"
+function checkProfile {
+    config="$basepath/conf/$profile/config"
     if ! [[ -f "$config" ]] ; then
-        echo -e "\n${redBgWhiteBold}Could not find the profile you entered: $profilePath"
-        echo -e -n "${redBgWhiteBold}Make sure to run ./configure.sh <profile> in the deploy directory"
-        echo -e "${redBgWhiteBold}or ./configure --help for more info.${NC}\n"
+        echo -e "\n${redBgWhiteBold}Could not find the profile you entered: $profile${NC}"
+        echo -e -n "Make sure to run ./configure.sh <profile> in the deploy directory "
+        echo -e "or ./configure --help for more info.${NC}\n"
         exit 1
     fi
 }
@@ -116,54 +129,80 @@ function promptInstall {
     fi
 }
 
+## Read in the config variables and export vars
+function readConfig {
+    . $config
+    export basepath
+    export profile
+    export username
+    export nginxVersion
+    export mongodbVersion
+    export opensslVersion
+    export redisVersion
+    export redisphpVersion
+    export sites
+    export sslSites
+    export fpmSites
+    export git
+    export hg
+}
+
+## Update the system if flag set
+function update {
+    if [[ "$updateFlag" ]] ; then
+        apt-get update
+    fi
+}
+
+## Upgrade the system if flag set
+function upgrade {
+    if [[ "$upgradeFlag" ]] ; then
+        apt-get upgrade --show-upgraded
+    fi
+}
+
+## Export colors
+function exportColors {
+    echo ""
+}
+
+## Run the scripts
+function runScripts {
+    if ! [[ "${#script_args[@]}" -eq 0 ]] ; then
+        for script in "${script_args[@]}"
+        do
+            if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
+                $basepath/conf/$profile/scripts/$script.sh
+            else
+                $basepath/scripts/$script.sh
+            fi
+        done
+    else
+        for script in "${scripts[@]}"
+        do
+            if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
+                $basepath/conf/$profile/scripts/$script.sh
+            else
+                $basepath/scripts/$script.sh
+            fi
+        done
+    fi
+}
+
+## Finish
+function finish {
+    echo -e "\n${greenBgWhiteBold}Done!${NC}"
+    echo -e "Make sure to restart your server for all changes to take effect!${NC}\n"
+}
+
 ## Run the program
 getArgs $@
-checkProfilePath
+checkProfile
 promptInstall
-exit
-
-## Read in the config variables and export them to sub-scripts
-. $config
-
-export basepath
-export profile
-export username
-export nginx_version
-export mongodb_version
-export openssl_version
-export redis_version
-export redisphp_version
-
-## Update the system if flags present
-if [[ "$uflag" ]] ; then
-    apt-get update
-fi
-
-if [[ "$gflag" ]] ; then
-    apt-get upgrade --show-upgraded
-fi
-
-## Run the scripts. check the install history to see if we
-## should re-run
-if ! [[ "${#script_args[@]}" -eq 0 ]] ; then
-    for script in "${script_args[@]}"
-    do
-        if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
-            $basepath/conf/$profile/scripts/$script.sh
-        else
-            $basepath/scripts/$script.sh
-        fi
-    done
-else
-    for script in "${scripts[@]}"
-    do
-        if [[ -f "$basepath/conf/$profile/scripts/$script.sh" ]] ; then
-            $basepath/conf/$profile/scripts/$script.sh
-        else
-            $basepath/scripts/$script.sh
-        fi
-    done
-fi
-
-echo "Done!"
-echo "Make sure to restart your server for all changes to take effect!"
+readConfig
+update
+upgrade
+exportColors
+runScripts
+finish
+exit 0

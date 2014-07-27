@@ -13,6 +13,8 @@ redBgWhite='\e[0;41m'
 redBgWhiteBold='\e[1;41m'
 blueBgWhite='\e[0;44m'
 blueBgWhiteBold='\e[1;44m'
+greenBgWhite='\e[0;42m'
+greenBgWhiteBold='\e[1;42m'
 
 ## Bold colors
 blackBold='\e[1;30m'

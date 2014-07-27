@@ -1,22 +1,19 @@
-# configuration variables
-#
+## configuration variables
 username=trunk
-nginx_version=1.6.0
-mongodb_version=2.6.3
-openssl_version=1.0.1e
-redis_version=2.8.9
-redisphp_version=2.2.4
-ip_public=
-ip_internal=
+nginxVersion=1.6.0
+mongodbVersion=2.6.3
+opensslVersion=1.0.1e
+redisVersion=2.8.9
+redisphpVersion=2.2.4
+ipPublic=
+ipPrivate=
 
-
-# scripts to run, arrange in order of execution (space separated).
-# these are the names of any script file in ./scripts (don't include
-# the .sh). add any of them to the scripts array.
-#
-# format:
-#   scripts=('script1' 'script2' ...)
-#
+## scripts to run, arrange in order of execution (space separated).
+## these are the names of any script file in ./scripts (don't include
+## the .sh). add any of them to the scripts array.
+##
+## format:
+##   scripts=('script1' 'script2' ...)
 scripts=(
     'user'
     'nginx'
@@ -26,32 +23,26 @@ scripts=(
     'app' 
 )
 
-
-# list any websites to have nginx auto-configured. DO NOT include the
-# www or http parts.
-#
-# format:
-#   sites=('foo.com' 'bar.net' ...)
-#   ssl_sites=('foo.com' 'bar.net' ...)
-#
+## list any websites to have nginx auto-configured. DO NOT include the
+## www or http parts.
+##
+## format:
+##   sites=('foo.com' 'bar.net' ...)
+##   ssl_sites=('foo.com' 'bar.net' ...)
 sites=()
-ssl_sites=()
+sslSites=()
 
+## list any php-fpm sites you want configured. this will write out a conf
+## file to /etc/php5/fpm/pool.d specifying the socket path.
+##
+## format:
+##   fpm_sites=('foo.com' 'bar.net' ...)
+fpmSites=()
 
-# list any php-fpm sites you want configured. this will write out a conf
-# file to /etc/php5/fpm/pool.d specifying the socket path.
-#
-# format:
-#   fpm_sites=('foo.com' 'bar.net' ...)
-#
-fpm_sites=()
-
-
-# list any git or mercurial repos to be cloned
-#
-# format:
-#   git=('git_clone_url1' ...)
-#   hg=('hg_clone_url' ...)
-#
+## list any git or mercurial repos to be cloned
+##
+## format:
+##   git=('git_clone_url1' ...)
+##   hg=('hg_clone_url' ...)
 git=()
 hg=()
