@@ -80,7 +80,7 @@ function getArgs {
     for i
     do
     case $i in
-        -\? | -h | help )
+        -\? | -h | --help | help )
             showHelp
             exit 0
             ;;
