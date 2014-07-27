@@ -15,6 +15,7 @@ upgradeFlag=''
 allFlag=''
 runScripts=()
 profilePath=''
+config=''
 
 ## Source the colors
 . $basepath/src/inc/colors
@@ -99,23 +100,27 @@ function getArgs {
 function checkProfilePath {
     config="$basepath/conf/$profilePath/config"
     if ! [[ -f "$config" ]] ; then
-        echo -e "${redBgWhiteBold}Could not find the profile you entered: $profilePath"
-        echo -e "${redBgWhiteBold}Make sure to run ./configure.sh <profile> in the deploy directory"
-        echo -e "${redBgWhiteBold}or ./configure --help for more info.${NC}"
+        echo -e "\n${redBgWhiteBold}Could not find the profile you entered: $profilePath"
+        echo -e -n "${redBgWhiteBold}Make sure to run ./configure.sh <profile> in the deploy directory"
+        echo -e "${redBgWhiteBold}or ./configure --help for more info.${NC}\n"
         exit 1
     fi
 }
 
+## Prompt the user to continue with the installation
+function promptInstall {
+    echo -e "\n${blueBgWhiteBold}This script will update software and configuration files on your server.${NC}"
+    read -p 'Do you want to continue [y/N]? ' wish
+    if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        exit 0
+    fi
+}
+
+## Run the program
 getArgs $@
 checkProfilePath
+promptInstall
 exit
-
-## Ask if they want to continue
-echo "This script will update software and configuration files on your server."
-read -p 'Do you want to continue [y/N]? ' wish
-if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-    exit 0
-fi
 
 ## Read in the config variables and export them to sub-scripts
 . $config
