@@ -1,19 +1,16 @@
-# utility
-#
+## utility
 calc() { perl -wlne 'print eval'; }
 function lt() { ls -ltrsa "$@" | tail; }
 function psgrep() { ps axuf | grep -v grep | grep "$@" -i --color=auto; }
 function fname() { find . -iname "*$@*"; }
 function usergroups() { grep ^$@ /etc/group | grep -o '[^:]*$' | tr ',' '\n'; }
 
-# see what HTTP server a website uses
-#
+## see what HTTP server a website uses
 what_http_server() {
     curl -s -I $(for h in "$@"; do printf "http://%s " "$h"; done) | awk -F': ' '/^Server:/ {print $2}';
 }  
 
-# usage: days_in_month [month [year]]
-#
+## usage: days_in_month [month [year]]
 days_in_month() {
     if [ -n "$1" ]
     then
@@ -36,8 +33,7 @@ days_in_month() {
     echo $_DAYS_IN_MONTH
 }
 
-# usage: is_leap_year [year]
-#
+## usage: is_leap_year [year]
 is_leap_year() {
     ily_year=${1:-`date +%Y`}
     case $ily_year in
@@ -53,17 +49,15 @@ is_leap_year() {
     esac
 }
 
-# search man pages
-# usage: sman command search_term
-#
+## search man pages
+## usage: sman command search_term
 sman() {
     PAGER=less
     export PAGER
     LESS="$LESS${2:+ +/$2}" man $1
 }
 
-# files modified today
-#
+## files modified today
 today() {
     TODAY=`date +'%d-%m-%Y'`
     ls -l "$@" | grep "$TODAY" | more
@@ -74,8 +68,7 @@ lnp() {
     ping -c 2 ${network}.${1}
 }
 
-# handy extract program
-#
+## handy extract program
 extract() {
     if [ -f $1 ] ; then
         case $1 in
@@ -97,8 +90,7 @@ extract() {
     fi
 }
 
-# bash clock that can run in your terminal window
-#
+## bash clock that can run in your terminal window
 clock() {
     while true;do
         clear;

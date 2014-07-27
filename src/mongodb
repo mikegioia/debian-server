@@ -21,26 +21,26 @@ LOCKFILE="$DBPATH/mongod.lock"
 test -x $PROGRAM || exit 0
 
 case "$1" in
-  start)
-     log_begin_msg "Starting MongoDB server"
-     /opt/mongodb/bin/mongod --config $CONFIGFILE
-     log_end_msg 0
-     ;;
-  stop)
-     log_begin_msg "Stopping MongoDB server"
-     if [ ! -z "$MONGOPID" ]; then
-       kill -15 $MONGOPID
-     fi
-     if [ -f $LOCKFILE ]; then
-        rm -f $LOCKFILE
-     fi 
-     log_end_msg 0
-     ;;
-  status)
-     ;;
-  *)
-     log_success_msg "Usage: /etc/init.d/mongodb {start|stop|status}"
-     exit 1
+    start)
+        log_begin_msg "Starting MongoDB server"
+        /opt/mongodb/bin/mongod --config $CONFIGFILE
+        log_end_msg 0
+        ;;
+    stop)
+        log_begin_msg "Stopping MongoDB server"
+        if [ ! -z "$MONGOPID" ]; then
+            kill -15 $MONGOPID
+        fi
+        if [ -f $LOCKFILE ]; then
+            rm -f $LOCKFILE
+        fi 
+        log_end_msg 0
+        ;;
+    status)
+        ;;
+    *)
+        log_success_msg "Usage: /etc/init.d/mongodb {start|stop|status}"
+        exit 1
 esac
 
 exit 0

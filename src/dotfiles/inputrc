@@ -1,12 +1,11 @@
-# ~/.inputrc
+## ~/.inputrc
 
 set meta-flag on
 set input-meta on
 set convert-meta off
 set output-meta on
 
-# fix backspace/end etc. on FreeBSD
-#
+## fix backspace/end etc. on FreeBSD
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
 "\e[5~": beginning-of-history

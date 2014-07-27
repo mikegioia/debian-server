@@ -10,8 +10,8 @@ if [ -z "$siteurl" ]; then
 fi
 
 echo "
-# HTTPS Server
-#
+## HTTPS Server
+
 server {
     listen       443 ssl spdy;
     listen       localhost:443 ssl spdy;
@@ -50,23 +50,19 @@ server {
     ssl_ciphers          AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:RC4:HIGH:!MD5:!aNULL:!EDH;
     ssl_prefer_server_ciphers  on;
 
-    # htpasswd
-    #
+    ## htpasswd
     # auth_basic             \"Restricted\";
     # auth_basic_user_file   /var/www/$siteurl/htpasswd;
 
-    # include trunk configuration
-    #
+    ## include trunk configuration
     include trunk.conf;
 
-    # spdy and ssl headers
-    #
+    ## spdy and ssl headers
     add_header Strict-Transport-Security max-age=31536000;
     add_header X-Frame-Options DENY;
     add_header Alternate-Protocol 443:npn-spdy/2;
 
-    # uncomment to route non-file requests to index.php
-    #
+    ## uncomment to route non-file requests to index.php
     # try_files \$uri \$uri/ @rewrite;
     #
     # location @rewrite {
@@ -74,8 +70,7 @@ server {
     # }
 
     location ~* \.(php|php5|php4)($|/) {
-        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-        #
+        ## pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         fastcgi_pass   unix:/var/run/php5-fpm.socket;
         fastcgi_index  index.php;
         fastcgi_param  SERVER_PORT      80;
@@ -88,15 +83,13 @@ server {
         include        fastcgi_params;
     }
 
-    # redirect for 404 errors to the static page /404.html
-    #
+    ## redirect for 404 errors to the static page /404.html
     error_page  404  /404.html;
     location = /404.html {
         root   /var/www;
     }
     
-    # redirect server error pages to the static page /50x.html
-    #
+    ## redirect server error pages to the static page /50x.html
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {
         root   /var/www;
