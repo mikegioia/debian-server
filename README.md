@@ -1,7 +1,10 @@
-#Web Server Installation
+# Web Server Installation
 
-@version 2.1
- 
+@version 3.0 BETA
+
+*THIS IS CURRENTLY BEING WORKED ON FOR VERSION 3. IF YOU'RE USING THIS OR
+NEED A STABLE VERSION, PLEASE PICK FROM THE LATEST 2.X TAG.*
+
 ## About
 
 A custom set of software installation scripts for a Debian 7 web server.
