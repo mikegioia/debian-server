@@ -24,7 +24,7 @@ fi
 echo '  --> installing php5 with FPM'
 apt-get install \
     php5 php5-common php5-dev php5-curl \
-    php5-mcrypt php5-mysql php5-pspell \
+    php5-mcrypt php5-mysqlnd php5-pspell \
     php5-tidy php-pear libssh2-php \
     php5-cli php5-fpm
 
