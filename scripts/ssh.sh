@@ -23,7 +23,7 @@ function copyConfig {
     fi
 
     /etc/init.d/ssh reload
-fi
+}
 
 ## Ask the user to test the SSH connection
 function testConnection {
