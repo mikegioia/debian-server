@@ -12,6 +12,7 @@
 basepath="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 updateFlag=''
 upgradeFlag=''
+norootFlag=''
 allFlag=''
 scriptArgs=()
 profile=''
@@ -90,17 +91,20 @@ function getArgs {
         -g | --upgrade )
             upgradeFlag=1
             ;;
+        --noroot )
+            norootFlag=1
+            ;;
         all )
             ## Run all scripts
             allFlag=1
             ;;
         app | fail2ban | firewall | mariadb | mongodb | monit | mysql )
             ## Add to scripts array
-            scriptArgs+=$1
+            scriptArgs+=$i
             ;;
         nginx | openssl | php | profile | redis | user | xtrabackup )
             ## Add to scripts array
-            scriptArgs+=$1
+            scriptArgs+=$i
             ;;
         * )
             ## Set the profile path
@@ -112,6 +116,9 @@ function getArgs {
 
 ## Check if logged in user is root
 function checkRoot {
+    if [[ "$norootFlag" ]] ; then
+        return
+    fi
     if ! [[ $(id -u) -eq 0 ]] ; then
         echo -e "\n${redBgWhiteBold}You are not the root user!${NC}"
         exit 1
