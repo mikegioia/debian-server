@@ -1,9 +1,9 @@
 ## configuration variables
 username=trunk
-nginxVersion=1.6.0
-mongodbVersion=2.6.3
-opensslVersion=1.0.1e
-redisVersion=2.8.9
+nginxVersion=1.7.9
+mongodbVersion=2.6.6
+opensslVersion=1.0.1j
+redisVersion=2.8.19
 redisphpVersion=2.2.4
 ipPublic=
 ipPrivate=
