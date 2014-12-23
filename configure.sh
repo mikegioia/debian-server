@@ -78,111 +78,121 @@ function createProfile {
 ## Create blank authorized keys if none exists
 function copyAuthorizedKeys {
     if ! [[ -f "$basepath/conf/$profile/authorized_keys" ]] ; then
-        echo -e "  - ${green}Adding${NC} authorized_keys\n"
+        echo -e "  - ${green}Adding${NC} authorized_keys"
         cp $basepath/src/authorized_keys $basepath/conf/$profile/authorized_keys
     else
-        echo -e "  - ${yellow}Skipping${NC} authorized_keys, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} authorized_keys, file already exists"
     fi
 }
 
 ## Create blank hosts if none exists
 function copyHosts {
     if ! [[ -f "$basepath/conf/$profile/hosts" ]] ; then
-        echo -e "  - ${green}Adding${NC} hosts file\n"
+        echo -e "  - ${green}Adding${NC} hosts file"
         cp $basepath/src/hosts $basepath/conf/$profile/hosts
     else
-        echo -e "  - ${yellow}Skipping${NC} hosts file, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} hosts file, file already exists"
     fi
 }
 
 ## Copy banner if none exists
 function copyBanner {
     if ! [[ -f "$basepath/conf/$profile/banner" ]] ; then
-        echo -e "  - ${green}Adding${NC} banner\n"
+        echo -e "  - ${green}Adding${NC} banner"
         cp $basepath/src/banner $basepath/conf/$profile/banner
     else
-        echo -e "  - ${yellow}Skipping${NC} banner, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} banner, file already exists"
     fi
 }
 
 ## Create default config file if none exists
 function copyConfig {
     if ! [[ -f "$basepath/conf/$profile/config" ]] ; then
-        echo -e "  - ${green}Adding${NC} default config\n"
+        echo -e "  - ${green}Adding${NC} default config"
         cp $basepath/src/config $basepath/conf/$profile/config
     else
-        echo -e "  - ${yellow}Skipping${NC} config, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} config, file already exists"
     fi
 }
 
 ## Create private bash file
 function copyPrivateBash {
     if ! [[ -f "$basepath/conf/$profile/bash_private" ]] ; then
-        echo -e "  - ${green}Adding${NC} bash_private\n"
+        echo -e "  - ${green}Adding${NC} bash_private"
         cp $basepath/src/dotfiles/private $basepath/conf/$profile/bash_private
     else
-        echo -e "  - ${yellow}Skipping${NC} bash_private, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} bash_private, file already exists"
     fi
 }
 
 ## Create firewall
 function copyFirewall {
     if ! [[ -f "$basepath/conf/$profile/firewall.sh" ]] ; then
-        echo -e "  - ${green}Adding${NC} firewall.sh\n"
+        echo -e "  - ${green}Adding${NC} firewall.sh"
         cp $basepath/src/firewall.sh $basepath/conf/$profile/firewall.sh
     else
-        echo -e "  - ${yellow}Skipping${NC} firewall.sh, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} firewall.sh, file already exists"
     fi
 }
 
 ## Create nginx folder and default site config
 function createNginx {
     if ! [[ -d "$basepath/conf/$profile/nginx" ]] ; then
-        echo -e "  - ${green}Creating${NC} nginx directory\n"
+        echo -e "  - ${green}Creating${NC} nginx directory"
         mkdir $basepath/conf/$profile/nginx
     else
-        echo -e "  - ${yellow}Skipping${NC} nginx, directory already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} nginx, directory already exists"
     fi
 }
 
 ## Set up default nginx config file
 function copyNginx {
     if ! [[ -f "$basepath/conf/$profile/nginx/example.conf" ]] ; then
-        echo -e "  - ${green}Copying${NC} example nginx config\n"
+        echo -e "  - ${green}Copying${NC} example nginx config"
         cp $basepath/src/nginx_conf/example.conf $basepath/conf/$profile/nginx/example.conf
         cp $basepath/src/nginx_conf/conf_readme.md $basepath/conf/$profile/nginx/README.md
     else
-        echo -e "  - ${yellow}Skipping${NC} nginx example config, files already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} nginx example config, files already exists"
     fi
 }
 
 ## Copy over my.cnf
 function copyMysql {
     if ! [[ -f "$basepath/conf/$profile/my.cnf" ]] ; then
-        echo -e "  - ${green}Copying${NC} MySQL my.cnf\n"
+        echo -e "  - ${green}Copying${NC} MySQL my.cnf"
         cp $basepath/src/my.cnf $basepath/conf/$profile/my.cnf
     else
-        echo -e "  - ${yellow}Skipping${NC} my.cnf, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} my.cnf, file already exists"
     fi
 }
 
 ## Copy over mongodb.conf
 function copyMongodb {
     if ! [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
-        echo -e "  - ${green}Copying${NC} MongoDB mongodb.conf\n"
+        echo -e "  - ${green}Copying${NC} MongoDB mongodb.conf"
         cp $basepath/src/mongodb.conf $basepath/conf/$profile/mongodb.conf
     else
-        echo -e "  - ${yellow}Skipping${NC} mongodb.conf, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} mongodb.conf, file already exists"
     fi
 }
 
 ## Copy over monitrc
 function copyMonit {
     if ! [[ -f "$basepath/conf/$profile/monitrc" ]] ; then
-        echo -e "  - ${green}Copying${NC} monitrc\n"
+        echo -e "  - ${green}Copying${NC} monitrc"
         cp $basepath/src/monitrc $basepath/conf/$profile/monitrc
     else
-        echo -e "  - ${yellow}Skipping${NC} monitrc, file already exists\n"
+        echo -e "  - ${yellow}Skipping${NC} monitrc, file already exists"
+    fi
+}
+
+## Copy over sshd_config
+function copySshdConfig {
+    if ! [[ -f "$basepath/conf/$profile/sshd_config" ]] ; then
+        echo -e "  - ${green}Copying${NC} sshd_config"
+        cp $basepath/src/sshd_config $basepath/conf/$profile/sshd_config
+    else
+        echo -e "  - ${yellow}Skipping${NC} sshd_config, file already exists"
     fi
 }
 
@@ -198,11 +208,13 @@ function copyFiles {
     createNginx
     copyNginx
     copyMysql
+    copyMonit
+    copySshdConfig
 }
 
 ## Finish
 function finish {
-    echo -e "${greenBgWhiteBold}Done!${NC}"
+    echo -e "\n${greenBgWhiteBold}Done!${NC}"
     echo -e "Default config files generated. Please edit, manage, or remove the files "
     echo -e "in $basepath/conf/$profile/!\n"
 }

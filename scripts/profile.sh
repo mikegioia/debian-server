@@ -48,20 +48,6 @@ if [[ -f "$basepath/conf/$profile/banner" ]] ; then
     cp $basepath/conf/$profile/banner /etc/issue
 fi
 
-read -p 'Do you want to overwrite the sshd_config? [yes/N] ' wish
-if [[ "$wish" == "yes" || "$wish" == "Yes" ]] ; then
-    echo '  --> overwriting the sshd_config and reloading'
-    rm /etc/ssh/sshd_config
-
-    if [[ -f "$basepath/conf/$profile/sshd_config" ]] ; then
-        cp $basepath/conf/$profile/sshd_config /etc/ssh/sshd_config
-    else
-        cp $basepath/src/sshd_config /etc/ssh/sshd_config
-    fi
-
-    /etc/init.d/ssh reload
-fi
-
 read -p 'Do you want to change the system timezone? [y/N] ' wish
 if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
     echo '  --> changing timezone'
