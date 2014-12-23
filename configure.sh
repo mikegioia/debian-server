@@ -60,7 +60,7 @@ function getArgs {
 
 ## Prompt the user to continue with the installation
 function promptInstall {
-    echo -e "\n${blueBgWhiteBold}This script will copy configuration files to $profile${NC}"
+    echo -e "\n${blueBgWhiteBold}This script will copy configuration files to ${profile}${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         exit 0

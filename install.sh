@@ -110,11 +110,19 @@ function getArgs {
     done
 }
 
+## Check if logged in user is root
+function checkRoot {
+    if ! [[ $(id -u) -eq 0 ]] ; then
+        echo -e "\n${redBgWhiteBold}You are not the root user!${NC}"
+        exit 1
+    fi
+}
+
 ## Check if the profile path is to a valid profile
 function checkProfile {
     config="$basepath/conf/$profile/config"
     if ! [[ -f "$config" ]] ; then
-        echo -e "\n${redBgWhiteBold}Could not find the profile you entered: $profile${NC}"
+        echo -e "\n${redBgWhiteBold}Could not find the profile you entered: ${profile}${NC}"
         echo -e -n "Make sure to run ./configure.sh <profile> in the deploy directory "
         echo -e "or ./configure --help for more info.${NC}\n"
         exit 1
@@ -164,7 +172,29 @@ function upgrade {
 
 ## Export colors
 function exportColors {
-    echo ""
+    export black
+    export red
+    export green
+    export yellow
+    export blue
+    export magenta
+    export cyan
+    export white
+    export redBgWhite
+    export redBgWhiteBold
+    export blueBgWhite
+    export blueBgWhiteBold
+    export greenBgWhite
+    export greenBgWhiteBold
+    export blackBold
+    export redBold
+    export greenBold
+    export yellowBold
+    export blueBold
+    export magentaBold
+    export cyanBold
+    export whiteBold
+    export NC
 }
 
 ## Run the scripts
@@ -198,6 +228,7 @@ function finish {
 
 ## Run the program
 getArgs $@
+checkRoot
 checkProfile
 promptInstall
 readConfig
