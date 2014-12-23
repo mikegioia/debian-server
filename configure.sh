@@ -202,7 +202,7 @@ function copyFiles {
 
 ## Finish
 function finish {
-    echo -e "\n${greenBgWhiteBold}Done!${NC}"
+    echo -e "${greenBgWhiteBold}Done!${NC}"
     echo -e "Default config files generated. Please edit, manage, or remove the files "
     echo -e "in $basepath/conf/$profile/!\n"
 }
