@@ -25,8 +25,7 @@ function promptInstall {
 function addUser {
     echo -n "Enter password for new user ${username}: "
     read password
-    echo ""
-    echo -e "${green}Creating new user ${username}${NC}\n"
+    echo -e "${green}Creating new user ${username}${NC}"
     pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
     useradd -m -p $pass $username
     chown $username /home/$username
@@ -37,16 +36,15 @@ function addUser {
     fi
 
     ## Add to sudoers
-    echo -e "${green}Adding ${username} to sudoers group${NC}\n"
+    echo -e "${green}Adding ${username} to sudoers group${NC}"
     usermod -a -G sudo $username
 }
 
 ## Set locale (ask first)
 function setLocale {
     read -p "Do you want to set the system locale [y/N]? " wish
-    echo ""
     if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-        echo -e "${green}Setting locale for ${username}${NC}\n"
+        echo -e "${green}Setting locale for ${username}${NC}"
         rm /etc/locale.gen
         cp ./src/locale.gen /etc/locale.gen
         locale-gen

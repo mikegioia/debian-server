@@ -29,7 +29,6 @@ function copyConfig {
 function testConnection {
     echo -e "${yellow}SSH has been reloaded; now is a good time to re-test the connection!${NC}"
     read -p "Press any key to continue" anykey
-    echo ""
 }
 
 promptInstall
