@@ -114,12 +114,6 @@ function copySites {
     fi
 }
 
-## Ask the user if they need to copy over any SSL certs/keys
-function promptSsl {
-    echo -e "${yellow}nginx will now be started or reloaded. Now would be a good time to copy over any SSL certificates and keys!${NC}"
-    read -p 'Press any key to continue ' anykey
-}
-
 ## Copy over the init script and set up nginx to start on reboot
 function copyInit {
     echo -e "${green}Configuring the init script${NC}"
@@ -160,6 +154,12 @@ function updatePermissions {
     fi
 }
 
+## Ask the user if they need to copy over any SSL certs/keys
+function promptSsl {
+    echo -e "${yellow}nginx will now be started or reloaded. Now would be a good time to copy over any SSL certificates and keys!${NC}"
+    read -p 'Press any key to continue ' anykey
+}
+
 ## If nginx is running, reload the config. if it's not, start nginx.
 function startReloadNginx {
     ps cax | grep 'nginx' > /dev/null
@@ -184,9 +184,9 @@ installNginx
 addUser
 copyConfig
 copySites
-promptSsl
 copyInit
 copyDefaults
 updatePermissions
+promptSsl
 startReloadNginx
 exit 0
