@@ -7,7 +7,7 @@
 function checkUser {
     egrep "^$username" /etc/passwd >/dev/null
     if [[ $? -eq 0 ]] ; then
-        echo -e "${yellow}Skipping, ${username} already exists${NC}\n"
+        echo -e "${yellow}Skipping, ${username} already exists${NC}"
         exit 0
     fi
 }

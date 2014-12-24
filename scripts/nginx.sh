@@ -6,7 +6,7 @@
 ## Check if the nginx version is set
 function checkNginx {
     if ! [[ -n "${nginxVersion}" ]] ; then
-        echo -e "${yellow}Skipping, nginxVersion not found in config${NC}\n"
+        echo -e "${yellow}Skipping, nginxVersion not found in config${NC}"
         exit 0
     fi
 }
@@ -24,12 +24,20 @@ function promptInstall {
 function installDependencies {
     PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libpcre3-dev|grep "install ok installed")
     if [[ "" == "$PKG_OK" ]] ; then
+        echo -e "${green}Installing libpre3-dev${NC}\n"
         apt-get install libpcre3-dev
     fi
 
     PKG_OK=$(dpkg-query -W --showformat='${Status}\n' build-essential|grep "install ok installed")
     if [[ "" == "$PKG_OK" ]] ; then
+        echo -e "${green}Installing build-essential${NC}\n"
         apt-get install build-essential
+    fi
+
+    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' libssl-dev|grep "install ok installed")
+    if [[ "" == "$PKG_OK" ]] ; then
+        echo -e "${green}Installing libssl-dev${NC}\n"
+        apt-get install libssl-dev
     fi
 }
 
