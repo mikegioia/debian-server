@@ -13,7 +13,7 @@ function checkUser {
 }
 
 ## Prompt to continue
-function promptAddUser {
+function promptInstall {
     echo -e "\n${blueBgWhiteBold}This script will create a new user and reset locale settings${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
@@ -54,7 +54,7 @@ function setLocale {
 }
 
 checkUser
-promptAddUser
+promptInstall
 addUser
 setLocale
 exit 0

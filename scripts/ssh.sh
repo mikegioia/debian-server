@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# Copy sshd_config and restart SSH
+# Copy sshd_config and reload SSH
 ##
 
 ## Prompt to continue
-function promptSsh {
-    echo -e "\n${blueBgWhiteBold}This script will create copy sshd_config and restart SSH server${NC}"
+function promptInstall {
+    echo -e "\n${blueBgWhiteBold}This script will create copy sshd_config and reload SSH server${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         exit 0
@@ -32,7 +32,7 @@ function testConnection {
     echo ""
 }
 
-promptSsh
+promptInstall
 copyConfig
 testConnection
 exit 0
