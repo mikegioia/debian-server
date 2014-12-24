@@ -166,13 +166,11 @@ function startReloadNginx {
         read -p "nginx is running, do you want to reload it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             service nginx reload
-            echo ""
         fi
     else
         read -p "Do you want to start nginx? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             service nginx start
-            echo ""
         fi
     fi
 }
