@@ -3,6 +3,14 @@
 # Installs nginx from source
 ##
 
+## Check if the nginx version is set
+function checkNginx {
+    if ! [[ -n "${nginxVersion}" ]] ; then
+        echo -e "${yellow}Skipping, nginxVersion not found in config${NC}\n"
+        exit 0
+    fi
+}
+
 ## Prompt to continue
 function promptInstall {
     echo -e "\n${blueBgWhiteBold}This script will install nginx from source${NC}"
@@ -27,13 +35,13 @@ function installDependencies {
 
 ## Check if nginx is up to date. If not install/update nginx.
 function installNginx {
-    NGINX_OK=$(/opt/nginx/sbin/nginx -v 2>&1 | grep "nginx/${nginx_version}")
-    if [[ "" == "$NGINX_OK" && -n "${nginx_version}" ]] ; then
+    NGINX_OK=$(/opt/nginx/sbin/nginx -v 2>&1 | grep "nginx/${nginxVersion}")
+    if [[ "" == "$NGINX_OK" ]] ; then
         echo -e "${green}Installing nginx from source to /opt/nginx${NC}"
         cd /opt/
-        wget http://nginx.org/download/nginx-${nginx_version}.tar.gz
-        tar -zxvf nginx-${nginx_version}.tar.gz
-        cd /opt/nginx-${nginx_version}/
+        wget http://nginx.org/download/nginx-${nginxVersion}.tar.gz
+        tar -zxvf nginx-${nginxVersion}.tar.gz
+        cd /opt/nginx-${nginxVersion}/
         ## @todo move this out to config file
         ./configure \
             --prefix=/opt/nginx \
@@ -47,7 +55,7 @@ function installNginx {
         make
         make install
     else
-        echo -e "${yellow}nginx already updated to version ${nginx_version}${NC}"
+        echo -e "${yellow}nginx already updated to version ${nginxVersion}${NC}"
     fi
 }
 
@@ -160,6 +168,7 @@ function startReloadNginx {
     fi
 }
 
+checkNginx
 promptInstall
 installDependencies
 installNginx
