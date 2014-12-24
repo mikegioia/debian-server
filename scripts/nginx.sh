@@ -162,17 +162,16 @@ function promptSsl {
 
 ## If nginx is running, reload the config. if it's not, start nginx.
 function startReloadNginx {
-    ps cax | grep 'nginx' > /dev/null
-    if [[ $? -eq 0 ]] ; then
-        read -p "Do you want to start nginx? [y/N]? " wish
-        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-            service nginx start
-            echo ""
-        fi
-    else
+    if [[ $( pidof nginx) ]] ; then
         read -p "nginx is running, do you want to reload it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             service nginx reload
+            echo ""
+        fi
+    else
+        read -p "Do you want to start nginx? [y/N]? " wish
+        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+            service nginx start
             echo ""
         fi
     fi
