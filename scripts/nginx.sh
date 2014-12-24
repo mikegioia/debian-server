@@ -164,14 +164,15 @@ function updatePermissions {
 function startReloadNginx {
     ps cax | grep 'nginx' > /dev/null
     if [[ $? -eq 0 ]] ; then
-        read -p "nginx is running, do you want to reload it? [y/N]? " wish
-        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-            service nginx reload
-        fi
-    else
         read -p "Do you want to start nginx? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             service nginx start
+        fi
+    else
+        read -p "nginx is running, do you want to reload it? [y/N]? " wish
+        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+            service nginx reload
+            echo ""
         fi
     fi
 }
