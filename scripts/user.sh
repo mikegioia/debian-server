@@ -14,7 +14,7 @@ function checkUser {
 
 ## Prompt to continue
 function promptInstall {
-    echo -e "\n${blueBgWhiteBold}This script will create a new user and reset locale settings${NC}"
+    echo -e "\n${blueBgWhiteBold}This script will create a new user and reset locale settings.${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         exit 0

@@ -13,7 +13,7 @@ function checkNginx {
 
 ## Prompt to continue
 function promptInstall {
-    echo -e "\n${blueBgWhiteBold}This script will install nginx from source${NC}"
+    echo -e "\n${blueBgWhiteBold}This script will install nginx from source.${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         exit 0

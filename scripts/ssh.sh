@@ -5,7 +5,7 @@
 
 ## Prompt to continue
 function promptInstall {
-    echo -e "\n${blueBgWhiteBold}This script will create copy sshd_config and reload SSH server${NC}"
+    echo -e "\n${blueBgWhiteBold}This script will create copy sshd_config and reload SSH server.${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         exit 0
