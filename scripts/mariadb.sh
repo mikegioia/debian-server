@@ -13,7 +13,7 @@ function checkMariadb {
 
 ## Prompt to continue
 function promptInstall {
-    echo -e "\n${blueBgWhiteBold}This script will install MariaDB ${mariadbVersion}.${NC}"
+    echo -e "\n${blueBgWhiteBold}This script will update the system and install MariaDB ${mariadbVersion}.${NC}"
     read -p 'Do you want to continue [y/N]? ' wish
     if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         exit 0
