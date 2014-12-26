@@ -50,7 +50,7 @@ function copyConfigs {
     if [[ -f "$basepath/conf/$profile/my.cnf" ]] ; then
         wish="Y"
         if [[ -f "/etc/mysql/conf.d/my.cnf" ]] ; then
-            read -p "Do you want to add mysql to system startup? [y/N]? " wish
+            read -p "Do you want copy my.cnf and reload mysql? " wish
         fi
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             echo -e "${green}Copying my.cnf to /etc/mysql/conf.d and reloading mysql${NC}"
