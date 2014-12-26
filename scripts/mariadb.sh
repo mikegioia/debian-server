@@ -36,7 +36,8 @@ function addAptSource {
 
 ## Install mariadb
 function installMariadb {
-    if ! [[ `hash mysql 2>/dev/null` ]] ; then
+    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' mariadb-server|grep "install ok installed")
+    if [[ "" == "$PKG_OK" ]] ; then
         echo -e "${green}Installing MariaDB. You may be prompted to set username and password${NC}"
         apt-get install mariadb-server
     else
