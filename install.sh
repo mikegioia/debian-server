@@ -154,6 +154,7 @@ function readConfig {
     export username
     export nginxVersion
     export mongodbVersion
+    export mariadbVersion
     export opensslVersion
     export redisVersion
     export redisphpVersion
