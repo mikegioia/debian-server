@@ -22,6 +22,7 @@ config=''
 username="trunk"
 nginxVersion=''
 mongodbVersion=''
+mariadbVersion=''
 opensslVersion=''
 redisVersion=''
 redisphpVersion=''

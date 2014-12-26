@@ -6,7 +6,7 @@
 ## Check if the nginx version is set
 function checkNginx {
     if ! [[ -n "${nginxVersion}" ]] ; then
-        echo -e "${yellow}Skipping, nginxVersion not found in config${NC}"
+        echo -e "${yellow}Skipping, nginxVersion not set in config${NC}"
         exit 0
     fi
 }
