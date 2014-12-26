@@ -48,9 +48,15 @@ function installMariadb {
 ## Copy over configs
 function copyConfigs {
     if [[ -f "$basepath/conf/$profile/my.cnf" ]] ; then
-        echo -e "${green}Copying my.cnf to /etc/my.cnf and reloading mysql${NC}"
-        cp $basepath/conf/$profile/my.cnf /etc/mysql/conf.d/my.cnf
-        /etc/init.d/mysql reload
+        wish="Y"
+        if [[ -f "/etc/mysql/conf.d/my.cnf" ]] ; then
+            read -p "Do you want to add mysql to system startup? [y/N]? " wish
+        fi
+        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+            echo -e "${green}Copying my.cnf to /etc/mysql/conf.d and reloading mysql${NC}"
+            cp $basepath/conf/$profile/my.cnf /etc/mysql/conf.d/my.cnf
+            /etc/init.d/mysql reload
+        fi
     fi
 
     ## If there's a mysql history file, write null to it
