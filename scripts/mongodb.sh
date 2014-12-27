@@ -88,6 +88,10 @@ function systemStart {
 
 ## Start the process if it isn't
 function startRestartMongodb {
+    if ! [[ -f "/etc/mongodb.conf" ]] ; then
+        echo -e "${red}No config file found in /etc/mongodb.conf! Did you forget to add one to conf/$profile?${NC}"
+        return
+    fi
     if [[ $( pidof mongo) ]] ; then
         read -p "mongodb is running, do you want to restart it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
