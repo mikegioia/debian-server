@@ -14,7 +14,7 @@ function promptInstall {
 
 ## Copy tar file, unpack and create symlinks
 function installMongodb {
-    MONGODB_OK=$(/opt/mongodb/bin/mongo -v 2>&1 | grep "${mongodbVersion}")
+    MONGODB_OK=$(/opt/mongodb/bin/mongo --version 2>&1 | grep "${mongodbVersion}")
     if [[ "" == "$MONGODB_OK" ]] ; then
         echo -e "${green}Installing MongoDB to /opt/mongodb${NC}"
         ## Get the binaries
