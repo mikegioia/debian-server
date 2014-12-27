@@ -77,7 +77,6 @@ function copyInit {
 ## Copy the config file
 function copyConfig {
     if [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
-        echo '  --> copying over mongodb.conf to /etc/mongodb.conf'
         echo -e "${green}Copying over mongodb.conf to /etc${NC}"
         cp $basepath/conf/$profile/mongodb.conf /etc/mongodb.conf
     fi
