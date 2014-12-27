@@ -90,7 +90,7 @@ function systemStart {
 function startRestartMongodb {
     if ! [[ -f "/etc/mongodb.conf" ]] ; then
         echo -e "${redBgWhiteBold}No config file found in /etc/mongodb.conf! Did you forget to add one to conf/$profile?${NC}"
-        echo -e "${yellowBold}Try running ./configure.sh ${profile} again to generate a new mongodb.conf file.${NC}"
+        echo -e "${yellowBold}Try running './configure.sh ${profile}' again to generate a new mongodb.conf file.${NC}"
         return
     fi
     if [[ $( pidof mongo) ]] ; then
