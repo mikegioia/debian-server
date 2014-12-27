@@ -208,6 +208,7 @@ function copyFiles {
     createNginx
     copyNginx
     copyMysql
+    copyMongodb
     copyMonit
     copySshdConfig
 }
