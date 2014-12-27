@@ -49,6 +49,10 @@ function createDirectories {
     if ! [[ -d "/data/mongodb" ]] ; then
         mkdir /data/mongodb
     fi
+    ## Create pidfile directory
+    if ! [[ -d "/var/run/mongodb" ]] ; then
+        mkdir /var/run/mongodb
+    fi
 }
 
 ## Create the user
@@ -61,6 +65,7 @@ function createUser {
     fi
 
     chown -R mongod:mongod /data/mongodb
+    chown -R mongod:mongod /var/run/mongodb
 }
 
 ## Copy the init script
@@ -96,8 +101,7 @@ function startRestartMongodb {
     if [[ $( pidof mongod) ]] ; then
         read -p "mongodb is running, do you want to restart it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-            /etc/init.d/mongodb stop
-            /etc/init.d/mongodb start
+            /etc/init.d/mongodb stop && /etc/init.d/mongodb start
         fi
     else
         read -p "Do you want to start mongodb? [y/N]? " wish
