@@ -93,7 +93,7 @@ function startRestartMongodb {
         echo -e "${yellowBold}Try running './configure.sh ${profile}' again to generate a new mongodb.conf file.${NC}"
         return
     fi
-    if [[ $( pidof mongo) ]] ; then
+    if [[ $( pidof mongod) ]] ; then
         read -p "mongodb is running, do you want to restart it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             /etc/init.d/mongodb stop
