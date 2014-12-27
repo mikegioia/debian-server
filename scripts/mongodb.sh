@@ -31,7 +31,7 @@ function installMongodb {
     fi
 
     ## Create symlinks
-    MONGODB_BINARIES="/opt/monogdb/bin/*"
+    MONGODB_BINARIES="/opt/mongodb/bin/*"
     for b in $MONGODB_BINARIES
     do
         binaryFilename=$(basename $b)
