@@ -49,10 +49,6 @@ function createDirectories {
     if ! [[ -d "/data/mongodb" ]] ; then
         mkdir /data/mongodb
     fi
-    ## Create pidfile directory
-    if ! [[ -d "/var/run/mongodb" ]] ; then
-        mkdir /var/run/mongodb
-    fi
 }
 
 ## Create the user
@@ -65,7 +61,6 @@ function createUser {
     fi
 
     chown -R mongod:mongod /data/mongodb
-    chown -R mongod:mongod /var/run/mongodb
 }
 
 ## Copy the init script
