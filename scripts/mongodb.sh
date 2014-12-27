@@ -27,7 +27,7 @@ function installMongodb {
 
         mv /opt/mongodb-linux-x86_64-${mongodbVersion} /opt/mongodb
     else
-        echo -e "${yellow}MongoDB already updated to version${mongodbVersion}${NC}"
+        echo -e "${yellow}MongoDB already updated to version ${mongodbVersion}${NC}"
     fi
 
     ## Create symlinks
@@ -89,7 +89,7 @@ function systemStart {
 ## Start the process if it isn't
 function startRestartMongodb {
     if ! [[ -f "/etc/mongodb.conf" ]] ; then
-        echo -e "${red}No config file found in /etc/mongodb.conf! Did you forget to add one to conf/$profile?${NC}"
+        echo -e "${redBgWhiteBold}No config file found in /etc/mongodb.conf! Did you forget to add one to conf/$profile?${NC}"
         return
     fi
     if [[ $( pidof mongo) ]] ; then
