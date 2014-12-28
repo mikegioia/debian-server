@@ -13,7 +13,6 @@
 . /lib/lsb/init-functions
 
 PROGRAM="/opt/mongodb/bin/mongod"
-MONGOPID=`ps -ef | grep 'mongod' | grep -v grep | awk '{print $2}'`
 CONFIGFILE="/etc/mongodb.conf"
 DBPATH="/data/mongodb"
 LOCKFILE="$DBPATH/mongod.lock"
@@ -25,14 +24,14 @@ test -x $PROGRAM || exit 0
 start () {
     log_begin_msg "Starting MongoDB server"
     start-stop-daemon --background --start --quiet --user $DAEMONUSER \
-        --group $DAEMONUSER --exec $PROGRAM -- "--config $CONFIGFILE run"
+        --group $DAEMONUSER --exec $PROGRAM -- --config $CONFIGFILE
     errcode=$?
     log_end_msg $errcode
     return $errcode
 }
 
 stop () {
-    if [ ! $MONGOPID ] ; then
+    if [ -z $( pidof mongod) ] ; then
         log_warning_msg "MongoDB not running, nothing to stop"
     else
         log_begin_msg "Stopping MongoDB server"
