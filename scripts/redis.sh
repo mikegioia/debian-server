@@ -35,13 +35,13 @@ function installRedis {
         mv /opt/redis-$redisVersion /opt/redis
         cd /opt/redis
         make
+
+        ## Copy binaries over
+        cp /opt/redis/src/redis-cli /usr/local/bin/
+        cp /opt/redis/src/redis-server /usr/local/bin/
     else
         echo -e "${yellow}Redis already updated to version ${redisVersion}${NC}"
     fi
-
-    ## Copy binaries over
-    cp /opt/redis/src/redis-cli /usr/local/bin/
-    cp /opt/redis/src/redis-server /usr/local/bin/
 }
 
 ## Create directories
