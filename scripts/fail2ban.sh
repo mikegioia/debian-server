@@ -35,7 +35,7 @@ function copyConfigFiles {
     ## Copy over configs if they're not there
     if ! [[ -f "/etc/fail2ban/filter.d/nginx-dos.conf" ]] ; then
         read -p 'Do you want to copy the nginx-dos filter [y/N]? ' wish
-        if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             cp $basepath/src/fail2ban_conf/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
         fi
     fi
@@ -44,7 +44,7 @@ function copyConfigFiles {
 ## Restart the service
 function promptRestart {
     read -p 'Do you want restart Fail2Ban? [y/N]? ' wish
-    if ! [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
         service fail2ban restart
     fi
 }
