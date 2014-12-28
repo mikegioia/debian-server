@@ -95,7 +95,7 @@ function startRestartMongodb {
     if [[ $( pidof mongod) ]] ; then
         read -p "mongodb is running, do you want to restart it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-            /etc/init.d/mongodb stop && /etc/init.d/mongodb start
+            /etc/init.d/mongodb restart
         fi
     else
         read -p "Do you want to start mongodb? [y/N]? " wish
