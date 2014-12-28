@@ -14,16 +14,17 @@ function promptInstall {
 
 ## Install if it isn't already
 function installMonit {
-    if ! [[ `hash monit 2>/dev/null` ]] ; then
-        echo -e "${green}Installing monit and adding monit to system startup${NC}"
+    PKG_OK=$(dpkg-query -W --showformat='${Status}\n' monit|grep "install ok installed")
+    if [[ "" == "$PKG_OK" ]] ; then
+        echo -e "${green}Installing Monit from apt${NC}"
         apt-get install monit
-        update-rc.d monit defaults
     else
         echo -e "${yellow}Monit already installed${NC}"
-        read -p 'Do you want to add monit to system startup [y/N] ' wish
-        if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
-            update-rc.d monit defaults
-        fi
+    fi
+
+    read -p 'Do you want to add monit to system startup [y/N] ' wish
+    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        update-rc.d monit defaults
     fi
 }
 
