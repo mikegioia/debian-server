@@ -32,7 +32,7 @@ function installRedis {
             rm -rf /opt/redis
         fi
 
-        mv redis-$redisVersion redis
+        mv /opt/redis-$redisVersion /opt/redis
         cd /opt/redis
         make
     else
