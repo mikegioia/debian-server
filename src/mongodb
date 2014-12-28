@@ -25,22 +25,22 @@ test -x $PROGRAM || exit 0
 start () {
     log_begin_msg "Starting MongoDB server"
     start-stop-daemon --background --start --quiet --user $DAEMONUSER \
-        --group $DAEMONUSER --exec $PROGRAM -- "--config $CONFIGFILE"
+        --group $DAEMONUSER --exec $PROGRAM -- "--config $CONFIGFILE run"
     errcode=$?
     log_end_msg $errcode
     return $errcode
 }
 
 stop () {
-    if [ ! MONGOPID ] ; then
+    if [ ! $MONGOPID ] ; then
         log_warning_msg "MongoDB not running, nothing to stop"
     else
         log_begin_msg "Stopping MongoDB server"
         start-stop-daemon --stop --quiet --exec $PROGRAM
-        RETVAL=$?
-        [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
-        log_end_msg $RETVAL
-        return $RETVAL
+        errcode=$?
+        [ $errcode -eq 0 ] && rm -f $LOCKFILE
+        log_end_msg $errcode
+        return $errcode
     fi
 }
 
