@@ -24,7 +24,6 @@ test -x $PROGRAM || exit 0
 
 start () {
     log_begin_msg "Starting MongoDB server"
-    $PROGRAM --config $CONFIGFILE
     start-stop-daemon --background --start --quiet --user $DAEMONUSER \
         --group $DAEMONUSER --exec $PROGRAM -- "--config $CONFIGFILE"
     errcode=$?
@@ -33,12 +32,20 @@ start () {
 }
 
 stop () {
-    log_begin_msg "Stopping MongoDB server"
-    start-stop-daemon --stop --quiet --exec $PROGRAM
-    RETVAL=$?
-    [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
-    log_end_msg $RETVAL
-    return $RETVAL
+    if [ ! MONGOPID ] ; then
+        log_warning_msg "MongoDB not running, nothing to stop"
+    else
+        log_begin_msg "Stopping MongoDB server"
+        start-stop-daemon --stop --quiet --exec $PROGRAM
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f $LOCKFILE
+        log_end_msg $RETVAL
+        return $RETVAL
+    fi
+}
+
+status () {
+    status_of_proc $PROGRAM
 }
 
 case "$1" in
@@ -53,7 +60,7 @@ case "$1" in
         start
         ;;
     status)
-        status_of_proc $PROGRAM
+        status
         ;;
     *)
         log_success_msg "Usage: /etc/init.d/mongodb {start|stop|restart|status}"
