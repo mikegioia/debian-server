@@ -206,6 +206,16 @@ function copySshdConfig {
     fi
 }
 
+## Copy over fail2ban config
+function copyJailLocal {
+    if ! [[ -f "$basepath/conf/$profile/jail.local" ]] ; then
+        echo -e "  - ${green}Copying${NC} jail.local"
+        cp $basepath/src/fail2ban_conf/jail.local $basepath/conf/$profile/jail.local
+    else
+        echo -e "  - ${yellow}Skipping${NC} jail.local, file already exists"
+    fi
+}
+
 ## Run the copy files scripts
 function copyFiles {
     echo -e "${green}Copying new configuration files${NC}"
@@ -222,6 +232,7 @@ function copyFiles {
     copyRedis
     copyMonit
     copySshdConfig
+    copyJailLocal
 }
 
 ## Finish

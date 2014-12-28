@@ -23,18 +23,28 @@ function installFail2ban {
     fi
 }
 
-## Check if there's a local config file to update
-if [[ -f "$basepath/conf/$profile/jail.local" ]] ; then
-    cp $basepath/conf/$profile/jail.local /etc/fail2ban/jail.local
-fi
+function copyConfigFiles {
+    ## Check if there's a local config file to update
+    if [[ -f "$basepath/conf/$profile/jail.local" ]] ; then
+        echo -e "${green}Copying jail.local to /etc/fail2ban${NC}"
+        cp $basepath/conf/$profile/jail.local /etc/fail2ban/jail.local
+    else
+        echo -e "${yellow}No jail.local found, skipping${NC}"
+    fi
 
-## Copy over configs if they're not there
-if ! [[ -f "/etc/fail2ban/filter.d/nginx-dos.conf" ]] ; then
-    cp $basepath/src/fail2ban_conf/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
-fi
+    ## Copy over configs if they're not there
+    if ! [[ -f "/etc/fail2ban/filter.d/nginx-dos.conf" ]] ; then
+        cp $basepath/src/fail2ban_conf/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
+    fi
+}
 
 ## Restart the service
-service fail2ban restart
+function promptRestart {
+    service fail2ban restart
+}
 
-echo 'Fail2Ban completed'
-echo ''
+promptInstall
+installFail2ban
+copyConfigFiles
+promptRestart
+exit 0
