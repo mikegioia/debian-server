@@ -88,17 +88,17 @@ function systemStart {
 ## Start the process if it isn't
 function startRestartMongodb {
     if ! [[ -f "/etc/mongodb.conf" ]] ; then
-        echo -e "${redBgWhiteBold}No config file found in /etc/mongodb.conf! Did you forget to add one to conf/$profile?${NC}"
+        echo -e "${redBgWhiteBold}No config file found at /etc/mongodb.conf! Did you forget to add one to conf/${profile}?${NC}"
         echo -e "${yellowBold}Try running './configure.sh ${profile}' again to generate a new mongodb.conf file.${NC}"
         return
     fi
     if [[ $( pidof mongod) ]] ; then
-        read -p "mongodb is running, do you want to restart it? [y/N]? " wish
+        read -p "MongoDB is running, do you want to restart it? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             /etc/init.d/mongodb restart
         fi
     else
-        read -p "Do you want to start mongodb? [y/N]? " wish
+        read -p "Do you want to start MongoDB? [y/N]? " wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             /etc/init.d/mongodb start
         fi

@@ -176,6 +176,16 @@ function copyMongodb {
     fi
 }
 
+## Copy over redis_6379.conf
+function copyRedis {
+    if ! [[ -f "$basepath/conf/$profile/redis.conf" ]] ; then
+        echo -e "  - ${green}Copying${NC} Redis redis.conf"
+        cp $basepath/src/redis.conf $basepath/conf/$profile/redis.conf
+    else
+        echo -e "  - ${yellow}Skipping${NC} redis.conf, file already exists"
+    fi
+}
+
 ## Copy over monitrc
 function copyMonit {
     if ! [[ -f "$basepath/conf/$profile/monitrc" ]] ; then
@@ -209,6 +219,7 @@ function copyFiles {
     copyNginx
     copyMysql
     copyMongodb
+    copyRedis
     copyMonit
     copySshdConfig
 }
