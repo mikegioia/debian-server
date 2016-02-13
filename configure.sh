@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 #
 # Debian Server Installation Manager
 #
@@ -69,6 +71,11 @@ function promptInstall {
 
 ## Create the profile directory if it doesn't exist
 function createProfile {
+    ## Check if profile is a valid string
+    if ! [[ -n "$profile" ]] ; then
+        echo -e "\n${redBgWhiteBold}Please enter a profile path or name!${NC}"
+        exit 1
+    fi
     if ! [[ -d "$basepath/conf/$profile" ]] ; then
         echo -e "${green}Creating new profile${NC}"
         mkdir -p $basepath/conf/$profile
@@ -129,7 +136,7 @@ function copyPrivateBash {
 function copyFirewall {
     if ! [[ -f "$basepath/conf/$profile/firewall.sh" ]] ; then
         echo -e "  - ${green}Adding${NC} firewall.sh"
-        cp $basepath/src/firewall.sh $basepath/conf/$profile/firewall.sh
+        cp $basepath/src/firewall/firewall.sh $basepath/conf/$profile/firewall.sh
     else
         echo -e "  - ${yellow}Skipping${NC} firewall.sh, file already exists"
     fi
@@ -140,6 +147,7 @@ function createNginx {
     if ! [[ -d "$basepath/conf/$profile/nginx" ]] ; then
         echo -e "  - ${green}Creating${NC} nginx directory"
         mkdir $basepath/conf/$profile/nginx
+        mkdir $basepath/conf/$profile/nginx/sites-available
     else
         echo -e "  - ${yellow}Skipping${NC} nginx, directory already exists"
     fi
@@ -149,8 +157,8 @@ function createNginx {
 function copyNginx {
     if ! [[ -f "$basepath/conf/$profile/nginx/example.conf" ]] ; then
         echo -e "  - ${green}Copying${NC} example nginx config"
-        cp $basepath/src/nginx_conf/example.conf $basepath/conf/$profile/nginx/example.conf
-        cp $basepath/src/nginx_conf/conf_readme.md $basepath/conf/$profile/nginx/README.md
+        cp $basepath/src/nginx/conf/example.conf $basepath/conf/$profile/nginx/sites-available/example.conf
+        cp $basepath/src/nginx/conf/conf_readme.md $basepath/conf/$profile/nginx/README.md
     else
         echo -e "  - ${yellow}Skipping${NC} nginx example config, files already exists"
     fi
@@ -160,7 +168,7 @@ function copyNginx {
 function copyMysql {
     if ! [[ -f "$basepath/conf/$profile/my.cnf" ]] ; then
         echo -e "  - ${green}Copying${NC} MySQL my.cnf"
-        cp $basepath/src/my.cnf $basepath/conf/$profile/my.cnf
+        cp $basepath/src/mysql/my.cnf $basepath/conf/$profile/my.cnf
     else
         echo -e "  - ${yellow}Skipping${NC} my.cnf, file already exists"
     fi
@@ -170,7 +178,7 @@ function copyMysql {
 function copyMongodb {
     if ! [[ -f "$basepath/conf/$profile/mongodb.conf" ]] ; then
         echo -e "  - ${green}Copying${NC} MongoDB mongodb.conf"
-        cp $basepath/src/mongodb.conf $basepath/conf/$profile/mongodb.conf
+        cp $basepath/src/mongodb/mongodb.conf $basepath/conf/$profile/mongodb.conf
     else
         echo -e "  - ${yellow}Skipping${NC} mongodb.conf, file already exists"
     fi
@@ -180,7 +188,7 @@ function copyMongodb {
 function copyRedis {
     if ! [[ -f "$basepath/conf/$profile/redis.conf" ]] ; then
         echo -e "  - ${green}Copying${NC} Redis redis.conf"
-        cp $basepath/src/redis.conf $basepath/conf/$profile/redis.conf
+        cp $basepath/src/redis/redis.conf $basepath/conf/$profile/redis.conf
     else
         echo -e "  - ${yellow}Skipping${NC} redis.conf, file already exists"
     fi
@@ -190,7 +198,7 @@ function copyRedis {
 function copyMonit {
     if ! [[ -f "$basepath/conf/$profile/monitrc" ]] ; then
         echo -e "  - ${green}Copying${NC} monitrc"
-        cp $basepath/src/monitrc $basepath/conf/$profile/monitrc
+        cp $basepath/src/monit/monitrc $basepath/conf/$profile/monitrc
     else
         echo -e "  - ${yellow}Skipping${NC} monitrc, file already exists"
     fi
@@ -200,7 +208,7 @@ function copyMonit {
 function copySshdConfig {
     if ! [[ -f "$basepath/conf/$profile/sshd_config" ]] ; then
         echo -e "  - ${green}Copying${NC} sshd_config"
-        cp $basepath/src/sshd_config $basepath/conf/$profile/sshd_config
+        cp $basepath/src/ssh/sshd_config $basepath/conf/$profile/sshd_config
     else
         echo -e "  - ${yellow}Skipping${NC} sshd_config, file already exists"
     fi
@@ -210,7 +218,7 @@ function copySshdConfig {
 function copyJailLocal {
     if ! [[ -f "$basepath/conf/$profile/jail.local" ]] ; then
         echo -e "  - ${green}Copying${NC} jail.local"
-        cp $basepath/src/fail2ban_conf/jail.local $basepath/conf/$profile/jail.local
+        cp $basepath/src/fail2ban/jail.local $basepath/conf/$profile/jail.local
     else
         echo -e "  - ${yellow}Skipping${NC} jail.local, file already exists"
     fi

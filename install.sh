@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 #
 # Debian Server Installation Manager
 #
@@ -27,11 +29,7 @@ opensslVersion=''
 redisVersion=''
 redisphpVersion=''
 scripts=()
-sites=()
-sslSites=()
 fpmSites=()
-git=()
-hg=()
 
 ## Source the colors
 . $basepath/src/inc/colors
@@ -99,7 +97,7 @@ function getArgs {
             ## Run all scripts
             allFlag=1
             ;;
-        app | fail2ban | firewall | mariadb | mongodb | monit | mysql )
+        app | couchdb | fail2ban | firewall | mariadb | mongodb | monit | mysql )
             ## Add to scripts array
             scriptArgs+=$i
             ;;
@@ -159,10 +157,7 @@ function readConfig {
     export redisVersion
     export redisphpVersion
     export sites
-    export sslSites
     export fpmSites
-    export git
-    export hg
 }
 
 ## Update the system if flag set
