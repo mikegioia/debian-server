@@ -1,7 +1,7 @@
 ## Monit control file
 
-## Poll at 2-minute intervals. monit will wakeup every two minute to
-## monitor things. time must be given in seconds.
+## Poll at 2-minute intervals. Monit will wakeup every two minute to
+## monitor things. Time must be given in seconds.
 set daemon  120
 
 ## Set syslog logging and other file locations

@@ -23,7 +23,7 @@ function installFail2ban {
     fi
 }
 
-function copyConfigFiles {
+function copyConfigs {
     ## Check if there's a local config file to update
     if [[ -f "$basepath/conf/$profile/jail.local" ]] ; then
         echo -e "${green}Copying jail.local to /etc/fail2ban${NC}"
@@ -37,7 +37,7 @@ function copyConfigFiles {
         read -p 'Do you want to install the nginx-dos filter [y/N]? ' wish
         if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
             echo -e "${green}Copying nginx-dos.confto /etc/fail2ban/filter.d${NC}"
-            cp $basepath/src/fail2ban_conf/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
+            cp $basepath/src/fail2ban/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
         fi
     fi
 }
@@ -52,6 +52,6 @@ function promptRestart {
 
 promptInstall
 installFail2ban
-copyConfigFiles
+copyConfigs
 promptRestart
 exit 0

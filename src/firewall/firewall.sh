@@ -4,7 +4,7 @@
 # Pre-up script located in /etc/network/if-pre-up.d/firewall
 ##
 
-## Flush any Existing iptable Rules and start afresh
+## Flush any existing iptable rules and start afresh
 iptables -F INPUT
 iptables -F OUTPUT
 iptables -F FORWARD

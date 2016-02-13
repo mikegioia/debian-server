@@ -31,11 +31,33 @@ function copyFirewall {
     fi
 
     ## Set up the pre-up rule in /etc/network/if-pre-up.d
-    cp $basepath/src/firewall_preup.sh /etc/network/if-pre-up.d/firewall
+    cp $basepath/src/firewall/firewall_preup.sh /etc/network/if-pre-up.d/firewall
     chmod 700 /etc/network/if-pre-up.d/firewall
     chown root:root /etc/network/if-pre-up.d/firewall
 }
 
+## Copy the interfaces file if it exists
+function copyInterfaces {
+    ## If it exists, copy it over
+    if ! [[ -f "$basepath/conf/$profile/interfaces" ]] ; then
+        echo -e "${yellow}No interfaces found in conf/${profile}${NC}"
+        return
+    fi
+
+    cp $basepath/conf/$profile/interfaces /etc/network/interfaces
+}
+
+## Ask to restart networking services
+function restartNetworking {
+    read -p 'Do you want to restart networking? [y/N] ' wish
+    if [[ "$wish" == "y" || "$wish" == "Y" ]] ; then
+        echo -e "${green}Restarting networking${NC}"
+        ifdown eth0 && ifup eth0
+    fi
+}
+
 promptInstall
 copyFirewall
+copyInterfaces
+restartNetworking
 exit 0

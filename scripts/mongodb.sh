@@ -49,6 +49,9 @@ function createDirectories {
     if ! [[ -d "/data/mongodb" ]] ; then
         mkdir /data/mongodb
     fi
+    if ! [[ -d "/var/log/mongodb" ]] ; then
+        mkdir /var/log/mongodb
+    fi
 }
 
 ## Create the user
@@ -61,11 +64,12 @@ function createUser {
     fi
 
     chown -R mongod:mongod /data/mongodb
+    chown -R mongod:mongod /var/log/mongodb
 }
 
 ## Copy the init script
 function copyInit {
-    cp $basepath/src/mongodb /etc/init.d/mongodb
+    cp $basepath/src/mongodb/mongodb_init /etc/init.d/mongodb
     chmod +x /etc/init.d/mongodb
 }
 

@@ -1,48 +1,24 @@
-## configuration variables
+## Configuration variables
 username=trunk
-nginxVersion=1.7.9
-mongodbVersion=2.6.6
-mariadbVersion=10.0
-opensslVersion=1.0.1j
-redisVersion=2.8.19
-redisphpVersion=2.2.4
-ipPublic=
-ipPrivate=
+nginxVersion=1.8.0
+mongodbVersion=3.0.4
+mariadbVersion=10.0.20
+opensslVersion=1.0.1p
+redisVersion=3.0.3
+redisphpVersion=2.2.7
+ipv4Public=
+ipv4Private=
 
-## scripts to run, arrange in order of execution (space separated).
-## these are the names of any script file in ./scripts (don't include
-## the .sh). add any of them to the scripts array.
+## Scripts to run, arrange in order of execution (space separated).
+## These are the names of any script file in ./scripts (don't include
+## the .sh). Add any of them to the scripts array.
 ##
 ## format:
 ##   scripts=('script1' 'script2' ...)
 scripts=(
     'user'
-    'ssh'
-    'firewall'
-    'nginx'
     'profile'
+    'firewall'
+    'ssh'
+    'nginx'
 )
-
-## list any websites to have nginx auto-configured. DO NOT include the
-## www or http parts.
-##
-## format:
-##   sites=('foo.com' 'bar.net' ...)
-##   ssl_sites=('foo.com' 'bar.net' ...)
-sites=()
-sslSites=()
-
-## list any php-fpm sites you want configured. this will write out a conf
-## file to /etc/php5/fpm/pool.d specifying the socket path.
-##
-## format:
-##   fpm_sites=('foo.com' 'bar.net' ...)
-fpmSites=()
-
-## list any git or mercurial repos to be cloned
-##
-## format:
-##   git=('git_clone_url1' ...)
-##   hg=('hg_clone_url' ...)
-git=()
-hg=()

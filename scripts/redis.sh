@@ -59,7 +59,12 @@ function createDirectories {
 
 ## Copy the init script
 function copyInit {
-    cp $basepath/src/redis_6379 /etc/init.d/redis_6379
+    if [[ -f "$basepath/conf/$profile/redis_6379" ]] ; then
+        cp $basepath/conf/$profile/redis_6379 /etc/init.d/redis_6379
+    else
+        cp $basepath/src/redis/redis_6379 /etc/init.d/redis_6379
+    fi
+
     chmod +x /etc/init.d/redis_6379
 }
 
@@ -68,7 +73,7 @@ function copyConfig {
     if [[ -f "$basepath/conf/$profile/redis.conf" ]] ; then
         cp $basepath/conf/$profile/redis.conf /etc/redis/6379.conf
     else
-        cp $basepath/src/redis.conf /etc/redis/6379.conf
+        cp $basepath/src/redis/redis.conf /etc/redis/6379.conf
     fi
 }
 

@@ -16,7 +16,6 @@ PROGRAM="/opt/mongodb/bin/mongod"
 CONFIGFILE="/etc/mongodb.conf"
 DBPATH="/data/mongodb"
 LOCKFILE="$DBPATH/mongod.lock"
-LOGFILE="$DBPATH/mongodb.log"
 DAEMONUSER="mongod"
 
 test -x $PROGRAM || exit 0

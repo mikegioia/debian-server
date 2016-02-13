@@ -24,8 +24,8 @@ function promptInstall {
 ## Add new user
 function addUser {
     echo -n "Enter password for new user ${username}: "
-    read password
-    echo -e "${green}Creating new user ${username}${NC}"
+    read -s password
+    echo -e "\n${green}Creating new user ${username}${NC}"
     pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
     useradd -m -p $pass $username
     chown $username /home/$username

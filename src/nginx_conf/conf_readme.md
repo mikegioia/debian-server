@@ -1,1 +1,0 @@
-Any nginx config files in this directory will be added during the nginx install.
