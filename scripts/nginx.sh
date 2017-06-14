@@ -58,7 +58,8 @@ function installNginx {
             --with-http_ssl_module \
             --with-ipv6 \
             --with-http_stub_status_module \
-            --with-http_realip_module
+            --with-http_realip_module \
+            ${nginxDependencies}
         make
         make install
     else

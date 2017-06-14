@@ -9,12 +9,18 @@ redisphpVersion=2.2.7
 ipv4Public=
 ipv4Private=
 
+## Software configuration options
+##
+## Format:
+##   '--with-ipv6 --with-http_dav_module'
+nginxDependencies=
+
 ## Scripts to run, arrange in order of execution (space separated).
 ## These are the names of any script file in ./scripts (don't include
 ## the .sh). Add any of them to the scripts array.
 ##
-## format:
-##   scripts=('script1' 'script2' ...)
+## Format:
+##   ('script1' 'script2' ...)
 scripts=(
     'user'
     'profile'

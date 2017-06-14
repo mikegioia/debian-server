@@ -23,6 +23,7 @@ config=''
 ## Set up config defaults
 username="trunk"
 nginxVersion=''
+nginxDependencies=''
 mongodbVersion=''
 mariadbVersion=''
 opensslVersion=''
@@ -151,6 +152,7 @@ function readConfig {
     export profile
     export username
     export nginxVersion
+    export nginxDependencies
     export mongodbVersion
     export mariadbVersion
     export opensslVersion
