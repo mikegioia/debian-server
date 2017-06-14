@@ -72,22 +72,8 @@ When you're ready to install run the command `./install.sh <profile>`
 ## Scripts
 
 > @TODO Write out info on each individual software script
-
-### CouchDB
-### Fail2Ban
-### Firewall
-### MariaDB
-### MongoDB
-### Monit
-### MySQL
-### NGINX
-### OpenSSL
-### PHP 5.6
-### PHP 7
-### Profile
-### SSH
-### User
-### XtraBackup
+> CouchDB, Fail2Ban, Firewall, MariaDB, MongoDB, Monit, MySQL, NGINX, OpenSSL,
+> PHP 5.6, PHP 7, Profile, SSH, User, XtraBackup
 
 ## Notes about this installation
 
