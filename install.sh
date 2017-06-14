@@ -30,7 +30,6 @@ opensslVersion=''
 redisVersion=''
 redisphpVersion=''
 scripts=()
-fpmSites=()
 
 ## Source the colors
 . $basepath/src/inc/colors
@@ -159,7 +158,6 @@ function readConfig {
     export redisVersion
     export redisphpVersion
     export sites
-    export fpmSites
 }
 
 ## Update the system if flag set
