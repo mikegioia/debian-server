@@ -101,7 +101,7 @@ function getArgs {
             ## Add to scripts array
             scriptArgs+=$i
             ;;
-        nginx | openssl | php | profile | redis | ssh | user | xtrabackup )
+        nginx | openssl | php | php7 | profile | redis | ssh | user | xtrabackup )
             ## Add to scripts array
             scriptArgs+=$i
             ;;
