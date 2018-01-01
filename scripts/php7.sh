@@ -60,10 +60,10 @@ function copyModsAvailable {
         do
             config_filename=$(basename $c)
             if ! [[ -h "/etc/php/7.0/cli/conf.d/40-$config_filename" ]] ; then
-                ln -s ../../mods-available/$config_filename /etc/php7.0/cli/conf.d/40-$config_filename
+                ln -s ../../mods-available/$config_filename /etc/php/7.0/cli/conf.d/40-$config_filename
             fi
             if ! [[ -h "/etc/php/7.0/fpm/conf.d/40-$config_filename" ]] ; then
-                ln -s ../../mods-available/$config_filename /etc/php7.0/fpm/conf.d/40-$config_filename
+                ln -s ../../mods-available/$config_filename /etc/php/7.0/fpm/conf.d/40-$config_filename
             fi
         done
     fi
